@@ -38,9 +38,4 @@ next-env.d.ts
 # Firebase
 # Ignore Firebase service account keys and configuration files
 **/firebase-debug.log
-**/serviceAccountKey.json
-.firebase/
-.firebase/*.*
-*.firebaserc
-**/firebase.json
 app/firebase.js
