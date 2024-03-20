@@ -10,6 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Grant permissions
+        run: chmod 600 .github/workflows/*.yml
+
       - name: Install Vercel CLI
         run: npm install -g vercel
 
