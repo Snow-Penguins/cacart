@@ -36,8 +36,23 @@ jobs:
 
       # Conditional step that fixes formatting if the Prettier check fails
       - name: Fix Prettier Issues
+        id: prettier_fix
         if: steps.prettier_check.outcome == 'failure'
         run: npm run prettier-fix
+
+      # Conditional step that looks for changes to decide whether it should commit changes or not
+      - name: Commit Prettier Fixes (if any)
+        if: steps.prettier_fix.outcome == 'success'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit --message "Fix formatting with Prettier"
+            git push origin HEAD:${{ github.head_ref }}
+          else
+            echo "No changes to commit."
+          fi
 
       # Builds the project to catch build errors, replicate production environment, and ensuring project builds successfully.
       - name: Build the project
