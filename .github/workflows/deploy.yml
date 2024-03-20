@@ -10,14 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Grant permissions
-        run: chmod 600 .github/workflows/*.yml
-
       - name: Install Vercel CLI
         run: npm install -g vercel
 
       - name: Login to Vercel
-        run: vercel login --token=${VERCEL_TOKEN}
+        run: vercel login --token=${{secrets.VERCEL_TOKEN}}
 
       - name: Build Project
         run: npm run build
