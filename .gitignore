@@ -39,3 +39,8 @@ next-env.d.ts
 # Ignore Firebase service account keys and configuration files
 **/firebase-debug.log
 app/firebase.js
+.firebase
+.github/workflows/firebase-hosting-merge.yml
+.github/workflows/firebase-hosting-pull-request.yml
+.firebaserc
+firebase.json
