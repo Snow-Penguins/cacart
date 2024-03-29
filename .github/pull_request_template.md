@@ -3,9 +3,10 @@ Link:
 
 **Description**<br>
 _Add a sensible description to this pull request:_
-- Added: 
-- Changed: 
-- Refactored: 
+
+- Added:
+- Changed:
+- Refactored:
 - Removed:
 
 **Screenshots**<br>
