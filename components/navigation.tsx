@@ -38,7 +38,9 @@ export default function Navigation() {
       </div>
 
       <div className="flex gap-2 mr-4">
-        <button className="px-4 py-2 hover:text-blue-500">Login</button>
+        <Link href={"/signin"}>
+          <button className="px-4 py-2 hover:text-blue-500">Login</button>
+        </Link>
         <button className="px-4 py-2 hover:text-blue-500">My Orders</button>
         <button className="px-4 py-2 hover:text-blue-500">Cart</button>
       </div>
