@@ -20,7 +20,18 @@ export default function SignInForm() {
     password: "",
   });
 
-  const [error, setError] = useState("");
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email.toLowerCase());
+  };
+
+  const validatePassword = (password: string) => {
+    const re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    return re.test(password);
+  };
+
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   //   Value update handler
   const valueUpdateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,15 +42,30 @@ export default function SignInForm() {
   //   Form submit handler
   const formSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setEmailError("");
+    setPasswordError("");
+
     const { email, password } = userData.current;
 
-    console.log(userData.current);
+    let isValid = true;
+
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+      isValid = false;
+    }
+
+    if (!validatePassword(password)) {
+      setPasswordError("Invalid Password.");
+      isValid = false;
+    }
+    if (isValid) {
+      console.log(userData.current);
+    }
   };
 
-  //   Error handle
-
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="relative flex items-center justify-center h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
         <div className="flex justify-center mb-8">
           <Image src={logo} alt="Cacart Logo" width={160} height={40} />
@@ -51,16 +77,25 @@ export default function SignInForm() {
             name="email"
             placeholder="Email"
             onChange={valueUpdateHandler}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2
+    ${emailError ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
           />
-
+          {emailError && (
+            <div className="text-red-dark text-body-xsm mb-1">{emailError}</div>
+          )}
           <input
             type="password"
             name="password"
             placeholder="Password"
             onChange={valueUpdateHandler}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2
+    ${passwordError ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
           />
+          {passwordError && (
+            <div className="text-red-dark text-body-xsm mb-1">
+              {passwordError}
+            </div>
+          )}
 
           <button
             type="submit"
@@ -102,7 +137,7 @@ export default function SignInForm() {
           <p className="text-sm text-secondary_text mt-2">
             Not a member yet?{" "}
             <Link
-              href="/sign-up"
+              href={"/register"}
               className="text-sm text-blue-500 hover:underline"
             >
               Sign Up
