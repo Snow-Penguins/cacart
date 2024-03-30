@@ -78,7 +78,7 @@ export default function SignUpForm() {
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <p className="text-body-xsm">
-            By Clicking Continue with Google, you agree to CaCart's{" "}
+            By Clicking Continue with Google, you agree to CaCart`s{" "}
             <span className="text-blue-500 underline">Terms of Use</span> and{" "}
             <span className="text-blue-500 underline">Privacy Policy</span>.
           </p>
