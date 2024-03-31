@@ -2,3 +2,4 @@
 .github/workflows/firebase-hosting-pull-request.yml
 firebase.json
 .yarnrc.yml
+.github/**/*.yml
