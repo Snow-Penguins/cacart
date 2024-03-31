@@ -1,3 +1,4 @@
 .github/workflows/firebase-hosting-merge.yml
 .github/workflows/firebase-hosting-pull-request.yml
 firebase.json
+.yarnrc.yml
