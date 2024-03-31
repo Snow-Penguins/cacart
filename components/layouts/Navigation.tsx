@@ -6,16 +6,21 @@ import { RxAvatar } from "react-icons/rx";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 
 export default function NavigationBar() {
-  const DefaultIconSize = 24
+  const DefaultIconSize = 24;
   return (
     <nav className="flex items-center justify-between border-b border-gray-200 p-4">
       {/* Logo */}
       <div className="ml-4 text-h4 text-primary">
-        <Link href='/'>
-          <Image src="/logo/Logo160x50.png" alt="CaCart" width={160} height={50} />
+        <Link href="/">
+          <Image
+            src="/logo/Logo160x50.png"
+            alt="CaCart"
+            width={160}
+            height={50}
+          />
         </Link>
       </div>
-      
+
       {/* Categories and Search Bar */}
       <div className="flex flex-1 justify-center gap-4">
         <button className="px-4 h-12">Categories</button>
@@ -46,21 +51,24 @@ export default function NavigationBar() {
       </div>
 
       <div className="flex gap-2 mr-4">
-        { /* Login */}
+        {/* Login */}
         <div className="flex ">
           <Link href="/auth/login">
             <button className="flex items-center px-4 py-2 hover:text-blue-500">
-              <RxAvatar size={DefaultIconSize} className="mr-2" />Login
+              <RxAvatar size={DefaultIconSize} className="mr-2" />
+              Login
             </button>
           </Link>
         </div>
-        { /* My Orders */}
+        {/* My Orders */}
         <div>
           <Link href="/order">
-            <button className="flex items-center px-4 py-2 hover:text-blue-500">My Orders</button>
+            <button className="flex items-center px-4 py-2 hover:text-blue-500">
+              My Orders
+            </button>
           </Link>
         </div>
-        { /* Cart */}
+        {/* Cart */}
         <div>
           <Link href="/cart">
             <button className="flex items-center px-4 py-1 hover:text-blue-500">
