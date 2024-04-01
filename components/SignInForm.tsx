@@ -2,66 +2,64 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 // Logo Import
 import logo from "../public/Cacart_logo.png";
 import googlelogo from "../public/google_logo.png";
 
-type FormInputs = {
-  email: string;
-  password: string;
-};
-
 export default function SignInForm() {
-  // Set userData
-  const userData = useRef<FormInputs>({
+  const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
 
+  const [emailError, setEmailError] = useState("");
+  const [emailValid, setEmailValid] = useState(false);
+
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordValid, setPasswordValid] = useState(false);
+
   const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email.toLowerCase());
+    // 입력받은 이메일이 유저테이블에 있다면 true, 없다면 false 로직
   };
 
   const validatePassword = (password: string) => {
-    const re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    return re.test(password);
+    // 입력받은 패스워드가 유저테이블에 암호화된 패스워드와 일치한다면 true, 아니라면 false
   };
-
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
 
   //   Value update handler
   const valueUpdateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    userData.current = { ...userData.current, [name]: value };
+    setUserData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
+
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
   //   Form submit handler
   const formSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const isEmailEmpty = !userData.email;
+    const isPasswordEmpty = !userData.password;
 
+    if (isEmailEmpty) setEmailError("This field is required.");
+    if (isPasswordEmpty) setPasswordError("This field is required.");
+
+    if (!isEmailEmpty && !isPasswordEmpty && emailValid && passwordValid) {
+      console.log(userData);
+      resetForm();
+    }
+  };
+
+  const resetForm = () => {
+    setUserData({ email: "", password: "" });
     setEmailError("");
     setPasswordError("");
-
-    const { email, password } = userData.current;
-
-    let isValid = true;
-
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email address.");
-      isValid = false;
-    }
-
-    if (!validatePassword(password)) {
-      setPasswordError("Invalid Password.");
-      isValid = false;
-    }
-    if (isValid) {
-      console.log(userData.current);
-    }
   };
 
   return (
@@ -72,30 +70,39 @@ export default function SignInForm() {
         </div>
 
         <form className="space-y-7" onSubmit={formSubmitHandler}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            onChange={valueUpdateHandler}
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2
-    ${emailError ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
-          />
-          {emailError && (
-            <div className="text-red-dark text-body-xsm mb-1">{emailError}</div>
-          )}
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={valueUpdateHandler}
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2
-    ${passwordError ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
-          />
-          {passwordError && (
-            <div className="text-red-dark text-body-xsm mb-1">
-              {passwordError}
-            </div>
-          )}
+          <div className="relative">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={userData.email}
+              onChange={valueUpdateHandler}
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1
+        ${emailError ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
+            />
+            {emailError && (
+              <span className="text-red-dark text-body-xsm absolute -bottom-5 left-0">
+                {emailError}
+              </span>
+            )}
+          </div>
+
+          <div className="relative">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={userData.password}
+              onChange={valueUpdateHandler}
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1
+        ${passwordError ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
+            />
+            {passwordError && (
+              <span className="text-red-dark text-body-xsm absolute -bottom-5 left-0">
+                {passwordError}
+              </span>
+            )}
+          </div>
 
           <button
             type="submit"
@@ -116,12 +123,12 @@ export default function SignInForm() {
         <div>
           <button
             type="button"
-            className="flex items-center justify-center mt-8 w-full px-4 py-1 border-2 border-black bg-white text-black rounded-md hover:bg-gray-100"
+            className="flex items-center justify-center mt-8 w-full px-4 py-2 border-2 border-black bg-white text-black rounded-md hover:bg-gray-100"
           >
             <div className="mr-2 flex items-center justify-center">
               <Image src={googlelogo} alt="google_logo"></Image>
             </div>
-            <p className="text-body-xsm text-center text-black">
+            <p className="text-body-sm text-center text-black">
               Continue with Google
             </p>
           </button>
@@ -137,7 +144,7 @@ export default function SignInForm() {
           <p className="text-sm text-secondary_text mt-2">
             Not a member yet?{" "}
             <Link
-              href={"/register"}
+              href={"./register"}
               className="text-sm text-blue-500 hover:underline"
             >
               Sign Up
