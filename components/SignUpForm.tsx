@@ -89,7 +89,7 @@ export default function SignUpForm() {
 
     if (/(\w)\1\1/.test(password)) {
       setPasswordError(
-        "Password cannot contain three consecutive identical characters."
+        "Password cannot contain three consecutive identical characters.",
       );
       setPasswordValid(false);
       setPasswordTouched(true);
@@ -114,7 +114,7 @@ export default function SignUpForm() {
   // Checks if the confirm password matches the original password.
   const validateConfirmPassword = (
     password: string,
-    confirmPassword: string
+    confirmPassword: string,
   ) => {
     if (confirmPassword === "") {
       setConfirmPasswordError("");
@@ -227,7 +227,7 @@ export default function SignUpForm() {
         </div>
 
         <form className="space-y-7" onSubmit={formSubmitHandler}>
-          <div className="mb-4">
+          <div className="relative">
             <span className="text-body-sm">
               Email address <span className="text-red-dark">*</span>
             </span>
@@ -258,7 +258,7 @@ export default function SignUpForm() {
             </span>
           </div>
 
-          <div className="mb-4">
+          <div className="relative">
             <p className="text-body-sm">
               Password <span className="text-red-dark">*</span>
             </p>
@@ -289,7 +289,7 @@ export default function SignUpForm() {
             </span>
           </div>
 
-          <div className="mb-4">
+          <div className="relative">
             <p className="text-body-sm">
               Confirm Password <span className="text-red-dark">*</span>
             </p>
