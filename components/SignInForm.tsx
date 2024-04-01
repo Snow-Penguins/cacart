@@ -21,11 +21,11 @@ export default function SignInForm() {
   const [passwordValid, setPasswordValid] = useState(false);
 
   const validateEmail = (email: string) => {
-    // 입력받은 이메일이 유저테이블에 있다면 true, 없다면 false 로직
+    // Checks if the input email exists in the user table, returns true if it does, false otherwise.
   };
 
   const validatePassword = (password: string) => {
-    // 입력받은 패스워드가 유저테이블에 암호화된 패스워드와 일치한다면 true, 아니라면 false
+    // Checks if the input password matches the encrypted password in the user table, returns true if it matches, false otherwise.
   };
 
   //   Value update handler
