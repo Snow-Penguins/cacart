@@ -1,24 +1,19 @@
 import React from "react";
 import styles from "../styles/productCard.module.css";
+import { Product } from "./product";
 
-interface Product {
-  id: number;
-  category: string;
-  name: string;
-  price: number;
-}
+const PRODUCT_IMAGES = [
+  "/images/product1.jpg",
+  "/images/product2.jpg",
+  "/images/product3.jpg",
+];
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const productImages = [
-    "/images/product1.jpg",
-    "/images/product2.jpg",
-    "/images/product3.jpg",
-  ];
-  const productImage = productImages[(product.id - 1) % productImages.length];
+  const productImage = PRODUCT_IMAGES[(product.id - 1) % PRODUCT_IMAGES.length];
   return (
     <div className="border border-gray-200 rounded-md w-[450px] h-[450px] mb-10">
       <div className={styles["image-container"]}>
