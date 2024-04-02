@@ -13,10 +13,10 @@ export default function NavigationBar() {
       <div className="ml-4 text-h4 text-primary">
         <Link href="/">
           <Image
-            src="/logo/Logo160x50.png"
+            src="/logo/logo_150X60.png"
             alt="CaCart"
-            width={160}
-            height={50}
+            width={150}
+            height={60}
           />
         </Link>
       </div>
