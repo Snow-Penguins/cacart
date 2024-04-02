@@ -13,7 +13,7 @@ export default function NavigationBar() {
       <div className="ml-4 text-h4 text-primary">
         <Link href="/">
           <Image
-            src="/logo/logo_150X60.png"
+            src="../logo/logo_150X60.png"
             alt="CaCart"
             width={150}
             height={60}
@@ -64,7 +64,7 @@ export default function NavigationBar() {
       <div className="flex gap-2 mr-4">
         {/* Login */}
         <div className="flex ">
-          <Link href="/auth/login">
+          <Link href="/auth/signin">
             <button className="flex items-center px-4 py-2 hover:text-blue-500">
               <RxAvatar size={DefaultIconSize} className="mr-2" />
               Login
