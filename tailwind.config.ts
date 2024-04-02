@@ -77,6 +77,7 @@ const config: Config = {
       secondary_text: "#8899A8",
       stroke: "#DFE4EA",
       white: "#FFFFFF",
+      black: "#000000",
       gray: {
         100: "#F9FAFB",
         200: "#F3F4F6",
