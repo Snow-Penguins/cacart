@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 // Logo Import
-import logo from "../public/Cacart_logo.png";
+import logo from "../public/logo/logo_150X60.png";
 import googlelogo from "../public/google_logo.png";
 
 export default function SignUpForm() {
