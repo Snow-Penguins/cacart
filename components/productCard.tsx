@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "../styles/productCard.module.css";
 import { Product } from "./product";
 
 const PRODUCT_IMAGES = [
@@ -16,8 +15,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const productImage = PRODUCT_IMAGES[(product.id - 1) % PRODUCT_IMAGES.length];
   return (
     <div className="border border-gray-200 rounded-md w-[450px] h-[450px] mb-10">
-      <div className={styles["image-container"]}>
-        <img src={productImage} alt="Product Image" />
+      <div className="w-[450px] h-[300px]">
+        <img
+          src={productImage}
+          alt="Product Image"
+          className="w-full h-full object-cover object-center"
+        />
       </div>
       <div className="mt-6 ml-6">
         <h6 className="text-secondary_text text-sm mb-5">{product.category}</h6>
