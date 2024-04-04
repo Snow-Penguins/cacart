@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 // Logo Import
 import logo from "../public/logo/logo_150X60.png";
@@ -34,6 +35,10 @@ export default function SignUpForm() {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [confirmPasswordValid, setConfirmPasswordValid] = useState(false);
   const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false);
+
+  const [passwordFieldType, setPasswordFieldType] = useState("password");
+  const [confirmPasswordFieldType, setConfirmPasswordFieldType] =
+    useState("password");
 
   // Checks the email validation with regex.
   const validateEmail = (email: string) => {
@@ -111,6 +116,17 @@ export default function SignUpForm() {
     setPasswordTouched(true);
   };
 
+  const togglePasswordVisibility = () => {
+    setPasswordFieldType(
+      passwordFieldType === "password" ? "text" : "password",
+    );
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setConfirmPasswordFieldType(
+      confirmPasswordFieldType === "password" ? "text" : "password",
+    );
+  };
   // Checks if the confirm password matches the original password.
   const validateConfirmPassword = (
     password: string,
@@ -262,20 +278,36 @@ export default function SignUpForm() {
             <p className="text-body-sm">
               Password <span className="text-red-dark">*</span>
             </p>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={userData.password}
-              onChange={valueUpdateHandler}
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1 ${
-                passwordTouched
-                  ? passwordValid && !passwordError
-                    ? "focus:ring-green-dark border-green-dark"
-                    : "focus:ring-red-dark border-red-dark"
-                  : "focus:ring-blue-500 border-gray-300"
-              }`}
-            />
+            <div className="relative">
+              <input
+                type={passwordFieldType}
+                name="password"
+                placeholder="Password"
+                value={userData.password}
+                onChange={valueUpdateHandler}
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1 ${
+                  passwordTouched
+                    ? passwordValid && !passwordError
+                      ? "focus:ring-green-dark border-green-dark"
+                      : "focus:ring-red-dark border-red-dark"
+                    : "focus:ring-blue-500 border-gray-300"
+                }`}
+              />
+              <button
+                onClick={togglePasswordVisibility}
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              >
+                <span className="text-gray-500 sm:text-sm">
+                  {passwordFieldType === "password" ? (
+                    <FaEye />
+                  ) : (
+                    <FaEyeSlash />
+                  )}
+                </span>
+              </button>
+            </div>
+
             <span
               className={`text-body-xsm block mt-0 h-2 ${passwordError ? "text-red-dark" : "text-green-dark"}`}
             >
@@ -293,31 +325,46 @@ export default function SignUpForm() {
             <p className="text-body-sm">
               Confirm Password <span className="text-red-dark">*</span>
             </p>
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Password"
-              value={userData.confirmPassword}
-              onChange={valueUpdateHandler}
-              className={`w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 mt-1 ${
-                confirmPasswordTouched
-                  ? confirmPasswordValid && !confirmPasswordError
-                    ? "focus:ring-green-dark border-green-dark"
-                    : "focus:ring-red-dark border-red-dark"
-                  : "focus:ring-blue-500 border-gray-300"
-              }`}
-            />
-            <span
-              className={`text-body-xsm block mt-0 h-2 ${confirmPasswordError ? "text-red-dark" : "text-green-dark"}`}
-            >
-              {confirmPasswordTouched
-                ? confirmPasswordError
+            <div className="relative">
+              <input
+                type={confirmPasswordFieldType}
+                name="confirmPassword"
+                placeholder="Password"
+                value={userData.confirmPassword}
+                onChange={valueUpdateHandler}
+                className={`w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 mt-1 ${
+                  confirmPasswordTouched
+                    ? confirmPasswordValid && !confirmPasswordError
+                      ? "focus:ring-green-dark border-green-dark"
+                      : "focus:ring-red-dark border-red-dark"
+                    : "focus:ring-blue-500 border-gray-300"
+                }`}
+              />
+              <button
+                onClick={toggleConfirmPasswordVisibility}
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              >
+                <span className="text-gray-500 sm:text-sm">
+                  {confirmPasswordFieldType === "password" ? (
+                    <FaEye />
+                  ) : (
+                    <FaEyeSlash />
+                  )}
+                </span>
+              </button>
+              <span
+                className={`text-body-xsm block mt-0 h-2 ${confirmPasswordError ? "text-red-dark" : "text-green-dark"}`}
+              >
+                {confirmPasswordTouched
                   ? confirmPasswordError
-                  : confirmPasswordValid
-                    ? "Passwords match"
-                    : ""
-                : ""}
-            </span>
+                    ? confirmPasswordError
+                    : confirmPasswordValid
+                      ? "Passwords match"
+                      : ""
+                  : ""}
+              </span>
+            </div>
           </div>
 
           <p className="text-body-xsm">
