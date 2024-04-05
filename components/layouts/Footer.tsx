@@ -7,7 +7,7 @@ import { FaLinkedinIn, FaTwitter } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <div className="relative flex flex-wrap justify-between py-20 px-24 desktop:pr-52">
+    <footer className="relative flex flex-wrap justify-between py-20 px-24 desktop:pr-52">
       {/* Logo and Info */}
       <div className="basis-72 mt-2">
         <Link href="/">
@@ -92,6 +92,6 @@ export default function Footer() {
 
       {/* Background Pattern */}
       <div className="absolute top-8 right-12 w-16 h-16 rounded-full bg-gradient-to-r from-teal-100 to-white" />
-    </div>
+    </footer>
   );
 }
