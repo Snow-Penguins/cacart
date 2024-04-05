@@ -56,7 +56,7 @@ export default function Footer() {
           Sell on Cacart
         </Link>
         <Link href="#" className="block mt-3 text-primary_text">
-          Request a Demo
+          Policies
         </Link>
       </div>
 
