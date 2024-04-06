@@ -4,8 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { RxAvatar } from "react-icons/rx";
 import { LiaShoppingCartSolid } from "react-icons/lia";
+import useCategories from "@/hooks/useCategories";
+import { set } from "firebase/database";
+import { useState } from "react";
 
 export default function NavigationBar() {
+  const { categories, loading, error } = useCategories();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleCategorySelect = (category: string) => {
+    console.log(`Selected category: ${category}`);
+    // Perform the required action based on the selected category.
+    setIsDropdownOpen(false);
+  };
+
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
   const DefaultIconSize = 24;
   return (
     <nav className="flex items-center justify-between border-b border-gray-200 p-4">
@@ -29,7 +43,26 @@ export default function NavigationBar() {
             <span className="block w-3 min-h-0.5 bg-black my-0.5" />
             <span className="block w-3 min-h-0.5 bg-black" />
           </div>
-          <button className="mr-3 h-12 text-sm">Categories</button>
+          <button onClick={toggleDropdown} className="mr-3 h-12 text-sm">
+            Categories
+          </button>
+          {isDropdownOpen && (
+            <div className="absolute mt-2 py-2 bg-white shadow-lg rounded-lg">
+              {loading && <div>Loading...</div>}
+              {error && <div>Error loading categories</div>}
+              {!loading &&
+                !error &&
+                categories.map((category, index) => (
+                  <button
+                    key={index}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                    onClick={() => handleCategorySelect(category)}
+                  >
+                    {category}
+                  </button>
+                ))}
+            </div>
+          )}
         </div>
         <form className="flex items-center w-3/4 max-w-xl rounded-full overflow-hidden bg-gray-200 border-2 border-black focus-within:border-blue-500">
           <input
