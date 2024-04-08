@@ -5,7 +5,6 @@ import Link from "next/link";
 import { RxAvatar } from "react-icons/rx";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import useCategories from "@/hooks/useCategories";
-import { set } from "firebase/database";
 import { useState } from "react";
 
 export default function NavigationBar() {
@@ -37,7 +36,7 @@ export default function NavigationBar() {
 
       {/* Categories and Search Bar */}
       <div className="flex flex-1 justify-center gap-4">
-        <div className="flex items-center">
+        <div className="flex items-center relative">
           <div className="flex flex-col justify-center items-center mr-2">
             <span className="block w-3 min-h-0.5 bg-black" />
             <span className="block w-3 min-h-0.5 bg-black my-0.5" />
@@ -47,7 +46,7 @@ export default function NavigationBar() {
             Categories
           </button>
           {isDropdownOpen && (
-            <div className="absolute mt-2 py-2 bg-white shadow-lg rounded-lg">
+            <div className="absolute w-32 mt-2 py-2 bg-white shadow-lg rounded-lg top-3/4">
               {loading && <div>Loading...</div>}
               {error && <div>Error loading categories</div>}
               {!loading &&
@@ -55,7 +54,7 @@ export default function NavigationBar() {
                 categories.map((category, index) => (
                   <button
                     key={index}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                    className="absoulte top-100% block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 w-full text-left"
                     onClick={() => handleCategorySelect(category)}
                   >
                     {category}
