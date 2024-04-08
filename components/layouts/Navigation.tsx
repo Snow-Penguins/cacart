@@ -46,7 +46,7 @@ export default function NavigationBar() {
             Categories
           </button>
           {isDropdownOpen && (
-            <div className="absolute w-32 mt-2 py-2 bg-white shadow-lg rounded-lg top-3/4">
+            <div className="absolute w-32 mt-2 py-2 bg-white shadow-lg rounded-lg top-3/4 right-0">
               {loading && <div>Loading...</div>}
               {error && <div>Error loading categories</div>}
               {!loading &&

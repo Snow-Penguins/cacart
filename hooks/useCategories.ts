@@ -1,6 +1,3 @@
-import exp from "constants";
-import { set } from "firebase/database";
-import { resolve } from "path";
 import { useState, useEffect } from "react";
 
 const useCategories = () => {
@@ -13,7 +10,12 @@ const useCategories = () => {
       try {
         // Fetch categories here from the DB
         // mock data below
-        const fetchedCategories = ["Category 1", "Category 2", "Category 3"];
+        const fetchedCategories = [
+          "All Categories",
+          "Category 1",
+          "Category 2",
+          "Category 3",
+        ];
         setCategories(fetchedCategories);
         setLoading(false);
       } catch (error) {
