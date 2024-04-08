@@ -20,7 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.className} max-w-screen-desktop`}>
+    <html
+      lang="en"
+      className={`${inter.className} max-w-screen-desktop mx-auto`}
+    >
       <body>
         <NavigationBar />
         {children}
