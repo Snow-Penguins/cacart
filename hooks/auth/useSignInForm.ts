@@ -67,30 +67,33 @@ export const useSignInForm = () => {
     }
 
     try {
-      const res = await fetch(Backend_URL + "/users", {
-        method: "GET",
+      const res = await fetch(`${Backend_URL}/users/signin`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify({ email, password }),
       });
 
       if (res.ok) {
+        const successData = await res.json();
+        console.log("Signin: ", successData.message);
         router.push("/");
       } else {
-        console.log("Signin failed");
+        const errorData = await res.json();
+        console.log("Signin failed: ", errorData.message);
       }
     } catch (error) {
-      console.log("Error during SignIn.");
+      console.log("Error during SignIn:", error);
     }
-    resetForm();
+    // resetForm();
   };
 
-  const resetForm = () => {
-    setUserData({ email: "", password: "" });
-    setEmailState({ error: "", valid: false });
-    setPasswordState({ error: "", valid: false });
-  };
+  // const resetForm = () => {
+  //   setUserData({ email: "", password: "" });
+  //   setEmailState({ error: "", valid: false });
+  //   setPasswordState({ error: "", valid: false });
+  // };
 
   return {
     userData,
