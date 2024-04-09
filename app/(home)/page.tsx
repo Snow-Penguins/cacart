@@ -1,4 +1,4 @@
-import ProductCardList from "../../components/productCardList";
+import ProductCardList from "../../components/products/productCardList";
 
 export default function Home() {
   const products = [
