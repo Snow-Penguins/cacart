@@ -78,12 +78,14 @@ export const useSignUpForm = () => {
         ...prevState,
         emailTouched: true,
       }));
+      return;
     } else {
       setEmailState({ error: "", valid: true });
       setTouchType((prevState) => ({
         ...prevState,
         emailTouched: true,
       }));
+      return;
     }
   };
 
@@ -149,12 +151,14 @@ export const useSignUpForm = () => {
         passwordTouched: true,
       }));
       return;
+    } else {
+      setPasswordState({ error: "", valid: true });
+      setTouchType((prevState) => ({
+        ...prevState,
+        passwordTouched: true,
+      }));
+      return;
     }
-    setPasswordState({ error: "", valid: true });
-    setTouchType((prevState) => ({
-      ...prevState,
-      passwordTouched: true,
-    }));
   };
 
   const validateConfirmPassword = (
@@ -188,12 +192,14 @@ export const useSignUpForm = () => {
         ...prevState,
         confirmPasswordTouched: true,
       }));
+      return;
     } else {
       setConfirmPasswordState({ error: "", valid: true });
       setTouchType((prevState) => ({
         ...prevState,
         confirmPasswordTouched: true,
       }));
+      return;
     }
   };
 
@@ -286,9 +292,9 @@ export const useSignUpForm = () => {
       emailState.valid &&
       passwordState.valid &&
       confirmPasswordState.valid
-    )
+    ) {
       try {
-        const res = await fetch(Backend_URL + "/users/signup", {
+        const res = await fetch(`${Backend_URL}/users/signup`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -298,13 +304,17 @@ export const useSignUpForm = () => {
 
         if (res.ok) {
           router.push("/auth/signin");
+          resetForm();
         } else {
-          console.log("Signup failed.");
+          const errorData = await res.json();
+          setEmailState({ error: errorData.message, valid: false });
         }
       } catch (error) {
-        console.log("Error during registration.");
+        console.log("Error during registration.", error);
       }
-    resetForm();
+    } else {
+      console.log("Validation failed.");
+    }
   };
 
   const resetForm = () => {
