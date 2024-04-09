@@ -1,8 +1,8 @@
 "use client";
-import { useSignInForm } from "@/hooks/useSignInForm";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 // Logo Import
@@ -10,16 +10,71 @@ import logo from "../public/logo/logo_150X60.png";
 import googlelogo from "../public/google_logo.png";
 
 export default function SignInForm() {
-  const {
-    userData,
-    emailState,
-    passwordState,
-    fieldType,
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
 
-    togglePasswordVisibility,
-    valueUpdateHandler,
-    formSubmitHandler,
-  } = useSignInForm();
+  const [emailError, setEmailError] = useState("");
+  const [emailValid, setEmailValid] = useState(false);
+
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordValid, setPasswordValid] = useState(false);
+
+  const [passwordFieldType, setPasswordFieldType] = useState("password");
+
+  const togglePasswordVisibility = () => {
+    setPasswordFieldType(
+      passwordFieldType === "password" ? "text" : "password",
+    );
+  };
+
+  const validateEmail = (email: string) => {
+    // Checks if the input email exists in the user table, returns true if it does, false otherwise.
+  };
+
+  const validatePassword = (password: string) => {
+    // Checks if the input password matches the encrypted password in the user table, returns true if it matches, false otherwise.
+  };
+
+  //   Value update handler
+  const valueUpdateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
+
+  //   Form submit handler
+  const formSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const isEmailEmpty = !userData.email;
+    const isPasswordEmpty = !userData.password;
+
+    if (isEmailEmpty) setEmailError("This field is required.");
+    if (isPasswordEmpty) setPasswordError("This field is required.");
+
+    if (!isEmailEmpty && !isPasswordEmpty) {
+      console.log(userData);
+      resetForm();
+    }
+
+    // if (!isEmailEmpty && !isPasswordEmpty && emailValid && passwordValid) {
+    //   console.log(userData);
+    //   resetForm();
+    // }
+  };
+
+  const resetForm = () => {
+    setUserData({ email: "", password: "" });
+    setEmailError("");
+    setPasswordError("");
+  };
 
   return (
     <div className="relative flex items-center justify-center h-screen bg-gray-100">
@@ -37,11 +92,11 @@ export default function SignInForm() {
               value={userData.email}
               onChange={valueUpdateHandler}
               className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1
-        ${emailState.error ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
+        ${emailError ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
             />
-            {emailState.error && (
+            {emailError && (
               <span className="text-red-dark text-body-xsm absolute -bottom-5 left-0">
-                {emailState.error}
+                {emailError}
               </span>
             )}
           </div>
@@ -49,13 +104,13 @@ export default function SignInForm() {
           <div className="relative">
             <div className="relative">
               <input
-                type={fieldType.password}
+                type={passwordFieldType}
                 name="password"
                 placeholder="Password"
                 value={userData.password}
                 onChange={valueUpdateHandler}
                 className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1
-        ${passwordState.error ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
+        ${passwordError ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
               />
               <button
                 onClick={togglePasswordVisibility}
@@ -63,7 +118,7 @@ export default function SignInForm() {
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
               >
                 <span className="text-gray-500 sm:text-sm">
-                  {fieldType.password === "password" ? (
+                  {passwordFieldType === "password" ? (
                     <FaEye />
                   ) : (
                     <FaEyeSlash />
@@ -72,9 +127,9 @@ export default function SignInForm() {
               </button>
             </div>
 
-            {passwordState.error && (
+            {passwordError && (
               <span className="text-red-dark text-body-xsm absolute -bottom-5 left-0">
-                {passwordState.error}
+                {passwordError}
               </span>
             )}
           </div>
@@ -111,10 +166,10 @@ export default function SignInForm() {
 
         <div className="flex flex-col items-center justify-center mt-8">
           <Link
-            href={"./forgot-password"}
+            href="/forgot-password"
             className="text-body-sm text-black hover:underline"
           >
-            Forgot Password?
+            Forget Password?
           </Link>
           <p className="text-sm text-secondary_text mt-2">
             Not a member yet?{" "}
