@@ -1,12 +1,12 @@
 import React from "react";
-import ProductCard from "./productCard";
-import { Product } from "./product";
+import ProductCard from "./ProductCards";
+import { Product } from "./Product";
 
 interface ProductCardListProps {
   products: Product[];
 }
 
-const ProductCardList: React.FC<ProductCardListProps> = ({ products }) => {
+const ProductCardLists: React.FC<ProductCardListProps> = ({ products }) => {
   return (
     <div className="flex flex-wrap justify-center gap-4 pt-10">
       {products.map((product) => (
@@ -16,4 +16,4 @@ const ProductCardList: React.FC<ProductCardListProps> = ({ products }) => {
   );
 };
 
-export default ProductCardList;
+export default ProductCardLists;
