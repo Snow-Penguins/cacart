@@ -1,11 +1,11 @@
 import React from "react";
-import { Review } from "./Review";
+import { Review } from "../../entities/Review";
 
 interface ProductReviewProps {
   review: Review;
 }
 
-const ProductReviews: React.FC<ProductReviewProps> = ({ review }) => {
+const ProductReview: React.FC<ProductReviewProps> = ({ review }) => {
   return (
     <div className="bg-white rounded-md w-[1170px] h-[270px] mb-10 p-10">
       <div className="flex items-center justify-between mb-4">
@@ -64,4 +64,4 @@ const ProductReviews: React.FC<ProductReviewProps> = ({ review }) => {
   );
 };
 
-export default ProductReviews;
+export default ProductReview;

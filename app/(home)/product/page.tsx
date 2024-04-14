@@ -1,7 +1,7 @@
 import React from "react";
-import ProductDetail from "../../../components/products/ProductDetails";
-import ProductReviewList from "../../../components/products/ProductReviewLists";
-import ProductDescription from "../../../components/products/ProductDescriptions";
+import ProductDetail from "../../../components/products/ProductDetail";
+import ProductReviewList from "../../../components/products/ProductReviewList";
+import ProductDescription from "../../../components/products/ProductDescription";
 
 export default function Page() {
   const product = {

@@ -1,12 +1,12 @@
 import React from "react";
-import ProductReview from "./ProductReviews";
-import { Review } from "./Review";
+import ProductReview from "./ProductReview";
+import { Review } from "../../entities/Review";
 
 interface ProductReviewListProps {
   reviews: Review[];
 }
 
-const ProductReviewLists: React.FC<ProductReviewListProps> = ({ reviews }) => {
+const ProductReviewList: React.FC<ProductReviewListProps> = ({ reviews }) => {
   return (
     <div className="bg-gray-200 p-32 w-[1440px] h-[840px]">
       {reviews.map((review) => (
@@ -16,4 +16,4 @@ const ProductReviewLists: React.FC<ProductReviewListProps> = ({ reviews }) => {
   );
 };
 
-export default ProductReviewLists;
+export default ProductReviewList;

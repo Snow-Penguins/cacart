@@ -5,7 +5,7 @@ interface ProductDetailProps {
   product: Product;
 }
 
-const ProductDetails: React.FC<ProductDetailProps> = ({ product }) => {
+const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   const productImage = `/images/product3.jpg`;
 
   return (
@@ -70,4 +70,4 @@ const ProductDetails: React.FC<ProductDetailProps> = ({ product }) => {
   );
 };
 
-export default ProductDetails;
+export default ProductDetail;
