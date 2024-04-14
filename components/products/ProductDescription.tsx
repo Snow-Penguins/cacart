@@ -6,7 +6,7 @@ interface ProductDescriptionProps {
   description: string;
 }
 
-const ProductDescriptions: React.FC<ProductDescriptionProps> = ({
+const ProductDescription: React.FC<ProductDescriptionProps> = ({
   description,
 }) => {
   const [selectedContent, setSelectedContent] = useState<string>("description");
@@ -65,4 +65,4 @@ const ProductDescriptions: React.FC<ProductDescriptionProps> = ({
   );
 };
 
-export default ProductDescriptions;
+export default ProductDescription;

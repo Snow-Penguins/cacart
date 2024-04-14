@@ -12,7 +12,7 @@ interface ProductCardProps {
   product: Product;
 }
 
-const ProductCards: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const productImage = PRODUCT_IMAGES[(product.id - 1) % PRODUCT_IMAGES.length];
   return (
     <Link href={`/product`}>
@@ -40,4 +40,4 @@ const ProductCards: React.FC<ProductCardProps> = ({ product }) => {
   );
 };
 
-export default ProductCards;
+export default ProductCard;
