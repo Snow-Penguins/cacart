@@ -5,7 +5,7 @@ interface ProductReviewProps {
   review: Review;
 }
 
-const productReview: React.FC<ProductReviewProps> = ({ review }) => {
+const ProductReview: React.FC<ProductReviewProps> = ({ review }) => {
   return (
     <div className="bg-white rounded-md w-[1170px] h-[270px] mb-10 p-10">
       <div className="flex items-center justify-between mb-4">
@@ -64,4 +64,4 @@ const productReview: React.FC<ProductReviewProps> = ({ review }) => {
   );
 };
 
-export default productReview;
+export default ProductReview;
