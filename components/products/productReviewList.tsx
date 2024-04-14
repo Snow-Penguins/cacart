@@ -1,6 +1,6 @@
 import React from "react";
-import ProductReview from "./productReview";
-import { Review } from "./review";
+import ProductReview from "./ProductReview";
+import { Review } from "./Review";
 
 interface ProductReviewListProps {
   reviews: Review[];

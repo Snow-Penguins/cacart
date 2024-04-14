@@ -1,5 +1,5 @@
 import React from "react";
-import { Product } from "./product";
+import { Product } from "../../entities/Product";
 
 interface ProductDetailProps {
   product: Product;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Product } from "./product";
+import { Product } from "../../entities/Product";
 import Link from "next/link";
 
 const PRODUCT_IMAGES = [

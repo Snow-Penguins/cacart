@@ -1,5 +1,5 @@
 import React from "react";
-import { Review } from "./review";
+import { Review } from "./Review";
 
 interface ProductReviewProps {
   review: Review;
