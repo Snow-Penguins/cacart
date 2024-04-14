@@ -1,11 +1,11 @@
 import React from "react";
-import { Product } from "./product";
+import { Product } from "./Product";
 
 interface ProductDetailProps {
   product: Product;
 }
 
-const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
+const ProductDetails: React.FC<ProductDetailProps> = ({ product }) => {
   const productImage = `/images/product3.jpg`;
 
   return (
@@ -70,4 +70,4 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   );
 };
 
-export default ProductDetail;
+export default ProductDetails;

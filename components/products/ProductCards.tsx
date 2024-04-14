@@ -1,5 +1,5 @@
 import React from "react";
-import { Product } from "./product";
+import { Product } from "./Product";
 import Link from "next/link";
 
 const PRODUCT_IMAGES = [
@@ -12,7 +12,7 @@ interface ProductCardProps {
   product: Product;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCards: React.FC<ProductCardProps> = ({ product }) => {
   const productImage = PRODUCT_IMAGES[(product.id - 1) % PRODUCT_IMAGES.length];
   return (
     <Link href={`/product`}>
@@ -40,4 +40,4 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   );
 };
 
-export default ProductCard;
+export default ProductCards;
