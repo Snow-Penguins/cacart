@@ -1,13 +1,12 @@
 import React from "react";
 import { Product } from "../../entities/Product";
+import Image from "next/image";
 
 interface ProductDetailProps {
   product: Product;
 }
 
 const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
-  const productImage = `/images/product3.jpg`;
-
   return (
     <div className="product-container flex bg-gray-200 p-20 w-[1440px] h-[840px] items-center">
       <div className="product-info flex-1">
@@ -60,9 +59,11 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
         </div>
       </div>
       <div className="product-image flex-2 ml-32">
-        <img
-          src={productImage}
+        <Image
+          src="/images/product3.jpg"
           alt="Product Image"
+          width={600}
+          height={450}
           className="w-[600px] h-[450px]"
         />
       </div>
