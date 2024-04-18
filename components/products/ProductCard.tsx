@@ -1,6 +1,7 @@
 import React from "react";
 import { Product } from "../../entities/Product";
 import Link from "next/link";
+import Image from "next/image";
 
 const PRODUCT_IMAGES = [
   "/images/product1.jpg",
@@ -17,11 +18,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <Link href={`/product`}>
       <div className="border border-gray-200 rounded-md w-[450px] h-[450px] mb-10">
-        <div className="w-[450px] h-[300px]">
-          <img
+        <div className="w-full h-[300px] relative">
+          <Image
             src={productImage}
             alt="Product Image"
-            className="w-full h-full object-cover object-center"
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
           />
         </div>
         <div className="mt-6 ml-6">
