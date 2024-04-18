@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
 
+type Category = {
+  id: number;
+  name: string;
+};
+
 const useCategories = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -7,16 +12,21 @@ const useCategories = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
+      setLoading(true);
       try {
         // Fetch categories here from the DB
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/product-category`,
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
         // mock data below
-        const fetchedCategories = [
+        const fetchedCategories = await response.json();
+        setCategories([
           "All Categories",
-          "Category 1",
-          "Category 2",
-          "Category 3",
-        ];
-        setCategories(fetchedCategories);
+          ...fetchedCategories.map((cat: Category) => cat.name),
+        ]);
         setLoading(false);
       } catch (error) {
         if (error instanceof Error) {

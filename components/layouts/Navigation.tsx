@@ -10,10 +10,10 @@ import { useState } from "react";
 export default function NavigationBar() {
   const { categories, loading, error } = useCategories();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
 
   const handleCategorySelect = (category: string) => {
-    console.log(`Selected category: ${category}`);
-    // Perform the required action based on the selected category.
+    setSelectedCategory(category);
     setIsDropdownOpen(false);
   };
 
@@ -43,7 +43,7 @@ export default function NavigationBar() {
             <span className="block w-3 min-h-0.5 bg-black" />
           </div>
           <button onClick={toggleDropdown} className="mr-3 h-12 text-sm">
-            Categories
+            {selectedCategory}
           </button>
           {isDropdownOpen && (
             <div className="absolute w-32 mt-2 py-2 bg-white shadow-lg rounded-lg top-3/4 right-0">
