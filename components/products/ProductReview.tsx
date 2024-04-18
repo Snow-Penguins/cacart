@@ -1,5 +1,6 @@
 import React from "react";
 import { Review } from "../../entities/Review";
+import Image from "next/image";
 
 interface ProductReviewProps {
   review: Review;
@@ -12,7 +13,12 @@ const ProductReview: React.FC<ProductReviewProps> = ({ review }) => {
         <div className="flex">
           <div className="avatar">
             <div className="w-[56px] h-[56px] rounded-full ring-offset-base-100 ring-offset-2 mr-5">
-              <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+              <Image
+                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                width={56}
+                height={56}
+                alt="User Image"
+              />
             </div>
           </div>
           <div className="flex flex-col">
