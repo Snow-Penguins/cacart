@@ -14,14 +14,12 @@ const useCategories = () => {
     const fetchCategories = async () => {
       setLoading(true);
       try {
-        // Fetch categories here from the DB
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/product-category`,
         );
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
         }
-        // mock data below
         const fetchedCategories = await response.json();
         setCategories([
           "All Categories",
