@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { emailRegexPattern } from "./regexPatterns";
 
 // Logo Import
 import logo from "../public/Cacart_logo.png";
@@ -11,45 +12,37 @@ import forgotPasswordImage from "../public/forgotPassword.png";
 import dottedShapeImage from "../public/Dotted Shape.png";
 
 export default function ForgotPassword() {
-  const [userData, setUserData] = useState({
-    email: "",
-  });
+  const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [emailValid, setEmailValid] = useState(false);
 
   // Value update handler
   const valueUpdateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUserData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    const { value } = e.target;
+    setEmail(value);
   };
 
   const isEmailValid = (email: any) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    return emailRegexPattern.test(email);
   };
 
   // formSubmitHandler
-  const formSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const isEmailEmpty = !userData.email;
 
-    if (isEmailEmpty) {
-      setEmailError("This field is required.");
-    } else if (!isEmailValid(userData.email)) {
-      setEmailError("Please enter a valid email address.");
-    } else {
-      setEmailError(""); // Reset error message when the email is valid
-      console.log(userData);
-      resetForm();
+    if (!email) {
+      setEmailError("Please enter your email address.");
+      return;
     }
+    if (!isEmailValid(email)) {
+      setEmailError("Please enter a valid email address.");
+      return;
+    }
+    resetForm();
   };
 
   const resetForm = () => {
     setEmailError("");
-    setUserData({ email: "" });
+    setEmail("");
   };
 
   const handleCancelClick = () => {
@@ -74,7 +67,7 @@ export default function ForgotPassword() {
               Forgot your password?
             </h2>
             <h6 className="text-center text-sm">
-              Enter your e-mail address and we&apos;ll send you a link to reset
+              Enter your email address, and we&apos;ll send you a link to reset
               your password.
             </h6>
             <div className="relative">
@@ -82,7 +75,7 @@ export default function ForgotPassword() {
                 type="email"
                 name="email"
                 placeholder="Email Address"
-                value={userData.email}
+                value={email}
                 onChange={valueUpdateHandler}
                 className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1
         ${emailError ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
