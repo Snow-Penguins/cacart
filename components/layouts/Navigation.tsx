@@ -21,9 +21,9 @@ export default function NavigationBar() {
 
   const DefaultIconSize = 24;
   return (
-    <nav className="flex items-center justify-between border-b border-gray-200 p-4">
-      {/* Logo */}
-      <div className="ml-4 text-h4 text-primary">
+    <nav className="flex flex-row items-center border-b border-gray-200 py-4">
+      {/* Logo and Categories */}
+      <div className="basis-[12.5%]">
         <Link href="/">
           <Image
             src="../logo/logo_150X60.png"
@@ -33,10 +33,8 @@ export default function NavigationBar() {
           />
         </Link>
       </div>
-
-      {/* Categories and Search Bar */}
-      <div className="flex flex-1 justify-center gap-4">
-        <div className="flex items-center relative">
+      <div className="basis-[12.5%] pl-10">
+        <div className="flex flex-row items-center relative">
           <div className="flex flex-col justify-center items-center mr-2">
             <span className="block w-3 min-h-0.5 bg-black" />
             <span className="block w-3 min-h-0.5 bg-black my-0.5" />
@@ -63,7 +61,11 @@ export default function NavigationBar() {
             </div>
           )}
         </div>
-        <form className="flex items-center w-3/4 max-w-xl rounded-full overflow-hidden bg-gray-200 border-2 border-black focus-within:border-blue-500">
+      </div>
+
+      {/* Search Bar */}
+      <div className="basis-1/2 flex flex-grow justify-center gap-4">
+        <form className="flex items-center w-full max-w-xl rounded-full overflow-hidden bg-gray-200 border-2 border-black focus-within:border-blue-500">
           <input
             type="search"
             className="flex-grow px-4 h-12 text-sm text-gray-700 bg-gray-200 rounded-full outline-none"
@@ -93,9 +95,9 @@ export default function NavigationBar() {
         </form>
       </div>
 
-      <div className="flex gap-2 mr-4">
+      <div className="basis-1/4 flex gap-2 mr-4">
         {/* Login */}
-        <div className="flex ">
+        <div className="flex">
           <Link href="/auth/signin">
             <button className="flex items-center px-4 py-2 hover:text-blue-500">
               <RxAvatar size={DefaultIconSize} className="mr-2" />
