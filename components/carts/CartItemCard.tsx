@@ -39,7 +39,6 @@ const CartItemCard: React.FC<CartItemProps> = ({
   return (
     <div className="py-7 flex flex-wrap items-center border-b border-secondary_text">
       <div className="w-[300px] my-4 grow flex items-center">
-        {/* Item image */}
         <div className="w-[100px] h-[80px] relative ml-1 mr-5 shrink-0">
           <Image
             src={cartItem.image}
@@ -49,7 +48,6 @@ const CartItemCard: React.FC<CartItemProps> = ({
           />
         </div>
 
-        {/* Item name and its option */}
         <div className="mr-1">
           <div className="font-semibold text-body-lg text-primary_text">
             {cartItem.name}
@@ -58,12 +56,10 @@ const CartItemCard: React.FC<CartItemProps> = ({
         </div>
       </div>
 
-      {/* Item price */}
       <div className="w-20 desktop:w-24 font-medium">
         <div className="ml-1">{formatter.format(cartItem.price)}</div>
       </div>
 
-      {/* Item quantity and quantity adjustment icons */}
       <div className="w-[124px] desktop:w-[140px]">
         <div className="px-2 inline-flex items-center bg-gray-200 rounded-full">
           <FiMinusCircle
@@ -78,14 +74,12 @@ const CartItemCard: React.FC<CartItemProps> = ({
         </div>
       </div>
 
-      {/* Total amount for the item */}
       <div className="w-20 desktop:w-24 font-medium">
         <div className="ml-1">
           {formatter.format(cartItem.price * cartItem.quantity)}
         </div>
       </div>
 
-      {/* Item removal icon */}
       <div className="w-4">
         <FaCircleXmark
           className="inline-block mb-1 cursor-pointer text-secondary_text"

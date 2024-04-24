@@ -47,13 +47,10 @@ const Cart: React.FC<CartProps> = ({ initialCartItems }) => {
 
   return (
     <div className="mt-24 mb-44">
-      {/* Cart page title */}
       <div className="text-center text-h3">YOUR CART</div>
 
       <div className="flex flex-wrap justify-center">
-        {/* Cart item table */}
         <div className="w-3/5 min-w-[320px] max-w-4xl desktop:w-1/2 mt-14">
-          {/* Cart item table header */}
           <div className="pb-1.5 flex flex-wrap border-b border-secondary_text font-medium text-body-lg text-primary_text">
             <div className="w-[300px] grow">PRODUCT</div>
             <div className="w-20 desktop:w-24">PRICE</div>
@@ -62,7 +59,6 @@ const Cart: React.FC<CartProps> = ({ initialCartItems }) => {
             <div className="w-4"></div>
           </div>
 
-          {/* Render individual cart items as card columns */}
           {cartItems.map((cartItem) => {
             return (
               <CartItemCard
@@ -75,7 +71,6 @@ const Cart: React.FC<CartProps> = ({ initialCartItems }) => {
           })}
         </div>
 
-        {/* Cart Items Summary */}
         <CartSummary
           subtotal={subtotal}
           shippingCost={shippingCost}
