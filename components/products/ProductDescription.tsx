@@ -23,7 +23,7 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({
   }, [selectedContent]);
 
   return (
-    <div className="flex w-[1440px] p-36">
+    <div className="flex p-36">
       <div className="w-1/4">
         <ul>
           <li
