@@ -12,7 +12,6 @@ interface ProductCardProps {
 const IMAGE_URL = `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}`;
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  console.log("print test2", product);
   const imageUrl = product.product_image?.[0]
     ? `${IMAGE_URL}${product.product_image[0]}`
     : "Image not available";
