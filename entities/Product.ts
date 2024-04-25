@@ -1,6 +1,10 @@
 export interface Product {
   id: number;
-  category: string;
+  category_id: number;
   name: string;
-  price: number;
+  description?: string;
+  product_image?: string[];
+  created_at?: Date;
+  category: { name: string };
+  product_items: { price: number }[];
 }

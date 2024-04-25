@@ -13,8 +13,10 @@ interface ProductCardProps {
   product: Product;
 }
 
+const IMAGE_URL = `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}`;
+
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const productImage = PRODUCT_IMAGES[(product.id - 1) % PRODUCT_IMAGES.length];
+  const productImage = `${IMAGE_URL}${product.product_image?.[0]}`;
   return (
     <Link href={`/product`}>
       <div className="border border-gray-200 rounded-md w-[450px] h-[450px] mb-10">
@@ -29,13 +31,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
         <div className="mt-6 ml-6">
           <h6 className="text-secondary_text text-sm mb-5">
-            {product.category}
+            {product.category.name}
           </h6>
           <h2 className="font-semibold text-black text-lg mb-2">
             {product.name}
           </h2>
           <h6 className="font-semibold text-black text-sm mb-2">
-            ${product.price.toFixed(2)}
+            ${product.product_items?.[0].price.toFixed(2)}
           </h6>
         </div>
       </div>
