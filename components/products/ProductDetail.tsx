@@ -1,9 +1,9 @@
 import React from "react";
-import { Product } from "../../entities/Product";
+import { ProductItemTest } from "../../entities/Product";
 import Image from "next/image";
 
 interface ProductDetailProps {
-  product: Product;
+  product: ProductItemTest;
 }
 
 const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {

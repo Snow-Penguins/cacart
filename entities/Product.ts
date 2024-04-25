@@ -9,3 +9,10 @@ export interface Product {
     price: string;
   }[];
 }
+
+export interface ProductItemTest {
+  id: number;
+  category: string;
+  name: string;
+  price: number;
+}
