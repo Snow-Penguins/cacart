@@ -4,11 +4,11 @@ import ProductCard from "./ProductCard";
 import { Product } from "../../entities/Product";
 import { FetchProducts } from "@/app/apis/products";
 
-// interface ProductCardListProps {
-//     products: Product[];
-// }
+interface ProductCardListProps {
+  products?: Product[];
+}
 
-const ProductListByDate: React.FC = () => {
+const ProductListByDate: React.FC<ProductCardListProps> = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [products, setProducts] = useState<Product[]>([]);
 
