@@ -35,3 +35,6 @@ jobs:
       # Builds the project to catch build errors, replicate production environment, and ensuring project builds successfully.
       - name: Build the project
         run: yarn build
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_SUPABASE_STORAGE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_STORAGE_URL }}
