@@ -43,7 +43,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       </div>
 
       <button className="w-full mt-5 py-3 bg-primary rounded-lg text-center font-medium text-white">
-        CHECKOUT
+        Checkout
       </button>
     </div>
   );
