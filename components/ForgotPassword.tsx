@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { emailRegexPattern } from "./regexPatterns";
+import { emailRegexPattern } from "../utils/regexPatterns";
 
 // Logo Import
 import logo from "../public/Cacart_logo.png";
