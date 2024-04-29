@@ -28,9 +28,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <Image
               src={imageUrl}
               alt="Product Image"
-              layout="fill"
-              objectFit="cover"
-              objectPosition="center"
+              fill
+              style={{
+                objectFit: "cover",
+                objectPosition: "center",
+              }}
             />
           )}
         </div>
