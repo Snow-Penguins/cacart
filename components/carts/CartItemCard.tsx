@@ -43,7 +43,7 @@ const CartItemCard: React.FC<CartItemProps> = ({
           <Image
             src={cartItem.image}
             alt="Cart Item Image"
-            fill={true}
+            fill
             className="object-cover rounded-lg"
           />
         </div>
