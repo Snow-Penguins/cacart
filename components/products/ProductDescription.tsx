@@ -1,14 +1,16 @@
 "use client";
 import React from "react";
 import { useEffect, useState } from "react";
+import { Product } from "../../entities/Product";
 
 interface ProductDescriptionProps {
-  description: string;
+  productId: string;
 }
 
 const ProductDescription: React.FC<ProductDescriptionProps> = ({
-  description,
+  productId,
 }) => {
+  const [product, setProduct] = useState<Product | null>(null);
   const [selectedContent, setSelectedContent] = useState<string>("description");
 
   useEffect(() => {
@@ -21,6 +23,26 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({
   useEffect(() => {
     localStorage.setItem("selectedContent", selectedContent);
   }, [selectedContent]);
+
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/products/${productId}`,
+        );
+        const data = await response.json();
+        setProduct(data);
+      } catch (error) {
+        console.error("Failed to fetch product:", error);
+      }
+    }
+
+    fetchProduct();
+  }, [productId]);
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex w-[1440px] p-36">
@@ -51,13 +73,13 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({
       <div className="w-3/4 border-l-4 pl-10 border-gray-400">
         {selectedContent === "description" && (
           <div>
-            <p>{description}</p>
+            <p>{product.description}</p>
           </div>
         )}
         {selectedContent === "shipping" && (
           <div>
             <p>Shipping & Return Information</p>
-            <p>{description}</p>
+            <p>Details not available yet.</p>
           </div>
         )}
       </div>
