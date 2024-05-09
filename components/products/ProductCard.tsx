@@ -29,13 +29,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
         <div className="mt-6 ml-6">
           <h6 className="text-secondary_text text-sm mb-5">
-            {product.category}
+            {/* {product.category} */}
           </h6>
           <h2 className="font-semibold text-black text-lg mb-2">
             {product.name}
           </h2>
           <h6 className="font-semibold text-black text-sm mb-2">
-            ${product.price.toFixed(2)}
+            {/* ${product.price.toFixed(2)} */}
           </h6>
         </div>
       </div>

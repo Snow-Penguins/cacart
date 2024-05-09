@@ -29,9 +29,5 @@ export default function Home() {
       price: 20,
     },
   ];
-  return (
-    <main>
-      <ProductCardList products={products} />
-    </main>
-  );
+  return <main>{/* <ProductCardList products={products} /> */}</main>;
 }
