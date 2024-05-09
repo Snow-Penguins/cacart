@@ -1,11 +1,15 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { FiPhoneCall } from "react-icons/fi";
 import { FaLinkedinIn, FaTwitter } from "react-icons/fa";
 
 export default function Footer() {
+  // Get the current pathname using usePathname() hook
+  const pathname = usePathname();
+
   return (
     <footer className="relative flex flex-wrap justify-between py-20 px-24 desktop:pr-52">
       {/* Logo and Info */}
@@ -32,7 +36,10 @@ export default function Footer() {
       {/* Quick Shopping Categories */}
       <div className="basis-48 mt-6">
         <div className="text-body-lg font-semibold">Quick Shop</div>
-        <Link href="/" className="block mt-6 text-primary">
+        <Link
+          href="/"
+          className={`block mt-6 ${pathname === "/" ? "text-primary" : "text-primary_text hover:text-primary"}`}
+        >
           Home
         </Link>
         <Link href="#" className="block mt-3 font-medium text-primary_text">

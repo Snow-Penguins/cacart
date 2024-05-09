@@ -136,10 +136,10 @@ export default function SignInForm() {
 
         <div className="flex flex-col items-center justify-center mt-8">
           <Link
-            href="/forgot-password"
+            href={"./forgot-password"}
             className="text-body-sm text-black hover:underline"
           >
-            Forget Password?
+            Forgot Password?
           </Link>
           <p className="text-sm text-secondary_text mt-2">
             Not a member yet?{" "}
