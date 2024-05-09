@@ -36,7 +36,7 @@ export default function Page() {
 
   return (
     <div>
-      <ProductDetail product={product} />
+      {/* <ProductDetail product={product} /> */}
       <ProductDescription description={product.description} />
       <ProductReviewList reviews={reviews} />
     </div>
