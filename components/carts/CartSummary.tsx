@@ -13,7 +13,6 @@ const CartSummary: React.FC<CartSummaryProps> = ({
   shippingCost,
   discount,
 }) => {
-  // Calculate the total amount
   const total = subtotal + shippingCost - discount;
 
   return (

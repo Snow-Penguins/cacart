@@ -17,7 +17,6 @@ const CartItemCard: React.FC<CartItemProps> = ({
   updateQuantity,
   removeCartItem,
 }) => {
-  // Decrease the quantity of the cart item by 1 (if quantity is greater than 1)
   const decreaseQuantity = () => {
     if (cartItem.quantity > 1) {
       const newQuantity = cartItem.quantity - 1;
@@ -25,13 +24,11 @@ const CartItemCard: React.FC<CartItemProps> = ({
     }
   };
 
-  // Increase the quantity of the cart item by 1
   const increaseQuantity = () => {
     const newQuantity = cartItem.quantity + 1;
     updateQuantity(cartItem, newQuantity);
   };
 
-  // Remove the cart item from the cart
   const removeItem = () => {
     removeCartItem(cartItem);
   };

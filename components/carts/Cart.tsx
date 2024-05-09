@@ -16,7 +16,6 @@ const discount = 9;
 const Cart: React.FC<CartProps> = ({ initialCartItems }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
 
-  // Update the quantity of a specific cart item
   const updateQuantity = (cartItem: CartItem, newQuantity: number) => {
     const updatedCartItems = cartItems.map((item) => {
       if (item.id === cartItem.id) {
@@ -29,7 +28,6 @@ const Cart: React.FC<CartProps> = ({ initialCartItems }) => {
     setCartItems(updatedCartItems);
   };
 
-  // Remove a specific cart item from the cart
   const removeCartItem = (cartItem: CartItem) => {
     const updatedCartItems = cartItems.filter(
       (item) => item.id !== cartItem.id,
@@ -37,7 +35,6 @@ const Cart: React.FC<CartProps> = ({ initialCartItems }) => {
     setCartItems(updatedCartItems);
   };
 
-  // Calculate the subtotal based on cart items
   const subtotal = useMemo(() => {
     return cartItems.reduce(
       (sum, cartItem) => sum + cartItem.quantity * cartItem.price,
