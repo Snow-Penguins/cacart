@@ -1,6 +1,4 @@
-"use client";
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Product } from "../../entities/Product";
 
 interface ProductDescriptionProps {
@@ -14,21 +12,10 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({
   const [selectedContent, setSelectedContent] = useState<string>("description");
 
   useEffect(() => {
-    const savedContent = localStorage.getItem("selectedContent");
-    if (savedContent) {
-      setSelectedContent(savedContent);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("selectedContent", selectedContent);
-  }, [selectedContent]);
-
-  useEffect(() => {
     async function fetchProduct() {
       try {
         const response = await fetch(
-          `http://localhost:8000/products/${productId}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`,
         );
         const data = await response.json();
         setProduct(data);
@@ -36,12 +23,11 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({
         console.error("Failed to fetch product:", error);
       }
     }
-
     fetchProduct();
   }, [productId]);
 
   if (!product) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (
