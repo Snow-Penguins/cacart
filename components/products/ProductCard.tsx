@@ -33,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               {product.category.name}
             </h6>
             <h6 className="text-secondary_text text-sm mb-5">
-              {formatToTimeAgo(product.created_at.toString())}
+              {formatToTimeAgo(product.created_at.toLocaleString())}
             </h6>
           </div>
           <h2 className="font-semibold text-black text-lg mb-2">
