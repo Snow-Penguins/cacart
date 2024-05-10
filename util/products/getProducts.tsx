@@ -3,6 +3,7 @@ import { HttpError } from "@/lib/errors/httpError";
 
 const getProducts = async (
   productUrl: string,
+  page: number,
 ): Promise<Product[] | undefined> => {
   const apiUrl = process.env.API_URL;
 
