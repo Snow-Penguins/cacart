@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+      NEXT_PUBLIC_SUPABASE_STORAGE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_STORAGE_URL }}
 
     steps:
       - uses: actions/checkout@v2 # Chekcs-out the repository under our Github Workspace to allow our jobs to access it.
@@ -18,6 +21,12 @@ jobs:
       - uses: actions/setup-node@v2 # Sets up a Node.js environment for the job.
         with:
           node-version: '18'
+          
+      - name: Read Public API URL Variable (TEST)
+        run: echo "NEXT_PUBLIC_API_URL => ${{ secrets.NEXT_PUBLIC_API_URL }}"
+
+      - name: Read Public Supabase Storage URL Variable (TEST)
+        run: echo "NEXT_PUBLIC_SUPABASE_STORAGE_URL => ${{ secrets.NEXT_PUBLIC_SUPABASE_STORAGE_URL }}"
 
       # Ensure `package.json` has matching commands under the `run` keys.
       # Installs dependencies defined in package.json
