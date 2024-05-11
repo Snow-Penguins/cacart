@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Backend_URL } from "@/lib/Constants";
 
 interface UserData {
   email: string;
@@ -25,6 +24,8 @@ interface TouchType {
 }
 
 export const useSignUpForm = () => {
+  const Backend_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const [userData, setUserData] = useState<UserData>({
     email: "",
     password: "",
@@ -203,21 +204,6 @@ export const useSignUpForm = () => {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setFieldType((prevTypes) => ({
-      ...prevTypes,
-      password: prevTypes.password === "password" ? "text" : "password",
-    }));
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setFieldType((prevTypes) => ({
-      ...prevTypes,
-      confirmPassword:
-        prevTypes.confirmPassword === "password" ? "text" : "password",
-    }));
-  };
-
   const valueUpdateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prevData) => ({
@@ -337,8 +323,6 @@ export const useSignUpForm = () => {
     fieldType,
     touchType,
 
-    togglePasswordVisibility,
-    toggleConfirmPasswordVisibility,
     valueUpdateHandler,
     formSubmitHandler,
   };

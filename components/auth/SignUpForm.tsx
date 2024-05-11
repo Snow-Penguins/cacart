@@ -1,10 +1,10 @@
 "use client";
 
 import { useSignUpForm } from "@/hooks/auth/useSignUpForm";
+import { useGoogleLogin } from "@/hooks/auth/useGoogleLogin";
 
 import Image from "next/image";
 import Link from "next/link";
-import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 // Logo Import
 import logo from "../../public/logo/logo_150X60.png";
@@ -19,15 +19,15 @@ export default function SignUpForm() {
     fieldType,
     touchType,
 
-    togglePasswordVisibility,
-    toggleConfirmPasswordVisibility,
     valueUpdateHandler,
     formSubmitHandler,
   } = useSignUpForm();
 
+  const handleLogin = useGoogleLogin();
+
   return (
-    <div className="relative flex items-center justify-center h-screen bg-gray-100">
-      <div className="relative bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
+    <div className="relative flex items-center justify-center h-screen bg-transparent">
+      <div className="relative bg-transparent p-8 rounded-lg shadow-md border-2 border-gray-200 w-full max-w-sm">
         <div className="flex justify-center mb-8">
           <Image src={logo} alt="Cacart Logo" width={160} height={40} />
         </div>
@@ -83,19 +83,6 @@ export default function SignUpForm() {
                     : "focus:ring-blue-500 border-gray-300"
                 }`}
               />
-              <button
-                onClick={togglePasswordVisibility}
-                type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-              >
-                <span className="text-gray-500 sm:text-sm">
-                  {fieldType.password === "password" ? (
-                    <FaEye />
-                  ) : (
-                    <FaEyeSlash />
-                  )}
-                </span>
-              </button>
             </div>
 
             <span
@@ -130,19 +117,6 @@ export default function SignUpForm() {
                     : "focus:ring-blue-500 border-gray-300"
                 }`}
               />
-              <button
-                onClick={toggleConfirmPasswordVisibility}
-                type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-              >
-                <span className="text-gray-500 sm:text-sm">
-                  {fieldType.confirmPassword === "password" ? (
-                    <FaEye />
-                  ) : (
-                    <FaEyeSlash />
-                  )}
-                </span>
-              </button>
               <span
                 className={`text-body-xsm block mt-0 h-2 ${confirmPasswordState.error ? "text-red-dark" : "text-green-dark"}`}
               >
@@ -183,6 +157,7 @@ export default function SignUpForm() {
           <button
             type="button"
             className="flex items-center justify-center w-full px-4 py-2 border-2 border-black bg-white text-black rounded-md hover:bg-gray-100"
+            onClick={handleLogin}
           >
             <div className="mr-2 flex items-center justify-center">
               <Image src={googlelogo} alt="google_logo"></Image>

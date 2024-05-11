@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Backend_URL } from "@/lib/Constants";
 
 interface UserData {
   email: string;
@@ -17,6 +16,8 @@ interface FieldType {
 }
 
 export const useSignInForm = () => {
+  const Backend_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const [userData, setUserData] = useState<UserData>({
     email: "",
     password: "",
@@ -37,13 +38,6 @@ export const useSignInForm = () => {
   });
 
   const router = useRouter();
-
-  const togglePasswordVisibility = () => {
-    setFieldType((prevTypes) => ({
-      ...prevTypes,
-      password: prevTypes.password === "password" ? "text" : "password",
-    }));
-  };
 
   const valueUpdateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -86,14 +80,7 @@ export const useSignInForm = () => {
     } catch (error) {
       console.log("Error during SignIn:", error);
     }
-    // resetForm();
   };
-
-  // const resetForm = () => {
-  //   setUserData({ email: "", password: "" });
-  //   setEmailState({ error: "", valid: false });
-  //   setPasswordState({ error: "", valid: false });
-  // };
 
   return {
     userData,
@@ -101,7 +88,6 @@ export const useSignInForm = () => {
     passwordState,
     fieldType,
 
-    togglePasswordVisibility,
     valueUpdateHandler,
     formSubmitHandler,
   };
