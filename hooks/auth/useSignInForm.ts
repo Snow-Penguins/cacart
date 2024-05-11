@@ -72,6 +72,7 @@ export const useSignInForm = () => {
       if (res.ok) {
         const successData = await res.json();
         console.log("Signin: ", successData.message);
+        console.log("Access Token: ", successData.access_token);
         router.push("/");
       } else {
         const errorData = await res.json();
