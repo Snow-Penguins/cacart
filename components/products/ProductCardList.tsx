@@ -4,7 +4,11 @@ import { Product } from "../../entities/Product";
 // fetch function
 async function getProducts() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiUrl) {
+      throw new Error("API_URL is not defined");
+    }
+    const res = await fetch(`${apiUrl}/products`);
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
