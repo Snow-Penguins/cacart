@@ -32,7 +32,7 @@ export default function NavigationBar() {
       <div className="basis-[12.5%]">
         <Link href="/">
           <Image
-            src="../logo/logo_150X60.png"
+            src="/logo/logo_150X60.png"
             alt="CaCart"
             width={150}
             height={60}

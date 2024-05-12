@@ -16,7 +16,7 @@ export default function Footer() {
       <div className="basis-72 mt-2">
         <Link href="/">
           <Image
-            src="../logo/logo_150X60.png"
+            src="/logo/logo_150X60.png"
             alt="CaCart"
             width={150}
             height={60}
