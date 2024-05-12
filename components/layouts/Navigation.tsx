@@ -102,12 +102,11 @@ export default function NavigationBar() {
       </div>
 
       <div className="basis-1/4 flex gap-2 mr-4">
-        {/* 로그인 상태에 따른 조건부 렌더링 */}
         {user ? (
           <div className="flex items-center px-4 py-2 hover:text-blue-500 relative">
             <button onClick={toggleDropdown} className="flex items-center">
               <RxAvatar size={DefaultIconSize} className="mr-2" />
-              {user.email_address} {/* 이메일 표시 */}
+              {user.email_address}
             </button>
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 py-2 bg-white shadow-lg rounded-lg">
@@ -115,7 +114,7 @@ export default function NavigationBar() {
                   onClick={() => {
                     signOut();
                     toggleDropdown();
-                  }} // 로그아웃 함수 호출
+                  }}
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300"
                 >
                   Logout
