@@ -5,12 +5,17 @@ import Link from "next/link";
 import { RxAvatar } from "react-icons/rx";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import useCategories from "@/hooks/useCategories";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function NavigationBar() {
   const { categories, loading, error } = useCategories();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const { user, signOut } = useAuth();
+
+  const router = useRouter();
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
@@ -20,6 +25,7 @@ export default function NavigationBar() {
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const DefaultIconSize = 24;
+
   return (
     <nav className="flex flex-row items-center border-b border-gray-200 py-4">
       {/* Logo and Categories */}
@@ -96,15 +102,38 @@ export default function NavigationBar() {
       </div>
 
       <div className="basis-1/4 flex gap-2 mr-4">
-        {/* Login */}
-        <div className="flex">
-          <Link href="/auth/signin">
-            <button className="flex items-center px-4 py-2 hover:text-blue-500">
+        {/* 로그인 상태에 따른 조건부 렌더링 */}
+        {user ? (
+          <div className="flex items-center px-4 py-2 hover:text-blue-500 relative">
+            <button onClick={toggleDropdown} className="flex items-center">
               <RxAvatar size={DefaultIconSize} className="mr-2" />
-              Login
+              {user.email_address} {/* 이메일 표시 */}
             </button>
-          </Link>
-        </div>
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 py-2 bg-white shadow-lg rounded-lg">
+                <button
+                  onClick={() => {
+                    signOut();
+                    toggleDropdown();
+                  }} // 로그아웃 함수 호출
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex">
+            <Link href="/auth/signin">
+              <button className="flex items-center px-4 py-2 hover:text-blue-500">
+                <RxAvatar size={DefaultIconSize} className="mr-2" />
+                Login
+              </button>
+            </Link>
+          </div>
+        )}
+
         {/* My Orders */}
         <div>
           <Link href="/order">

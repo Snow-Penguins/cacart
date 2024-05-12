@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface UserData {
   email: string;
@@ -16,6 +17,8 @@ interface FieldType {
 }
 
 export const useSignInForm = () => {
+  const { signIn } = useAuth();
+  const router = useRouter();
   const Backend_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const [userData, setUserData] = useState<UserData>({
@@ -36,8 +39,6 @@ export const useSignInForm = () => {
   const [fieldType, setFieldType] = useState<FieldType>({
     password: "password",
   });
-
-  const router = useRouter();
 
   const valueUpdateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -73,6 +74,8 @@ export const useSignInForm = () => {
         const successData = await res.json();
         console.log("Signin: ", successData.message);
         console.log("Access Token: ", successData.access_token);
+        console.log("Email Address: ", successData.email_address);
+        signIn(successData);
         router.push("/");
       } else {
         const errorData = await res.json();
