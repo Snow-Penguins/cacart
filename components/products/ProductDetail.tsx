@@ -11,11 +11,13 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
     <div className="product-container flex bg-gray-200 p-20 w-[1440px] h-[840px] items-center">
       <div className="product-info flex-1">
         <h2 className="text-secondary_text text-lg mb-5 font-medium">
-          {product.category}
+          {product.category.name}
         </h2>
         <div className="flex mb-10">
           <h3 className="text-h5 mr-10 font-bold">{product.name}</h3>
-          <p className="text-h5">${product.price.toFixed(2)}</p>
+          <p className="text-h5">
+            ${product.product_items[0].price.toFixed(2)}
+          </p>
         </div>
         <p className="text-md text-primary_text font-light mb-10">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
