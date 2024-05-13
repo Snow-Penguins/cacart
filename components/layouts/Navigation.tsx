@@ -11,7 +11,8 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export default function NavigationBar() {
   const { categories, loading, error } = useCategories();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const { user, signOut } = useAuth();
 
@@ -19,10 +20,18 @@ export default function NavigationBar() {
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
-    setIsDropdownOpen(false);
+    setIsCategoryDropdownOpen(false);
   };
 
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+  const toggleUserDropdown = () => {
+    setIsUserDropdownOpen(!isUserDropdownOpen);
+    setIsCategoryDropdownOpen(false);
+  };
+
+  const toggleCategoryDropdown = () => {
+    setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
+    setIsUserDropdownOpen(false);
+  };
 
   const DefaultIconSize = 24;
 
@@ -46,10 +55,13 @@ export default function NavigationBar() {
             <span className="block w-3 min-h-0.5 bg-black my-0.5" />
             <span className="block w-3 min-h-0.5 bg-black" />
           </div>
-          <button onClick={toggleDropdown} className="mr-3 h-12 text-sm">
+          <button
+            onClick={toggleCategoryDropdown}
+            className="mr-3 h-12 text-sm"
+          >
             {selectedCategory}
           </button>
-          {isDropdownOpen && (
+          {isCategoryDropdownOpen && (
             <div className="absolute w-32 mt-2 py-2 bg-white shadow-lg rounded-lg top-3/4 right-0">
               {loading && <div>Loading...</div>}
               {error && <div>Error loading categories</div>}
@@ -103,24 +115,38 @@ export default function NavigationBar() {
 
       <div className="basis-1/4 flex gap-2 mr-4">
         {user ? (
-          <div className="flex items-center px-4 py-2 hover:text-blue-500 relative">
-            <button onClick={toggleDropdown} className="flex items-center">
+          <div className="flex dropdown dropdown-end items-center px-4 py-2 hover:text-blue-500 relative">
+            <button
+              tabIndex={0}
+              className="flex items-center w-full"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsUserDropdownOpen(!isUserDropdownOpen);
+              }}
+            >
               <RxAvatar size={DefaultIconSize} className="mr-2" />
-              {user.email_address}
+              Welcome, {user.email_address.split("@")[0]}!
             </button>
-            {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 py-2 bg-white shadow-lg rounded-lg">
-                <button
-                  onClick={() => {
-                    signOut();
-                    toggleDropdown();
-                  }}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300"
-                >
+
+            <ul
+              tabIndex={0}
+              className={`dropdown-content menu p-2 shadow bg-base-100 rounded-box ${isUserDropdownOpen ? "block" : "hidden"}`}
+              style={{
+                position: "absolute",
+                width: "100%",
+                top: "100%",
+                right: 0,
+              }}
+            >
+              <li>
+                <a className="text-center w-full block">Profile</a>
+              </li>
+              <li>
+                <a onClick={signOut} className="text-center w-full block">
                   Logout
-                </button>
-              </div>
-            )}
+                </a>
+              </li>
+            </ul>
           </div>
         ) : (
           <div className="flex">
