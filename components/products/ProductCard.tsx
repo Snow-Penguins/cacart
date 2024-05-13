@@ -8,7 +8,7 @@ interface ProductCardProps {
   product: Product;
 }
 
-const IMAGE_URL = `${process.env.SUPABASE_STORAGE_URL}`;
+const IMAGE_URL = `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}`;
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const imageUrl = product.product_image?.[0]
@@ -22,9 +22,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Image
             src={imageUrl}
             alt="Product Image"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            fill
+            className="object-cover object-center"
           />
         </div>
         <div className="mt-6 mx-6">

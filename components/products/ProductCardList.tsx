@@ -11,7 +11,7 @@ interface ProductCardListProps {
 const ProductCardList: React.FC<ProductCardListProps> = ({ products }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  // can change the number of product per page
+  // @TODO: change the number of product per page
   const productsPerPage = 4;
 
   const pageCount = Math.ceil(products.length / productsPerPage);

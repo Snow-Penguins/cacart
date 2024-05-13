@@ -1,5 +1,5 @@
 import React from "react";
-import { Product } from "../../entities/Product";
+import { Product } from "@/entities/Product";
 import Image from "next/image";
 
 interface ProductDetailProps {
