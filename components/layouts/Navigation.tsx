@@ -5,9 +5,10 @@ import Link from "next/link";
 import { RxAvatar } from "react-icons/rx";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import useCategories from "@/hooks/useCategories";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 export default function NavigationBar() {
   const { categories, loading, error } = useCategories();
@@ -40,31 +41,33 @@ export default function NavigationBar() {
         </Link>
       </div>
       <div className="basis-[12.5%] pl-10">
-        <div className="flex flex-row items-center relative">
-          <div className="flex flex-col justify-center items-center mr-2">
-            <span className="block w-3 min-h-0.5 bg-black" />
-            <span className="block w-3 min-h-0.5 bg-black my-0.5" />
-            <span className="block w-3 min-h-0.5 bg-black" />
-          </div>
-          <button onClick={toggleDropdown} className="mr-3 h-12 text-sm">
+        <div className="dropdown dropdown-end">
+          <button
+            tabIndex={0}
+            className="mr-3 h-12 text-sm bg-white border-none flex flex-row items-center gap-2"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          >
+            <RxHamburgerMenu />
             {selectedCategory}
           </button>
           {isDropdownOpen && (
-            <div className="absolute w-32 mt-2 py-2 bg-white shadow-lg rounded-lg top-3/4 right-0">
-              {loading && <div>Loading...</div>}
-              {error && <div>Error loading categories</div>}
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-10 menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              {loading && <li>Loading...</li>}
+              {error && <li>Error loading categories</li>}
               {!loading &&
                 !error &&
                 categories.map((category, index) => (
-                  <button
+                  <li
                     key={index}
-                    className="absoulte top-100% block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 w-full text-left"
                     onClick={() => handleCategorySelect(category)}
                   >
-                    {category}
-                  </button>
+                    <a>{category}</a>
+                  </li>
                 ))}
-            </div>
+            </ul>
           )}
         </div>
       </div>
