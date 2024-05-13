@@ -11,9 +11,12 @@ interface ProductCardProps {
 const IMAGE_URL = `${process.env.SUPABASE_STORAGE_URL}`;
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  // const imageUrl = product.product_image?.[0]
+  //   ? `${IMAGE_URL}${product.product_image[0]}`
+  //   : "Image not available";
   const imageUrl = product.product_image?.[0]
     ? `${IMAGE_URL}${product.product_image[0]}`
-    : "Image not available";
+    : "/images/imageNA.png";
 
   return (
     <Link href={`/product`}>
