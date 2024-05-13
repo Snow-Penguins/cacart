@@ -1,32 +1,50 @@
+"use client";
+
+import React, { useState } from "react";
 import ProductCard from "./ProductCard";
 import { Product } from "../../entities/Product";
 
-// fetch function
-async function getProducts() {
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (!apiUrl) {
-      throw new Error("API_URL is not defined");
-    }
-    const res = await fetch(`${apiUrl}/products`);
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-    const products: Product[] = await res.json();
-    return products;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
-  }
+interface ProductCardListProps {
+  products: Product[];
 }
 
-export default async function ProductCardList() {
-  const products = await getProducts();
+const ProductCardList: React.FC<ProductCardListProps> = ({ products }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // @TODO: change the number of product per page
+  const productsPerPage = 4;
+
+  const pageCount = Math.ceil(products.length / productsPerPage);
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct,
+  );
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   return (
-    <div className="flex flex-wrap justify-center gap-4 pt-10">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+    <div>
+      <div className="flex flex-wrap justify-start gap-4 pt-10">
+        {currentProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+      <div className="join flex justify-center">
+        {Array.from({ length: pageCount }, (_, index) => (
+          <button
+            key={index + 1}
+            className={`join-item btn ${currentPage === index + 1 ? "btn-active" : ""}`}
+            onClick={() => paginate(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
-}
+};
+
+export default ProductCardList;

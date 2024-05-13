@@ -1,18 +1,10 @@
 export interface Product {
   id: number;
-  category_id: string;
+  category_id: number;
   name: string;
   description?: string;
   product_image?: string[];
+  created_at: Date;
   category: { name: string };
-  product_items: {
-    price: string;
-  }[];
-}
-
-export interface ProductItemTest {
-  id: number;
-  category: string;
-  name: string;
-  price: number;
+  product_items: { price: number }[];
 }

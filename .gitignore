@@ -41,9 +41,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# Firebase
-# Ignore Firebase service account keys and configuration files
-**/firebase-debug.log
-app/firebase.js
-.firebase

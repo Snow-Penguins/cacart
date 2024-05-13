@@ -4,6 +4,7 @@ import "./globals.css";
 import NavigationBar from "@/components/layouts/Navigation";
 import Footer from "@/components/layouts/Footer";
 import Breadcrumb from "@/components/layouts/Breadcrumb";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,16 +23,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${inter.className} max-w-screen-desktop mx-auto`}
-    >
-      <body>
-        <NavigationBar />
-        <Breadcrumb />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <AuthProvider>
+      <html
+        lang="en"
+        className={`${inter.className} max-w-screen-desktop mx-auto`}
+      >
+        <body>
+          <NavigationBar />
+          <Breadcrumb />
+          {children}
+          <Footer />
+        </body>
+      </html>
+    </AuthProvider>
   );
 }
