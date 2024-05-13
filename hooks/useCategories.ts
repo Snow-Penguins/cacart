@@ -14,7 +14,9 @@ const useCategories = () => {
     const fetchCategories = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${process.env.API_URL}/product-category`);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/product-category`,
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
         }

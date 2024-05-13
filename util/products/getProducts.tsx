@@ -3,9 +3,8 @@ import { HttpError } from "@/lib/errors/httpError";
 
 const getProducts = async (
   productUrl: string,
-  page: number,
 ): Promise<Product[] | undefined> => {
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   if (!apiUrl) {
     console.error("API URL is not found");
