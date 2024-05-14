@@ -13,6 +13,7 @@ interface AuthContextType {
   user: any;
   signIn: (userData: any) => void;
   signOut: () => void;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -24,6 +25,7 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const Backend_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -32,6 +34,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (storedToken) {
       setToken(storedToken);
       validateToken(storedToken);
+    } else {
+      setIsLoading(false);
     }
   }, []);
 
@@ -60,6 +64,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } catch (error) {
       console.log("Token validation failed", error);
       setUser(null);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -84,6 +90,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.setItem("token", userData.access_token);
     setUser(userData);
     setToken(userData.access_token);
+    setIsLoading(false);
   };
 
   const signOut = () => {
@@ -93,7 +100,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, signIn, signOut, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
