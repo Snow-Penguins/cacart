@@ -6,11 +6,17 @@ import { RxAvatar } from "react-icons/rx";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import useCategories from "@/hooks/useCategories";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 export default function NavigationBar() {
   const { categories, loading, error } = useCategories();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const { user, signOut } = useAuth();
+
+  const router = useRouter();
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
@@ -20,13 +26,14 @@ export default function NavigationBar() {
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const DefaultIconSize = 24;
+
   return (
     <nav className="flex flex-row items-center border-b border-gray-200 py-4">
       {/* Logo and Categories */}
       <div className="basis-[12.5%]">
         <Link href="/">
           <Image
-            src="../logo/logo_150X60.png"
+            src="/logo/logo_150X60.png"
             alt="CaCart"
             width={150}
             height={60}
@@ -34,31 +41,33 @@ export default function NavigationBar() {
         </Link>
       </div>
       <div className="basis-[12.5%] pl-10">
-        <div className="flex flex-row items-center relative">
-          <div className="flex flex-col justify-center items-center mr-2">
-            <span className="block w-3 min-h-0.5 bg-black" />
-            <span className="block w-3 min-h-0.5 bg-black my-0.5" />
-            <span className="block w-3 min-h-0.5 bg-black" />
-          </div>
-          <button onClick={toggleDropdown} className="mr-3 h-12 text-sm">
+        <div className="dropdown dropdown-end">
+          <button
+            tabIndex={0}
+            className="mr-3 h-12 text-sm bg-white border-none flex flex-row items-center gap-2"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          >
+            <RxHamburgerMenu />
             {selectedCategory}
           </button>
           {isDropdownOpen && (
-            <div className="absolute w-32 mt-2 py-2 bg-white shadow-lg rounded-lg top-3/4 right-0">
-              {loading && <div>Loading...</div>}
-              {error && <div>Error loading categories</div>}
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-10 menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              {loading && <li>Loading...</li>}
+              {error && <li>Error loading categories</li>}
               {!loading &&
                 !error &&
                 categories.map((category, index) => (
-                  <button
+                  <li
                     key={index}
-                    className="absoulte top-100% block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 w-full text-left"
                     onClick={() => handleCategorySelect(category)}
                   >
-                    {category}
-                  </button>
+                    <a>{category}</a>
+                  </li>
                 ))}
-            </div>
+            </ul>
           )}
         </div>
       </div>
@@ -96,15 +105,37 @@ export default function NavigationBar() {
       </div>
 
       <div className="basis-1/4 flex gap-2 mr-4">
-        {/* Login */}
-        <div className="flex">
-          <Link href="/auth/signin">
-            <button className="flex items-center px-4 py-2 hover:text-blue-500">
+        {user ? (
+          <div className="flex items-center px-4 py-2 hover:text-blue-500 relative">
+            <button onClick={toggleDropdown} className="flex items-center">
               <RxAvatar size={DefaultIconSize} className="mr-2" />
-              Login
+              {user.email_address}
             </button>
-          </Link>
-        </div>
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 py-2 bg-white shadow-lg rounded-lg">
+                <button
+                  onClick={() => {
+                    signOut();
+                    toggleDropdown();
+                  }}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex">
+            <Link href="/auth/signin">
+              <button className="flex items-center px-4 py-2 hover:text-blue-500">
+                <RxAvatar size={DefaultIconSize} className="mr-2" />
+                Login
+              </button>
+            </Link>
+          </div>
+        )}
+
         {/* My Orders */}
         <div>
           <Link href="/order">

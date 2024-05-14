@@ -8,10 +8,18 @@ export default function Breadcrumb() {
       <Link href="/" className="text-primary_text hover:text-primary">
         Home
       </Link>
-      <span className="text-primary_text hover:text-primary">
+      <Link
+        href="/best-seller"
+        className="text-primary_text hover:text-primary"
+      >
         🔥 Best Seller
-      </span>
-      <span className="text-primary_text hover:text-primary">New Releases</span>
+      </Link>
+      <Link
+        href="/new-release"
+        className="text-primary_text hover:text-primary"
+      >
+        New Releases
+      </Link>
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-// import Image from "next/image";
-import { Product } from "../../entities/Product";
+import React from "react";
+import { Product } from "@/entities/Product";
+import { useEffect, useState } from "react";
 
 interface ProductDetailProps {
   productId: string;
@@ -28,8 +28,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
     return null;
   }
 
-  const values = product.product_items.flatMap((item) =>
-    item.option_values.map((ov) => ov.option_value.value),
+  const values = product.product_items.flatMap(
+    (item) => item.option_values?.map((ov) => ov.option_value.value) || [],
   );
 
   return (
@@ -40,11 +40,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
         </h2>
         <div className="flex mb-10">
           <h3 className="text-h5 mr-10 font-bold">{product.name}</h3>
-          {product.product_items.length > 0 && (
-            <p className="text-h5">
-              ${parseFloat(product.product_items[0].price).toFixed(2)}
-            </p>
-          )}
+          <p className="text-h5">
+            ${Number(product.product_items[0].price).toFixed(2)}
+          </p>
         </div>
         <p className="text-md text-primary_text font-light mb-10">
           {product.description}
