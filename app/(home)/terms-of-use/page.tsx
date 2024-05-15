@@ -4,7 +4,7 @@ export default function Page() {
       <div className="mb-4">
         <div className="text-h1 mb-2">Terms of Use</div>
         <div className="text-lg">
-          Welcome to Cacart. We’re delighted to have you here. Please make
+          Welcome to CaCart. We’re delighted to have you here. Please make
           yourself comfortable and enjoy your time. <br />
           By accessing or using our website and services, you agree to comply
           with and be bound by these Terms of Use. If you do not agree to these
@@ -18,7 +18,7 @@ export default function Page() {
           <span className="font-bold text-lg">1. Eligibility</span>
           <p>
             You must be at least 18 years old and capable of entering into a
-            legally binding contract to use our services. By using Cacart, you
+            legally binding contract to use our services. By using CaCart, you
             represent and warrant that you meet these eligibility requirements.
           </p>
         </div>
@@ -35,7 +35,7 @@ export default function Page() {
         <div>
           <span className="font-bold text-lg">3. User Content</span>
           <p>
-            You retain ownership of any content you post on Cacart, but you
+            You retain ownership of any content you post on CaCart, but you
             grant us a worldwide, non-exclusive, royalty-free license to use,
             display, reproduce, and distribute your content in connection with
             our services. You are solely responsible for the content you post
@@ -71,7 +71,7 @@ export default function Page() {
         <div>
           <span className="font-bold text-lg">6. Limitation of Liability</span>
           <p>
-            Cacart is provided &quot;as is&quot; and &quot;as available&quot;
+            CaCart is provided &quot;as is&quot; and &quot;as available&quot;
             without any warranties of any kind. We are not liable for any
             damages arising from your use of our services, including but not
             limited to direct, indirect, incidental, or consequential damages.
@@ -81,7 +81,7 @@ export default function Page() {
           <span className="font-bold text-lg">7. Changes to Terms</span>
           <p>
             We may update these Terms of Use from time to time. Any changes will
-            be posted on this page, and your continued use of Cacart after such
+            be posted on this page, and your continued use of CaCart after such
             changes constitutes your acceptance of the new terms.
           </p>
         </div>
