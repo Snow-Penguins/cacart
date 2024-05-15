@@ -89,7 +89,7 @@ export default function Page() {
           <span className="font-bold text-lg">8. Contact Us</span>
           <p>
             If you have any questions or concerns about these Terms of Use,
-            please contact us at t{" "}
+            please contact us at{" "}
             <a href="mailto:support@cacart.com" className="underline">
               support@cacart.com
             </a>
