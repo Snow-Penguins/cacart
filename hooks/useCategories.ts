@@ -10,13 +10,13 @@ const useCategories = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
   useEffect(() => {
     const fetchCategories = async () => {
       setLoading(true);
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/product-category`,
-        );
+        const response = await fetch(`${apiUrl}/product-category`);
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
         }
