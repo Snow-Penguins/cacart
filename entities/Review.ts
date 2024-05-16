@@ -1,5 +1,5 @@
 export interface Review {
-  created_at: string | number | Date;
+  created_at: Date;
   rating_value: any;
   comment: string;
   id: number;
