@@ -2,7 +2,7 @@ export default function PrivacyPolicy() {
   return (
     <div>
       <div className="mb-4">
-        <div className="text-h1 mb-2">Privacy Policy</div>
+        <div className="text-center text-h2 mb-2">Privacy Policy</div>
         <div className="text-lg">This policy took effect on 15 May 2024.</div>
       </div>
       <br />
