@@ -1,8 +1,8 @@
-export default function Page() {
+export default function TermsOfUse() {
   return (
     <div>
       <div className="mb-4">
-        <div className="text-h1 mb-2">Terms of Use</div>
+        <div className="text-center text-h2 mb-2">Terms of Use</div>
         <div className="text-lg">
           Welcome to CaCart. We’re delighted to have you here. Please make
           yourself comfortable and enjoy your time. <br />
