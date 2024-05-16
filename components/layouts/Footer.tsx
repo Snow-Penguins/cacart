@@ -73,8 +73,8 @@ export default function Footer() {
         <Link href="#" className="block mt-6 text-primary_text">
           Help Centre
         </Link>
-        <Link href="#" className="block mt-3 text-primary_text">
-          Privacy
+        <Link href="/privacy-policy" className="block mt-3 text-primary_text">
+          Privacy Policy
         </Link>
         <Link href="/terms-of-use" className="block mt-3 text-primary_text">
           Terms of Use
