@@ -76,8 +76,8 @@ export default function Footer() {
         <Link href="#" className="block mt-3 text-primary_text">
           Privacy
         </Link>
-        <Link href="#" className="block mt-3 text-primary_text">
-          Term of Use
+        <Link href="/terms-of-use" className="block mt-3 text-primary_text">
+          Terms of Use
         </Link>
       </div>
 
