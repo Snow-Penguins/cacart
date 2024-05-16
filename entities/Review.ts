@@ -1,8 +1,12 @@
 export interface Review {
+  created_at: string | number | Date;
+  rating_value: any;
+  comment: string;
   id: number;
-  name: string;
-  date: string;
-  rating: number;
-  title: string;
-  content: string;
+  user: User;
+}
+
+export interface User {
+  firstname: string;
+  lastname: string;
 }
