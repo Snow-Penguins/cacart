@@ -10,24 +10,82 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({
 }) => {
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedContent, setSelectedContent] = useState<string>("description");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`,
-        );
-        const data = await response.json();
-        setProduct(data);
+        // const response = await fetch(
+        //   `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`,
+        // );
+        // const data = await response.json();
+        // setProduct(data);
+        const mockProduct: Product = {
+          id: 1,
+          name: "Product Name",
+          description: "Product Description",
+          category: {
+            name: "Category Name",
+            options: [
+              {
+                id: 1,
+                option_name: "Color",
+              },
+            ],
+          },
+          product_items: [
+            {
+              id: 1,
+              price: 100,
+              option_values: [
+                {
+                  id: 1,
+                  option_value: {
+                    id: 1,
+                    value: "Red",
+                  },
+                },
+              ],
+            },
+          ],
+          category_id: 0,
+          product_image: [],
+          created_at: new Date(),
+        };
+        setProduct(mockProduct);
       } catch (error) {
         console.error("Failed to fetch product:", error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchProduct();
   }, [productId]);
 
+  const SkeletonLoader = () => (
+    <div className="flex p-36 animate-pulse">
+      <div className="w-1/4">
+        <ul>
+          <li className="h-6 bg-gray-400 rounded w-3/4 mb-5"></li>
+          <li className="h-6 bg-gray-400 rounded w-3/4 mb-5"></li>
+        </ul>
+      </div>
+      <div className="w-3/4 border-l-4 pl-10 border-gray-400">
+        <div className="space-y-4">
+          <div className="h-4 bg-gray-400 rounded w-full"></div>
+          <div className="h-4 bg-gray-400 rounded w-5/6"></div>
+          <div className="h-4 bg-gray-400 rounded w-2/3"></div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (loading) {
+    return <SkeletonLoader />;
+  }
+
   if (!product) {
-    return null;
+    return <div>Product not found</div>;
   }
 
   return (
