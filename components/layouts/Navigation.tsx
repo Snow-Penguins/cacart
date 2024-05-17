@@ -9,16 +9,17 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { useCategory } from "@/contexts/CategoryContext";
 
 export default function NavigationBar() {
   const { categories, loading, error } = useCategories();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const { selectedCategory, setSelectedCategory } = useCategory();
   const { user, signOut } = useAuth();
 
   const router = useRouter();
 
-  const handleCategorySelect = (category: string) => {
+  const handleCategorySelect = (category: any) => {
     setSelectedCategory(category);
     setIsDropdownOpen(false);
   };
@@ -48,7 +49,7 @@ export default function NavigationBar() {
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
             <RxHamburgerMenu />
-            {selectedCategory}
+            {selectedCategory.name}
           </button>
           {isDropdownOpen && (
             <ul
@@ -59,12 +60,12 @@ export default function NavigationBar() {
               {error && <li>Error loading categories</li>}
               {!loading &&
                 !error &&
-                categories.map((category, index) => (
+                categories.map((category: any) => (
                   <li
-                    key={index}
+                    key={category.id}
                     onClick={() => handleCategorySelect(category)}
                   >
-                    <a>{category}</a>
+                    <a>{category.name}</a>
                   </li>
                 ))}
             </ul>
