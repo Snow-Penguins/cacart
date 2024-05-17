@@ -25,7 +25,7 @@ const getProducts = async (
       throw new HttpError(response);
     }
     const products: Product[] = await response.json();
-    console.log(products);
+
     return products;
   } catch (error) {
     console.error("Error fetching data", error);
