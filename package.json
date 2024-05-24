@@ -22,6 +22,11 @@
     "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "@babel/preset-react": "^7.24.1",
+    "@types/babel__core": "^7",
+    "@types/babel__preset-env": "^7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
