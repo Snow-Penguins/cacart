@@ -16,7 +16,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     : "/images/imageNA.png";
 
   return (
-    <Link href={`/product`}>
+    <Link href={`/product/${product.id}`}>
       <div className="border border-gray-200 rounded-md w-[450px] h-[450px] mb-10">
         <div className="w-full h-[300px] relative">
           <Image
