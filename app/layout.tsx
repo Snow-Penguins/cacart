@@ -5,6 +5,7 @@ import NavigationBar from "@/components/layouts/Navigation";
 import Footer from "@/components/layouts/Footer";
 import Breadcrumb from "@/components/layouts/Breadcrumb";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { CategoryProvider } from "@/contexts/CategoryContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,10 +30,12 @@ export default function RootLayout({
         className={`${inter.className} max-w-screen-desktop mx-auto`}
       >
         <body>
-          <NavigationBar />
-          <Breadcrumb />
-          {children}
-          <Footer />
+          <CategoryProvider>
+            <NavigationBar />
+            <Breadcrumb />
+            {children}
+            <Footer />
+          </CategoryProvider>
         </body>
       </html>
     </AuthProvider>

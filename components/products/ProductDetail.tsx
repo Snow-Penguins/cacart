@@ -16,44 +16,11 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
   useEffect(() => {
     async function fetchProduct() {
       try {
-        // const response = await fetch(
-        //   `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`,
-        // );
-        // const data = await response.json();
-        // setProduct(data);
-        const mockProduct: Product = {
-          id: 1,
-          name: "Product Name",
-          description: "Product Description",
-          category: {
-            name: "Category Name",
-            options: [
-              {
-                id: 1,
-                option_name: "Color",
-              },
-            ],
-          },
-          product_items: [
-            {
-              id: 1,
-              price: 100,
-              option_values: [
-                {
-                  id: 1,
-                  option_value: {
-                    id: 1,
-                    value: "Red",
-                  },
-                },
-              ],
-            },
-          ],
-          category_id: 0,
-          product_image: [],
-          created_at: new Date(),
-        };
-        setProduct(mockProduct);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`,
+        );
+        const data = await response.json();
+        setProduct(data);
       } catch (error) {
         console.error("Failed to fetch product:", error);
       } finally {

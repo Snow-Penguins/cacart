@@ -13,40 +13,15 @@ const ProductReviewList: React.FC<ProductReviewListProps> = ({ productId }) => {
   useEffect(() => {
     async function fetchReviews() {
       try {
-        // const response = await fetch(
-        //   `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`,
-        // );
-        // const data = await response.json();
-        // const allReviews = data.product_items.flatMap(
-        //   (item: { order_histories: any[] }) =>
-        //     item.order_histories.flatMap((history) => history.user_reviews),
-        // );
-        // setReviews(allReviews);
-        const mockReviews: Review[] = [
-          {
-            id: 1,
-            user: {
-              id: 1,
-              firstname: "John",
-              lastname: "Doe",
-            },
-            rating_value: 4,
-            comment: "Great product! Highly recommend it.",
-            created_at: new Date("2024-05-01T12:00:00Z"),
-          },
-          {
-            id: 2,
-            user: {
-              id: 2,
-              firstname: "Jane",
-              lastname: "Smith",
-            },
-            rating_value: 5,
-            comment: "Excellent quality and fast shipping.",
-            created_at: new Date("2024-05-01T12:00:00Z"),
-          },
-        ];
-        setReviews(mockReviews);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`,
+        );
+        const data = await response.json();
+        const allReviews = data.product_items.flatMap(
+          (item: { order_histories: any[] }) =>
+            item.order_histories.flatMap((history) => history.user_reviews),
+        );
+        setReviews(allReviews);
       } catch (error) {
         console.error("Error fetching reviews:", error);
       } finally {
