@@ -1,7 +1,7 @@
 import React from "react";
-import type { OrderSummary } from "@/entities/OrderItem";
+import { OrderSummaryProps } from "@/entities/OrderItem";
 
-const OrderSummary: React.FC<OrderSummary> = ({
+const OrderSummary: React.FC<OrderSummaryProps> = ({
   subtotal,
   shipping,
   discount,

@@ -1,21 +1,16 @@
 import React from "react";
 import OrderItemDetail from "./OrderItemDetail";
-import type { OrderItemList } from "@/entities/OrderItem";
+import { OrderItem } from "@/entities/OrderItem";
 
-const OrderItemList: React.FC<OrderItemList> = ({ items }) => {
+interface OrderItemListProps {
+  items: OrderItem[];
+}
+
+const OrderItemList: React.FC<OrderItemListProps> = ({ items }) => {
   return (
     <div>
       {items.map((item) => (
-        <OrderItemDetail
-          key={item.id}
-          image={item.image}
-          name={item.name}
-          color={item.color}
-          size={item.size}
-          quantity={item.quantity}
-          price={item.price}
-          id={0}
-        />
+        <OrderItemDetail key={item.id} item={item} />
       ))}
     </div>
   );
