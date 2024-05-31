@@ -16,7 +16,7 @@ const OrderConfirmation: React.FC<OrderConfirmationProps> = ({ orderId }) => {
     async function fetchOrderDetails() {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/order/${3}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/order/${orderId}`,
         );
         const data = await response.json();
         setOrderDetails(data);
