@@ -164,8 +164,13 @@ export default function SignUpForm() {
 
           <p className="text-body-xsm">
             By Clicking Continue with Google, you agree to CaCart`s{" "}
-            <span className="text-blue-500 underline">Terms of Use</span> and{" "}
-            <span className="text-blue-500 underline">Privacy Policy</span>.
+            <Link href="/terms-of-use" className="text-blue-500 underline">
+              Terms of Use
+            </Link>{" "}
+            and{" "}
+            <Link href="/privacy-policy" className="text-blue-500 underline">
+              Privacy Policy
+            </Link>
           </p>
 
           <button
