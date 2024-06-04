@@ -4,6 +4,7 @@ import { useGoogleLogin } from "@/hooks/auth/useGoogleLogin";
 
 import Image from "next/image";
 import Link from "next/link";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 // Logo Import
 import logo from "../../public/logo/logo_150X60.png";
@@ -15,7 +16,7 @@ export default function SignInForm() {
     emailState,
     passwordState,
     fieldType,
-
+    togglePasswordVisibility,
     valueUpdateHandler,
     formSubmitHandler,
   } = useSignInForm();
@@ -38,7 +39,7 @@ export default function SignInForm() {
               value={userData.email}
               onChange={valueUpdateHandler}
               className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1
-        ${emailState.error ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
+              ${emailState.error ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
             />
             {emailState.error && (
               <span className="text-red-dark text-body-xsm absolute -bottom-5 left-0">
@@ -56,8 +57,21 @@ export default function SignInForm() {
                 value={userData.password}
                 onChange={valueUpdateHandler}
                 className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1
-        ${passwordState.error ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
+                ${passwordState.error ? "border-red-dark focus:ring-red-dark" : "border-gray-300 focus:ring-blue-500"}`}
               />
+              <button
+                onClick={togglePasswordVisibility}
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              >
+                <span className="text-gray-500 sm:text-sm">
+                  {fieldType.password === "password" ? (
+                    <FaEye />
+                  ) : (
+                    <FaEyeSlash />
+                  )}
+                </span>
+              </button>
             </div>
 
             {passwordState.error && (

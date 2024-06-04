@@ -204,6 +204,21 @@ export const useSignUpForm = () => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setFieldType((prevTypes) => ({
+      ...prevTypes,
+      password: prevTypes.password === "password" ? "text" : "password",
+    }));
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setFieldType((prevTypes) => ({
+      ...prevTypes,
+      confirmPassword:
+        prevTypes.confirmPassword === "password" ? "text" : "password",
+    }));
+  };
+
   const valueUpdateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prevData) => ({
@@ -322,7 +337,8 @@ export const useSignUpForm = () => {
     confirmPasswordState,
     fieldType,
     touchType,
-
+    togglePasswordVisibility,
+    toggleConfirmPasswordVisibility,
     valueUpdateHandler,
     formSubmitHandler,
   };

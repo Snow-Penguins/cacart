@@ -5,6 +5,7 @@ import { useGoogleLogin } from "@/hooks/auth/useGoogleLogin";
 
 import Image from "next/image";
 import Link from "next/link";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 // Logo Import
 import logo from "../../public/logo/logo_150X60.png";
@@ -18,7 +19,8 @@ export default function SignUpForm() {
     confirmPasswordState,
     fieldType,
     touchType,
-
+    togglePasswordVisibility,
+    toggleConfirmPasswordVisibility,
     valueUpdateHandler,
     formSubmitHandler,
   } = useSignUpForm();
@@ -43,7 +45,8 @@ export default function SignUpForm() {
               placeholder="Email"
               value={userData.email}
               onChange={valueUpdateHandler}
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1 ${
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1
+              ${
                 touchType.emailTouched
                   ? emailState.valid && !emailState.error
                     ? "focus:ring-green-dark border-green-dark"
@@ -75,7 +78,8 @@ export default function SignUpForm() {
                 placeholder="Password"
                 value={userData.password}
                 onChange={valueUpdateHandler}
-                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1 ${
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 mt-1
+                ${
                   touchType.passwordTouched
                     ? passwordState.valid && !passwordState.error
                       ? "focus:ring-green-dark border-green-dark"
@@ -83,6 +87,19 @@ export default function SignUpForm() {
                     : "focus:ring-blue-500 border-gray-300"
                 }`}
               />
+              <button
+                onClick={togglePasswordVisibility}
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              >
+                <span className="text-gray-500 sm:text-sm">
+                  {fieldType.password === "password" ? (
+                    <FaEye />
+                  ) : (
+                    <FaEyeSlash />
+                  )}
+                </span>
+              </button>
             </div>
 
             <span
@@ -109,7 +126,8 @@ export default function SignUpForm() {
                 placeholder="Password"
                 value={userData.confirmPassword}
                 onChange={valueUpdateHandler}
-                className={`w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 mt-1 ${
+                className={`w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 mt-1
+                ${
                   touchType.confirmPasswordTouched
                     ? confirmPasswordState.valid && !confirmPasswordState.error
                       ? "focus:ring-green-dark border-green-dark"
@@ -117,6 +135,19 @@ export default function SignUpForm() {
                     : "focus:ring-blue-500 border-gray-300"
                 }`}
               />
+              <button
+                onClick={toggleConfirmPasswordVisibility}
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              >
+                <span className="text-gray-500 sm:text-sm">
+                  {fieldType.confirmPassword === "password" ? (
+                    <FaEye />
+                  ) : (
+                    <FaEyeSlash />
+                  )}
+                </span>
+              </button>
               <span
                 className={`text-body-xsm block mt-0 h-2 ${confirmPasswordState.error ? "text-red-dark" : "text-green-dark"}`}
               >
