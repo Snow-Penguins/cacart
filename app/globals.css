@@ -4,5 +4,5 @@
 
 input::-ms-reveal,
 Input::-ms-clear {
-    display: none;
+  display: none;
 }
