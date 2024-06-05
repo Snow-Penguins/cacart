@@ -40,6 +40,13 @@ export const useSignInForm = () => {
     password: "password",
   });
 
+  const togglePasswordVisibility = () => {
+    setFieldType((prevTypes) => ({
+      ...prevTypes,
+      password: prevTypes.password === "password" ? "text" : "password",
+    }));
+  };
+
   const valueUpdateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prevData) => ({
@@ -91,7 +98,7 @@ export const useSignInForm = () => {
     emailState,
     passwordState,
     fieldType,
-
+    togglePasswordVisibility,
     valueUpdateHandler,
     formSubmitHandler,
   };
