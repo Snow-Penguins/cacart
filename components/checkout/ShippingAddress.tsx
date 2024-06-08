@@ -34,7 +34,7 @@ export default function ShippingAddress() {
       {addresses.map((address, index) => (
         <div
           key={index}
-          className="mt-2 p-4 border border-gray-300 rounded-md columns-2 flex justify-between"
+          className="mt-2 p-4 border rounded-md  border-gray-300 flex justify-between items-center"
         >
           <div>
             <div className="font-bold">Shipping Address {index + 1}</div>
@@ -44,12 +44,18 @@ export default function ShippingAddress() {
             </div>
           </div>
           <div>
-            <button className="mt-2 px-10 py-2 bg-primary text-white rounded-md hover:bg-blue-600">
+            <button className="px-10 py-2 rounded-md bg-primary text-white ">
               Deliver Here
             </button>
           </div>
         </div>
       ))}
+
+      <div className="flex justify-center mt-4">
+        <button className="px-4 py-2 border rounded-md text-primary border-primary">
+          + Add New Address
+        </button>
+      </div>
     </div>
   );
 }

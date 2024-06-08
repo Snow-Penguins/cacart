@@ -3,14 +3,14 @@ import ShippingAddress from "@/components/checkout/ShippingAddress";
 
 export default function Checkout() {
   return (
-    <div className="columns-2 divide-x">
-      <div>
-        <div>
-          <ShippingAddress />
-        </div>
+    <div className="flex divide-x">
+      <div className="w-1/2 p-4 m grid gap-8">
+        <ShippingAddress />
         <div>Summary</div>
       </div>
-      <div>Stripe</div>
+      <div className="w-1/2 p-4">
+        <div>Stripe</div>
+      </div>
     </div>
   );
 }
