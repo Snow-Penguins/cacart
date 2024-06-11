@@ -1,6 +1,7 @@
 "use client";
 
 import formatter from "@/utils/formatter";
+import Link from "next/link";
 
 interface CartSummaryProps {
   subtotal: number;
@@ -41,9 +42,11 @@ const CartSummary: React.FC<CartSummaryProps> = ({
         </div>
       </div>
 
-      <button className="w-full mt-5 py-3 bg-primary rounded-lg text-center font-medium text-white">
-        Checkout
-      </button>
+      <Link href="/checkout">
+        <button className="w-full mt-5 py-3 bg-primary rounded-lg text-center font-medium text-white">
+          Checkout
+        </button>
+      </Link>
     </div>
   );
 };
