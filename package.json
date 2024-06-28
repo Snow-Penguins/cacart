@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@next/font": "^14.1.4",
+    "@stripe/react-stripe-js": "^2.7.1",
+    "@stripe/stripe-js": "^3.5.0",
     "next": "^14.1.4",
     "next-auth": "^4.24.7",
     "prettier": "^3.2.5",
