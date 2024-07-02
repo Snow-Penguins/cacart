@@ -25,6 +25,7 @@ const CheckoutForm = () => {
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState<string>("");
   const [totalAmount, setTotalAmount] = useState<number>(0);
+  const shippingCost = 8;
 
   useEffect(() => {
     // Fetch cart items and calculate the total amount
@@ -53,7 +54,7 @@ const CheckoutForm = () => {
           return sum + item.product_item.price * item.qty;
         }, 0);
         console.log("Calculated total amount:", total);
-        setTotalAmount(total);
+        setTotalAmount(total + shippingCost);
       } catch (error) {
         console.error("Failed to fetch cart items:", error);
       }
