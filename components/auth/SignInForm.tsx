@@ -1,6 +1,5 @@
 "use client";
 import { useSignInForm } from "@/hooks/auth/useSignInForm";
-import { useGoogleLogin } from "@/hooks/auth/useGoogleLogin";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +7,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 // Logo Import
 import logo from "../../public/logo/logo_150X60.png";
-import googlelogo from "../../public/google_logo.png";
 
 export default function SignInForm() {
   const {
@@ -20,8 +18,6 @@ export default function SignInForm() {
     valueUpdateHandler,
     formSubmitHandler,
   } = useSignInForm();
-
-  const handleLogin = useGoogleLogin();
 
   return (
     <div className="relative flex items-center justify-center h-screen bg-transparent">
@@ -88,29 +84,6 @@ export default function SignInForm() {
             Sign In
           </button>
         </form>
-
-        <div className="flex items-center justify-between mt-8">
-          <span className="border-b border-stroke w-[33%] lg:w-[28%]" />
-          <span className="text-body-sm text-center text-secondary_text">
-            Connect With
-          </span>
-          <span className="border-b border-stroke w-[33%] lg:w-[28%]" />
-        </div>
-
-        <div>
-          <button
-            type="button"
-            className="flex items-center justify-center mt-8 w-full px-4 py-2 border-2 border-black bg-white text-black rounded-md hover:bg-gray-100"
-            onClick={handleLogin}
-          >
-            <div className="mr-2 flex items-center justify-center">
-              <Image src={googlelogo} alt="google_logo"></Image>
-            </div>
-            <p className="text-body-sm text-center text-black">
-              Continue with Google
-            </p>
-          </button>
-        </div>
 
         <div className="flex flex-col items-center justify-center mt-8">
           <Link
