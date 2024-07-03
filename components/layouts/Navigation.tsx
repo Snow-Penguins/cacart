@@ -38,6 +38,7 @@ export default function NavigationBar() {
             alt="CaCart"
             width={150}
             height={60}
+            priority
           />
         </Link>
       </div>

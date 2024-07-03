@@ -100,6 +100,8 @@ const CartItemCard: React.FC<CartItemProps> = ({
             alt="Product Image"
             fill
             className="object-cover object-center"
+            priority
+            sizes="100%"
           />
         </div>
         <div className="mr-1">
