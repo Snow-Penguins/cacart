@@ -23,7 +23,7 @@ export default function SignInForm() {
     <div className="relative flex items-center justify-center h-screen bg-transparent">
       <div className="bg-transparent p-8 rounded-lg shadow-md border-2 border-gray-200 w-full max-w-sm">
         <div className="flex justify-center mb-8">
-          <Image src={logo} alt="Cacart Logo" width={160} height={40} />
+          <Image src={logo} alt="Cacart Logo" className="w-[160px] h-auto" />
         </div>
 
         <form className="space-y-7" onSubmit={formSubmitHandler}>

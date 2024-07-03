@@ -108,7 +108,14 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
         </div>
       </div>
       <div className="product-image flex-2 ml-32 relative w-[600px] h-[450px]">
-        <Image src={imageUrl} alt="Product Image" fill />
+        <Image
+          src={imageUrl}
+          alt="Product Image"
+          fill
+          className="object-cover"
+          priority
+          sizes="100%"
+        />
       </div>
     </div>
   );

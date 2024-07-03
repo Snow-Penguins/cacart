@@ -24,6 +24,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             alt="Product Image"
             fill
             className="object-cover object-center"
+            priority
+            sizes="100%"
           />
         </div>
         <div className="mt-6 mx-6">
