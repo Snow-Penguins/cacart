@@ -1,5 +1,11 @@
 import React from "react";
 import ShippingAddress from "@/components/checkout/ShippingAddress";
+import dynamic from "next/dynamic";
+
+const StripePayment = dynamic(
+  () => import("@/components/checkout/StripePayment"),
+  { ssr: false },
+);
 
 export default function Checkout() {
   return (
@@ -9,7 +15,7 @@ export default function Checkout() {
         <div>Summary</div>
       </div>
       <div className="w-1/2 p-4">
-        <div>Stripe</div>
+        <StripePayment />
       </div>
     </div>
   );

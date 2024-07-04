@@ -6,6 +6,8 @@ export interface OrderDetails {
   order_histories: OrderHistory[];
 }
 export interface OrderItem {
+  qty: number;
+  product_item: any;
   id: number;
   price: number;
   quantity: number;

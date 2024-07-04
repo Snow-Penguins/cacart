@@ -20,6 +20,7 @@ export default function Footer() {
             alt="CaCart"
             width={150}
             height={60}
+            priority
           />
         </Link>
         <div className="mt-2 text-primary_text">

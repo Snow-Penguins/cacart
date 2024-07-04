@@ -1,7 +1,6 @@
 "use client";
 
 import { useSignUpForm } from "@/hooks/auth/useSignUpForm";
-import { useGoogleLogin } from "@/hooks/auth/useGoogleLogin";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +8,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 // Logo Import
 import logo from "../../public/logo/logo_150X60.png";
-import googlelogo from "../../public/google_logo.png";
 
 export default function SignUpForm() {
   const {
@@ -25,13 +23,11 @@ export default function SignUpForm() {
     formSubmitHandler,
   } = useSignUpForm();
 
-  const handleLogin = useGoogleLogin();
-
   return (
     <div className="relative flex items-center justify-center h-screen bg-transparent">
       <div className="relative bg-transparent p-8 rounded-lg shadow-md border-2 border-gray-200 w-full max-w-sm">
         <div className="flex justify-center mb-8">
-          <Image src={logo} alt="Cacart Logo" width={160} height={40} />
+          <Image src={logo} alt="Cacart Logo" className="w-[160px] h-auto" />
         </div>
 
         <form className="space-y-7" onSubmit={formSubmitHandler}>
@@ -180,29 +176,6 @@ export default function SignUpForm() {
             Register
           </button>
         </form>
-
-        <div className="flex items-center justify-between mt-2 mb-2">
-          <span className="border-b border-stroke w-[43%] lg:w-[28%]" />
-          <span className="text-body-sm text-center text-secondary_text">
-            OR
-          </span>
-          <span className="border-b border-stroke w-[43%] lg:w-[28%]" />
-        </div>
-
-        <div>
-          <button
-            type="button"
-            className="flex items-center justify-center w-full px-4 py-2 border-2 border-black bg-white text-black rounded-md hover:bg-gray-100"
-            onClick={handleLogin}
-          >
-            <div className="mr-2 flex items-center justify-center">
-              <Image src={googlelogo} alt="google_logo"></Image>
-            </div>
-            <p className="text-body-sm text-center text-black">
-              Continue with Google
-            </p>
-          </button>
-        </div>
       </div>
     </div>
   );
