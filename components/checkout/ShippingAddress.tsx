@@ -1,61 +1,182 @@
-import React from "react";
+"use client";
 
-// temporary data. This data should be fetched (addresses table)
-const addresses = [
-  {
-    id: 1,
-    unit_number: "10490",
-    address_line1: "72 Street SE",
-    address_line2: "",
-    city: "Calgary",
-    province: "AB",
-    postal_code: "T2C 5P6",
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: 2,
-    unit_number: "",
-    address_line1: "101 9 Ave SW",
-    address_line2: "",
-    city: "Calgary",
-    province: "AB",
-    postal_code: "T2P 1J9",
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-];
+import React, { useEffect, useState } from "react";
+import { Address } from "@/entities/OrderItem";
 
-export default function ShippingAddress() {
+const ShippingAddress: React.FC = () => {
+  const [savedAddress, setSavedAddress] = useState<Address | null>(null);
+  const [selectedAddressType, setSelectedAddressType] = useState<
+    "saved" | "new"
+  >("saved");
+  const [newAddress, setNewAddress] = useState<Partial<Address>>({});
+  const [shippingAddress, setShippingAddress] = useState<string>("");
+
+  const userId = 4;
+
+  useEffect(() => {
+    const fetchAddress = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/users/addresses/${userId}`,
+        );
+        const data = await response.json();
+        if (data && data[0] && data[0].address) {
+          setSavedAddress(data[0].address);
+          setShippingAddress(formatAddress(data[0].address));
+          setSelectedAddressType("saved");
+        }
+      } catch (error) {
+        console.error("Failed to fetch address", error);
+      }
+    };
+    fetchAddress();
+  }, [userId]);
+
+  const formatAddress = (address: any): string => {
+    const {
+      unit_number,
+      address_line1,
+      address_line2,
+      city,
+      province,
+      postal_code,
+    } = address;
+
+    const formattedParts = [
+      unit_number && `${unit_number},`,
+      address_line1 && `${address_line1},`,
+      address_line2 && `${address_line2},`,
+      city && `${city},`,
+      province && `${province}`,
+      postal_code && ` ${postal_code}`,
+    ].filter(Boolean);
+
+    const formattedAddress = formattedParts.join(" ").trim();
+
+    return formattedAddress;
+  };
+
+  const handleAddressSelection = (type: "saved" | "new") => {
+    setSelectedAddressType(type);
+    if (type === "saved" && savedAddress) {
+      setShippingAddress(formatAddress(savedAddress));
+    } else {
+      setShippingAddress(formatAddress(newAddress));
+    }
+  };
+
+  const handleNewAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewAddress((prev) => {
+      const updated = { ...prev, [name]: value };
+      console.log(updated);
+
+      setShippingAddress(formatAddress(updated as Address));
+      return updated;
+    });
+  };
+
   return (
     <div>
-      <div className="text-h6">Shipping Address</div>
-
-      {addresses.map((address, index) => (
-        <div
-          key={index}
-          className="mt-2 p-4 border rounded-md  border-gray-300 flex justify-between items-center"
-        >
+      <h2 className="text-xl font-bold mb-4">Shipping Address</h2>
+      {savedAddress && (
+        <div className="mt-2 p-4 border rounded-md border-gray-300 flex items-center">
+          <input
+            type="radio"
+            id="saved-address"
+            name="addressSelection"
+            value="saved"
+            checked={selectedAddressType === "saved"}
+            onChange={() => handleAddressSelection("saved")}
+            className="mr-4"
+          />
           <div>
-            <div className="font-bold">Shipping Address {index + 1}</div>
-            <div className="text-primary_text">{address.address_line1}</div>
-            <div className="text-primary_text">
-              {address.city}, {address.province} {address.postal_code}
-            </div>
-          </div>
-          <div>
-            <button className="px-10 py-2 rounded-md bg-primary text-white ">
-              Deliver Here
-            </button>
+            <label htmlFor="saved-address" className="font-bold">
+              Saved Address
+            </label>
+            <div className="text-gray-600">{formatAddress(savedAddress)}</div>
           </div>
         </div>
-      ))}
+      )}
 
-      <div className="flex justify-center mt-4">
-        <button className="px-4 py-2 border rounded-md text-primary border-primary">
-          + Add New Address
-        </button>
+      <div className="mt-2 p-4 border rounded-md border-gray-300 flex items-center">
+        <input
+          type="radio"
+          id="new-address"
+          name="addressSelection"
+          value="new"
+          checked={selectedAddressType === "new"}
+          onChange={() => handleAddressSelection("new")}
+          className="mr-4"
+        />
+        <label htmlFor="new-address" className="font-bold">
+          Ship to other address
+        </label>
+      </div>
+
+      {selectedAddressType === "new" && (
+        <div className="mt-4 space-y-4">
+          <input
+            type="text"
+            name="unit_number"
+            placeholder="Unit Number"
+            onChange={handleNewAddressChange}
+            value={newAddress.unit_number || ""}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            type="text"
+            name="address_line1"
+            placeholder="Address Line 1"
+            onChange={handleNewAddressChange}
+            value={newAddress.address_line1 || ""}
+            required
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            type="text"
+            name="address_line2"
+            placeholder="Address Line 2"
+            onChange={handleNewAddressChange}
+            value={newAddress.address_line2 || ""}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            type="text"
+            name="city"
+            placeholder="City"
+            onChange={handleNewAddressChange}
+            value={newAddress.city || ""}
+            required
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            type="text"
+            name="province"
+            placeholder="Province"
+            onChange={handleNewAddressChange}
+            value={newAddress.province || ""}
+            required
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            type="text"
+            name="postal_code"
+            placeholder="Postal Code"
+            onChange={handleNewAddressChange}
+            value={newAddress.postal_code || ""}
+            required
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
+      )}
+
+      <div className="mt-4 p-4 bg-gray-100 rounded">
+        <h3 className="font-bold">Selected Shipping Address:</h3>
+        <p>{shippingAddress}</p>
       </div>
     </div>
   );
-}
+};
+
+export default ShippingAddress;
