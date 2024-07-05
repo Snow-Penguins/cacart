@@ -30,6 +30,82 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
     fetchProduct();
   }, [productId]);
 
+  const addToCart = async () => {
+    const userString = localStorage.getItem("cacartUser");
+    if (!userString) {
+      alert("Please log in first.");
+      return;
+    }
+
+    const user = JSON.parse(userString);
+    const token = user?.access_token;
+    const userId = user?.user_id;
+
+    console.log("User ID:", userId);
+    console.log("Token:", token);
+
+    if (!userId || !token) {
+      alert("Please log in first.");
+      return;
+    }
+
+    let cartId = localStorage.getItem("cart_id");
+
+    if (!cartId) {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/cart/${userId}/add`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              productItemId: product?.product_items[0].id,
+              quantity: 1,
+            }),
+          },
+        );
+
+        if (response.ok) {
+          const cart = await response.json();
+          localStorage.setItem("cart_id", cart.id);
+          alert("Item added to cart!");
+        } else {
+          alert("Failed to add item to cart.");
+        }
+      } catch (error) {
+        console.error("Failed to add item to cart:", error);
+      }
+    } else {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/cart/${userId}/add`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              productItemId: product?.product_items[0].id,
+              quantity: 1,
+            }),
+          },
+        );
+
+        if (response.ok) {
+          alert("Item added to cart!");
+        } else {
+          alert("Failed to add item to cart.");
+        }
+      } catch (error) {
+        console.error("Failed to add item to cart:", error);
+      }
+    }
+  };
+
   const SkeletonLoader = () => (
     <div className="product-container flex bg-gray-200 p-20 w-[1440px] h-[840px] items-center animate-pulse">
       <div className="product-info flex-1">
@@ -102,7 +178,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
           <button className="btn btn-outline text-primary rounded-full w-[190px] mr-10 text-md">
             Buy it Now
           </button>
-          <button className="btn btn-outline text-primary rounded-full w-[190px]">
+          <button
+            className="btn btn-outline text-primary rounded-full w-[190px]"
+            onClick={addToCart}
+          >
             Add to Basket
           </button>
         </div>
