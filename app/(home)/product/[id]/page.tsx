@@ -3,7 +3,6 @@ import React from "react";
 import ProductDetail from "../../../../components/products/ProductDetail";
 import ProductDescription from "../../../../components/products/ProductDescription";
 import ProductReviewList from "../../../../components/products/ProductReviewList";
-
 type Props = {
   params: { id: string };
 };
