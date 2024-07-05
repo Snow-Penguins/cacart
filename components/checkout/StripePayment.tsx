@@ -25,7 +25,7 @@ const CheckoutForm = () => {
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState<string>("");
   const [totalAmount, setTotalAmount] = useState<number>(0);
-  const shippingCost = 8;
+  const shippingCost = 8.0;
 
   useEffect(() => {
     // Fetch cart items and calculate the total amount
@@ -54,7 +54,7 @@ const CheckoutForm = () => {
           return sum + item.product_item.price * item.qty;
         }, 0);
         console.log("Calculated total amount:", total);
-        setTotalAmount(total + shippingCost);
+        setTotalAmount(total);
       } catch (error) {
         console.error("Failed to fetch cart items:", error);
       }
@@ -67,13 +67,14 @@ const CheckoutForm = () => {
     // Create a payment intent with the total amount
     async function createPaymentIntent() {
       if (totalAmount > 0) {
+        const amountInCents = Math.round((totalAmount + shippingCost) * 100);
         try {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/payments/create-payment-intent`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ amount: totalAmount, currency: "usd" }),
+              body: JSON.stringify({ amount: amountInCents, currency: "usd" }),
             },
           );
           const data = await response.json();
@@ -139,7 +140,7 @@ const CheckoutForm = () => {
           disabled={!stripe}
           className="w-full py-2 bg-cyan-400 text-gray-300 rounded-md"
         >
-          Pay ${totalAmount.toFixed(2)}
+          Pay ${(totalAmount + shippingCost).toFixed(2)}
         </button>
       </div>
     </div>
