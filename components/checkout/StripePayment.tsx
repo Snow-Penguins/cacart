@@ -63,19 +63,6 @@ const CheckoutForm = () => {
     }
 
     fetchCartItems();
-
-    const handleRouteChange = (event: BeforeUnloadEvent) => {
-      localStorage.removeItem("buyNowProduct");
-      const message = "Are you sure you want to leave this page?";
-      event.returnValue = message;
-      return message;
-    };
-
-    window.addEventListener("beforeunload", handleRouteChange);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleRouteChange);
-    };
   }, []);
 
   useEffect(() => {
@@ -183,7 +170,7 @@ const CheckoutForm = () => {
 
   const handleClosePopup = () => {
     setShowPopup(false);
-    window.location.reload();
+    window.location.href = "/";
   };
 
   return (
