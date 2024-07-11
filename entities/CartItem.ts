@@ -1,11 +1,13 @@
 export interface CartItem {
-  product_item: any;
+  product_item: {
+    price: number;
+  };
   id: number;
   name: string;
   option: string;
   image: string;
   price: number;
-  quantity: number;
+  qty: number;
   product: {
     name: string;
     product_image: any[];
