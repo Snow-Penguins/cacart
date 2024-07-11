@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Product } from "@/entities/Product";
-import { useEffect, useState } from "react";
 import Image from "next/image";
 
 interface ProductDetailProps {
   productId: string;
+  onBuyItNow: (product: any) => void;
 }
 
 const IMAGE_URL = `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}`;
 
-const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
+const ProductDetail: React.FC<ProductDetailProps> = ({
+  productId,
+  onBuyItNow,
+}) => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     async function fetchProduct() {
@@ -72,6 +76,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
           const cart = await response.json();
           localStorage.setItem("cart_id", cart.id);
           alert("Item added to cart!");
+          setShowPopup(true);
         } else {
           alert("Failed to add item to cart.");
         }
@@ -97,6 +102,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
 
         if (response.ok) {
           alert("Item added to cart!");
+          setShowPopup(true);
         } else {
           alert("Failed to add item to cart.");
         }
@@ -104,6 +110,14 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
         console.error("Failed to add item to cart:", error);
       }
     }
+  };
+
+  const handleContinueShopping = () => {
+    setShowPopup(false);
+  };
+
+  const handleGoToCart = () => {
+    window.location.href = "/cart";
   };
 
   const SkeletonLoader = () => (
@@ -175,7 +189,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
           </select>
         </div>
         <div className="mt-10 flex">
-          <button className="btn btn-outline text-primary rounded-full w-[190px] mr-10 text-md">
+          <button
+            className="btn btn-outline text-primary rounded-full w-[190px] mr-10 text-md"
+            onClick={() => onBuyItNow(product)}
+          >
             Buy it Now
           </button>
           <button
@@ -196,6 +213,29 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
           sizes="100%"
         />
       </div>
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md mx-auto text-center">
+            <h3 className="text-md font-semibold text-black mb-4">
+              Would you like to continue shopping or go to the cart page?
+            </h3>
+            <div className="text-md flex space-x-4 justify-center">
+              <button
+                onClick={handleContinueShopping}
+                className="px-4 py-2 bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200"
+              >
+                Continue Shopping
+              </button>
+              <button
+                onClick={handleGoToCart}
+                className="px-4 py-2 bg-cyan-400 text-white rounded-md"
+              >
+                Go to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
