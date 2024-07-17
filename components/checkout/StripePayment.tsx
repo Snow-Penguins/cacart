@@ -26,13 +26,26 @@ const CheckoutForm = () => {
   const shippingCost = 8.0;
 
   useEffect(() => {
-    // Fetch cart items and calculate the total amount
     async function fetchCartItems() {
       const buyNowProductString = localStorage.getItem("buyNowProduct");
       if (buyNowProductString) {
         const buyNowProduct = JSON.parse(buyNowProductString);
         setTotalAmount(buyNowProduct.price * buyNowProduct.quantity);
         setCountdown(300);
+        setCartItems([
+          {
+            id: 0,
+            qty: buyNowProduct.quantity,
+            product_item: {
+              id: buyNowProduct.productId,
+              price: buyNowProduct.price,
+              product: {
+                name: buyNowProduct.name,
+                product_image: [buyNowProduct.image],
+              },
+            },
+          },
+        ]);
       } else {
         const cartId = localStorage.getItem("cart_id");
         if (!cartId) {
@@ -66,7 +79,6 @@ const CheckoutForm = () => {
   }, []);
 
   useEffect(() => {
-    // Create a payment intent with the total amount
     async function createPaymentIntent() {
       if (totalAmount > 0) {
         const amountInCents =
@@ -93,7 +105,6 @@ const CheckoutForm = () => {
   }, [totalAmount]);
 
   useEffect(() => {
-    // Countdown timer only if buyNowProduct is present
     if (countdown !== null) {
       const timer = setInterval(() => {
         setCountdown((prev) => {
@@ -134,11 +145,69 @@ const CheckoutForm = () => {
         console.log("Payment succeeded!");
         setPaymentSuccess(true);
         alert("Payment successful!");
-        localStorage.removeItem("buyNowProduct");
-        await clearCartItems();
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+
+        try {
+          const cacartUser = JSON.parse(
+            localStorage.getItem("cacartUser") || "{}",
+          );
+          const userId = cacartUser.user_id;
+          if (!userId) {
+            throw new Error("User ID not found in localStorage");
+          }
+
+          const items = cartItems.map((item) => {
+            console.log("Processing cart item:", item);
+            return {
+              productId: item.product_item.id,
+              quantity: item.qty,
+              price: item.product_item.price,
+            };
+          });
+
+          console.log("Prepared items for order:", items);
+
+          const orderData = {
+            userId: userId,
+            totalAmount: totalAmount + shippingCost,
+            shippingMethodId: 1,
+            orderStatusId: 1,
+            shippingAddress: {
+              address_line1: "123 Main St",
+              city: "Calgary",
+              province: "AB",
+              postal_code: "A1B2C3 ",
+            },
+            items: items,
+          };
+
+          console.log("Sending order data:", JSON.stringify(orderData));
+
+          const orderResponse = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/order/create`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(orderData),
+            },
+          );
+
+          if (!orderResponse.ok) {
+            throw new Error("Failed to create order");
+          }
+
+          const orderResult = await orderResponse.json();
+          console.log("Order creation result:", orderResult);
+          const orderId = orderResult.id;
+
+          localStorage.removeItem("buyNowProduct");
+          await clearCartItems();
+          setTimeout(() => {
+            console.log(`Redirecting to /order-confirmation/${orderId}`);
+            window.location.href = `/order-confirmation/${orderId}`;
+          }, 2000);
+        } catch (error) {
+          console.error("Error creating order:", error);
+        }
       }
     }
   };

@@ -37,5 +37,4 @@ export interface OrderHistory {
 export interface OrderSummaryProps {
   subtotal: number;
   shipping: number;
-  discount: number;
 }
