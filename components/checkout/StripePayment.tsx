@@ -8,29 +8,45 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
+import { CartItem } from "@/entities/CartItem";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY ?? "",
 );
-
-interface CartItem {
-  qty: number;
-  product_item: {
-    price: number;
-  };
-}
 
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState<string>("");
   const [totalAmount, setTotalAmount] = useState<number>(0);
-  const shippingCost = 8;
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [countdown, setCountdown] = useState<number | null>(null);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
+  const shippingCost = 8.0;
 
   useEffect(() => {
-    // Fetch cart items and calculate the total amount
     async function fetchCartItems() {
-      try {
+      const buyNowProductString = localStorage.getItem("buyNowProduct");
+      if (buyNowProductString) {
+        const buyNowProduct = JSON.parse(buyNowProductString);
+        setTotalAmount(buyNowProduct.price * buyNowProduct.quantity);
+        setCountdown(300);
+        setCartItems([
+          {
+            id: 0,
+            qty: buyNowProduct.quantity,
+            product_item: {
+              id: buyNowProduct.productId,
+              price: buyNowProduct.price,
+              product: {
+                name: buyNowProduct.name,
+                product_image: [buyNowProduct.image],
+              },
+            },
+          },
+        ]);
+      } else {
         const cartId = localStorage.getItem("cart_id");
         if (!cartId) {
           console.error("No cart ID found in local storage.");
@@ -47,6 +63,7 @@ const CheckoutForm = () => {
         );
         const data = await response.json();
         console.log("Fetched cart items:", data.cartItems);
+        setCartItems(data.cartItems);
         const total = data.cartItems.reduce((sum: number, item: CartItem) => {
           console.log(
             `Item price: ${item.product_item.price}, quantity: ${item.qty}`,
@@ -54,9 +71,7 @@ const CheckoutForm = () => {
           return sum + item.product_item.price * item.qty;
         }, 0);
         console.log("Calculated total amount:", total);
-        setTotalAmount(total + shippingCost);
-      } catch (error) {
-        console.error("Failed to fetch cart items:", error);
+        setTotalAmount(total);
       }
     }
 
@@ -64,16 +79,17 @@ const CheckoutForm = () => {
   }, []);
 
   useEffect(() => {
-    // Create a payment intent with the total amount
     async function createPaymentIntent() {
       if (totalAmount > 0) {
+        const amountInCents =
+          Math.round(totalAmount * 100) + Math.round(shippingCost * 100);
         try {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/payments/create-payment-intent`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ amount: totalAmount, currency: "usd" }),
+              body: JSON.stringify({ amount: amountInCents, currency: "usd" }),
             },
           );
           const data = await response.json();
@@ -87,6 +103,24 @@ const CheckoutForm = () => {
 
     createPaymentIntent();
   }, [totalAmount]);
+
+  useEffect(() => {
+    if (countdown !== null) {
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev !== null && prev <= 1) {
+            clearInterval(timer);
+            localStorage.removeItem("buyNowProduct");
+            setShowPopup(true);
+            return null;
+          }
+          return prev !== null ? prev - 1 : null;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [countdown]);
 
   const handlePayment = async () => {
     if (!stripe || !elements) {
@@ -109,9 +143,103 @@ const CheckoutForm = () => {
     } else {
       if (result.paymentIntent.status === "succeeded") {
         console.log("Payment succeeded!");
+        setPaymentSuccess(true);
         alert("Payment successful!");
+
+        try {
+          const cacartUser = JSON.parse(
+            localStorage.getItem("cacartUser") || "{}",
+          );
+          const userId = cacartUser.user_id;
+          if (!userId) {
+            throw new Error("User ID not found in localStorage");
+          }
+
+          const items = cartItems.map((item) => {
+            console.log("Processing cart item:", item);
+            return {
+              productId: item.product_item.id,
+              quantity: item.qty,
+              price: item.product_item.price,
+            };
+          });
+
+          console.log("Prepared items for order:", items);
+
+          const orderData = {
+            userId: userId,
+            totalAmount: totalAmount + shippingCost,
+            shippingMethodId: 1,
+            orderStatusId: 1,
+            shippingAddress: {
+              address_line1: "123 Main St",
+              city: "Calgary",
+              province: "AB",
+              postal_code: "A1B2C3 ",
+            },
+            items: items,
+          };
+
+          console.log("Sending order data:", JSON.stringify(orderData));
+
+          const orderResponse = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/order/create`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(orderData),
+            },
+          );
+
+          if (!orderResponse.ok) {
+            throw new Error("Failed to create order");
+          }
+
+          const orderResult = await orderResponse.json();
+          console.log("Order creation result:", orderResult);
+          const orderId = orderResult.id;
+
+          localStorage.removeItem("buyNowProduct");
+          await clearCartItems();
+          setTimeout(() => {
+            console.log(`Redirecting to /order-confirmation/${orderId}`);
+            window.location.href = `/order-confirmation/${orderId}`;
+          }, 2000);
+        } catch (error) {
+          console.error("Error creating order:", error);
+        }
       }
     }
+  };
+
+  const clearCartItems = async () => {
+    const cartId = localStorage.getItem("cart_id");
+    if (!cartId) {
+      console.error("No cart ID found in local storage.");
+      return;
+    }
+
+    try {
+      for (const item of cartItems) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/item/${item.id}`, {
+          method: "DELETE",
+        });
+      }
+      localStorage.removeItem("cart_id");
+    } catch (error) {
+      console.error("Failed to clear cart items:", error);
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    window.location.href = "/";
   };
 
   return (
@@ -139,9 +267,35 @@ const CheckoutForm = () => {
           disabled={!stripe}
           className="w-full py-2 bg-cyan-400 text-gray-300 rounded-md"
         >
-          Pay ${totalAmount.toFixed(2)}
+          Pay ${(totalAmount + shippingCost).toFixed(2)}
         </button>
       </div>
+      {countdown !== null && (
+        <>
+          {countdown > 0 && (
+            <div className="text-red-500">
+              Please complete the payment within {formatTime(countdown)}.
+            </div>
+          )}
+        </>
+      )}
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <h3 className="text-red-500 text-md">
+              Time expired. Please try again.
+            </h3>
+            <div className="flex justify-center">
+              <button
+                onClick={handleClosePopup}
+                className="mt-4 px-4 py-2 bg-cyan-400 text-gray-300 rounded-md"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

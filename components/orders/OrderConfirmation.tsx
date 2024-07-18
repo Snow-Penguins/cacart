@@ -127,8 +127,7 @@ const OrderConfirmation: React.FC<OrderConfirmationProps> = ({ orderId }) => {
     (acc, item) => acc + item.price * item.quantity,
     0,
   );
-  const shipping = 10.85;
-  const discount = 9.0;
+  const shipping = 8.0;
 
   return (
     <div className="bg-gray-200 py-8 px-20">
@@ -172,11 +171,7 @@ const OrderConfirmation: React.FC<OrderConfirmationProps> = ({ orderId }) => {
       <hr className="border-gray-300" />
       <OrderItemList items={items} />
       <div className="flex justify-end mt-10">
-        <OrderSummary
-          subtotal={subtotal}
-          shipping={shipping}
-          discount={discount}
-        />
+        <OrderSummary subtotal={subtotal} shipping={shipping} />
       </div>
     </div>
   );
