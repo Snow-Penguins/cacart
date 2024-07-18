@@ -4,12 +4,15 @@ import React, { useEffect, useState } from "react";
 import { Address } from "@/entities/OrderItem";
 
 const ShippingAddress: React.FC = () => {
-  const [savedAddress, setSavedAddress] = useState<Address | null>(null);
+  const [savedAddress, setSavedAddress] = useState<Partial<Address> | null>(
+    null,
+  );
   const [selectedAddressType, setSelectedAddressType] = useState<
     "saved" | "new"
   >("saved");
   const [newAddress, setNewAddress] = useState<Partial<Address>>({});
-  const [shippingAddress, setShippingAddress] = useState<string>("");
+  const [shippingAddress, setShippingAddress] =
+    useState<Partial<Address> | null>(null);
 
   const userId = 4;
 
@@ -20,9 +23,11 @@ const ShippingAddress: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API_URL}/users/addresses/${userId}`,
         );
         const data = await response.json();
+        console.log(data);
+
         if (data && data[0] && data[0].address) {
           setSavedAddress(data[0].address);
-          setShippingAddress(formatAddress(data[0].address));
+          setShippingAddress(data[0].address);
           setSelectedAddressType("saved");
         }
       } catch (error) {
@@ -59,9 +64,9 @@ const ShippingAddress: React.FC = () => {
   const handleAddressSelection = (type: "saved" | "new") => {
     setSelectedAddressType(type);
     if (type === "saved" && savedAddress) {
-      setShippingAddress(formatAddress(savedAddress));
+      setShippingAddress(savedAddress);
     } else {
-      setShippingAddress(formatAddress(newAddress));
+      setShippingAddress(newAddress);
     }
   };
 
@@ -71,7 +76,7 @@ const ShippingAddress: React.FC = () => {
       const updated = { ...prev, [name]: value };
       console.log(updated);
 
-      setShippingAddress(formatAddress(updated as Address));
+      setShippingAddress(updated as Address);
       return updated;
     });
   };
@@ -173,7 +178,7 @@ const ShippingAddress: React.FC = () => {
 
       <div className="mt-4 p-4 bg-gray-100 rounded">
         <h3 className="font-bold">Selected Shipping Address:</h3>
-        <p>{shippingAddress}</p>
+        {formatAddress(shippingAddress)}
       </div>
     </div>
   );
