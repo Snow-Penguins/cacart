@@ -27,7 +27,7 @@ export default function RootLayout({
     <AuthProvider>
       <html
         lang="en"
-        className={`${inter.className} max-w-screen-desktop mx-auto`}
+        className={`${inter.className} max-w-screen-desktop mx-auto px-2`}
       >
         <body>
           <CategoryProvider>

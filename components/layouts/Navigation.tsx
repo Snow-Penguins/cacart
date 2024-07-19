@@ -6,7 +6,6 @@ import { RxAvatar } from "react-icons/rx";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import useCategories from "@/hooks/useCategories";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useCategory } from "@/contexts/CategoryContext";
@@ -16,8 +15,6 @@ export default function NavigationBar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { selectedCategory, setSelectedCategory } = useCategory();
   const { user, signOut } = useAuth();
-
-  const router = useRouter();
 
   const handleCategorySelect = (category: any) => {
     setSelectedCategory(category);
@@ -29,53 +26,55 @@ export default function NavigationBar() {
   const DefaultIconSize = 24;
 
   return (
-    <nav className="flex flex-row items-center border-b border-gray-200 py-4">
-      {/* Logo and Categories */}
-      <div className="basis-[12.5%]">
-        <Link href="/">
-          <Image
-            src="/logo/logo_150X60.png"
-            alt="CaCart"
-            width={150}
-            height={60}
-            priority
-          />
-        </Link>
-      </div>
-      <div className="basis-[12.5%] pl-10">
-        <div className="dropdown dropdown-end">
-          <button
-            tabIndex={0}
-            className="mr-3 h-12 text-sm bg-white border-none flex flex-row items-center gap-2"
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          >
-            <RxHamburgerMenu />
-            {selectedCategory.name}
-          </button>
-          {isDropdownOpen && (
-            <ul
+    <nav className="flex flex-wrap items-center border-b border-gray-200 py-4">
+      <div className="w-full tablet:w-auto flex items-center justify-between">
+        {/* Logo and Categories */}
+        <div>
+          <Link href="/">
+            <Image
+              src="/logo/logo_150X60.png"
+              alt="CaCart"
+              width={150}
+              height={60}
+              priority
+            />
+          </Link>
+        </div>
+        <div className="pl-10 pr-2">
+          <div className="dropdown dropdown-end">
+            <button
               tabIndex={0}
-              className="dropdown-content z-10 menu p-2 shadow bg-base-100 rounded-box w-52"
+              className="mr-3 h-12 text-sm bg-white border-none flex flex-row items-center gap-2"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-              {loading && <li>Loading...</li>}
-              {error && <li>Error loading categories</li>}
-              {!loading &&
-                !error &&
-                categories.map((category: any) => (
-                  <li
-                    key={category.id}
-                    onClick={() => handleCategorySelect(category)}
-                  >
-                    <a>{category.name}</a>
-                  </li>
-                ))}
-            </ul>
-          )}
+              <RxHamburgerMenu />
+              {selectedCategory.name}
+            </button>
+            {isDropdownOpen && (
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-10 menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                {loading && <li>Loading...</li>}
+                {error && <li>Error loading categories</li>}
+                {!loading &&
+                  !error &&
+                  categories.map((category: any) => (
+                    <li
+                      key={category.id}
+                      onClick={() => handleCategorySelect(category)}
+                    >
+                      <a>{category.name}</a>
+                    </li>
+                  ))}
+              </ul>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Search Bar */}
-      <div className="basis-1/2 flex flex-grow justify-center gap-4">
+      <div className="w-full tablet:w-auto flex flex-grow justify-center gap-4 my-2">
         <form className="flex items-center w-full max-w-xl rounded-full overflow-hidden bg-gray-200 border-2 border-black focus-within:border-blue-500">
           <input
             type="search"
@@ -106,7 +105,7 @@ export default function NavigationBar() {
         </form>
       </div>
 
-      <div className="basis-1/4 flex gap-2 mr-4">
+      <div className="w-full tablet:w-auto flex gap-2 justify-center px-2 desktop:pr-10">
         {user ? (
           <div className="flex items-center px-4 py-2 hover:text-blue-500 relative">
             <button onClick={toggleDropdown} className="flex items-center">
