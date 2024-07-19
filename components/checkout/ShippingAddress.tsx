@@ -3,18 +3,25 @@
 import React, { useEffect, useState } from "react";
 import { Address } from "@/entities/OrderItem";
 
-const ShippingAddress: React.FC = () => {
-  const [savedAddress, setSavedAddress] = useState<Partial<Address> | null>(
-    null,
-  );
+interface ShippingAddressProps {
+  onSetShippingAddress: (address: Partial<Address>) => void;
+  address: Partial<Address>;
+}
+
+const ShippingAddress: React.FC<ShippingAddressProps> = ({
+  onSetShippingAddress,
+  address,
+}) => {
+  const [savedAddress, setSavedAddress] = useState<Partial<Address>>({});
   const [selectedAddressType, setSelectedAddressType] = useState<
     "saved" | "new"
   >("saved");
   const [newAddress, setNewAddress] = useState<Partial<Address>>({});
-  const [shippingAddress, setShippingAddress] =
-    useState<Partial<Address> | null>(null);
 
-  const userId = 4;
+  const cacartUser = JSON.parse(localStorage.getItem("cacartUser") || "{}");
+  const userId = cacartUser.user_id;
+  // const userId = 4
+  console.log(userId);
 
   useEffect(() => {
     const fetchAddress = async () => {
@@ -23,11 +30,9 @@ const ShippingAddress: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API_URL}/users/addresses/${userId}`,
         );
         const data = await response.json();
-        console.log(data);
 
         if (data && data[0] && data[0].address) {
           setSavedAddress(data[0].address);
-          setShippingAddress(data[0].address);
           setSelectedAddressType("saved");
         }
       } catch (error) {
@@ -38,35 +43,36 @@ const ShippingAddress: React.FC = () => {
   }, [userId]);
 
   const formatAddress = (address: any): string => {
-    const {
-      unit_number,
-      address_line1,
-      address_line2,
-      city,
-      province,
-      postal_code,
-    } = address;
+    let formattedParts = [];
+    if (address) {
+      const {
+        unit_number,
+        address_line1,
+        address_line2,
+        city,
+        province,
+        postal_code,
+      } = address;
 
-    const formattedParts = [
-      unit_number && `${unit_number},`,
-      address_line1 && `${address_line1},`,
-      address_line2 && `${address_line2},`,
-      city && `${city},`,
-      province && `${province}`,
-      postal_code && ` ${postal_code}`,
-    ].filter(Boolean);
+      formattedParts = [
+        unit_number && `${unit_number},`,
+        address_line1 && `${address_line1},`,
+        address_line2 && `${address_line2},`,
+        city && `${city},`,
+        province && `${province}`,
+        postal_code && ` ${postal_code}`,
+      ].filter(Boolean);
+    }
 
-    const formattedAddress = formattedParts.join(" ").trim();
-
-    return formattedAddress;
+    return formattedParts.join(" ").trim();
   };
 
   const handleAddressSelection = (type: "saved" | "new") => {
     setSelectedAddressType(type);
     if (type === "saved" && savedAddress) {
-      setShippingAddress(savedAddress);
+      onSetShippingAddress(savedAddress);
     } else {
-      setShippingAddress(newAddress);
+      onSetShippingAddress(newAddress);
     }
   };
 
@@ -74,12 +80,17 @@ const ShippingAddress: React.FC = () => {
     const { name, value } = e.target;
     setNewAddress((prev) => {
       const updated = { ...prev, [name]: value };
-      console.log(updated);
-
-      setShippingAddress(updated as Address);
       return updated;
     });
   };
+
+  useEffect(() => {
+    if (selectedAddressType === "new") {
+      onSetShippingAddress(newAddress);
+    } else {
+      onSetShippingAddress(savedAddress);
+    }
+  }, [savedAddress, newAddress, selectedAddressType, onSetShippingAddress]);
 
   return (
     <div>
@@ -178,7 +189,7 @@ const ShippingAddress: React.FC = () => {
 
       <div className="mt-4 p-4 bg-gray-100 rounded">
         <h3 className="font-bold">Selected Shipping Address:</h3>
-        {formatAddress(shippingAddress)}
+        {formatAddress(address)}
       </div>
     </div>
   );
