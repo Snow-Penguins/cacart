@@ -22,26 +22,30 @@ const ShippingAddress: React.FC<ShippingAddressProps> = ({
 
   const userId = isBrowser()
     ? JSON.parse(localStorage.getItem("cacartUser") || "{}").user_id
-    : "";
-  console.log(userId);
+    : null;
 
   useEffect(() => {
     const fetchAddress = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/users/addresses/${userId}`,
-        );
-        const data = await response.json();
+      if (userId) {
+        try {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/users/addresses/${userId}`,
+          );
+          const data = await response.json();
 
-        if (data && data[0] && data[0].address) {
-          setSavedAddress(data[0].address);
-          setSelectedAddressType("saved");
+          if (data && data[0] && data[0].address) {
+            setSavedAddress(data[0].address);
+            setSelectedAddressType("saved");
+          }
+        } catch (error) {
+          console.error("Failed to fetch address", error);
         }
-      } catch (error) {
-        console.error("Failed to fetch address", error);
       }
     };
-    fetchAddress();
+
+    if (isBrowser()) {
+      fetchAddress();
+    }
   }, [userId]);
 
   const formatAddress = (address: any): string => {
