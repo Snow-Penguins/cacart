@@ -8,6 +8,8 @@ interface ShippingAddressProps {
   address: Partial<Address>;
 }
 
+const isBrowser = () => typeof window !== "undefined";
+
 const ShippingAddress: React.FC<ShippingAddressProps> = ({
   onSetShippingAddress,
   address,
@@ -18,10 +20,10 @@ const ShippingAddress: React.FC<ShippingAddressProps> = ({
   >("saved");
   const [newAddress, setNewAddress] = useState<Partial<Address>>({});
 
-  // const cacartUser = JSON.parse(localStorage.getItem("cacartUser") || "{}");
-  // const userId = cacartUser.user_id;
-  const userId = 4;
-  // console.log(userId);
+  const userId = isBrowser()
+    ? JSON.parse(localStorage.getItem("cacartUser") || "{}").user_id
+    : "";
+  console.log(userId);
 
   useEffect(() => {
     const fetchAddress = async () => {
