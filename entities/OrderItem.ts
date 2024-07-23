@@ -18,9 +18,14 @@ export interface OrderItem {
 }
 
 export interface Address {
+  address_id?: number;
+  id?: number;
+  unit_number?: string;
   address_line1: string;
+  address_line2?: string;
   city: string;
   province: string;
+  postal_code?: string;
 }
 
 export interface User {
