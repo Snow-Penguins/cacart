@@ -12,26 +12,38 @@ interface OrderHistoryCardProps {
 const IMAGE_URL = `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}`;
 
 const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({ order }) => {
-  const formatDate = new Date(order.order_date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   return (
     <Link href={`/order-summary/${order.id}`}>
       <div className="border border-gray-200 rounded-lg mb-6 shadow-sm">
         <div className="bg-gray-100 p-4 rounded-t-lg flex justify-between items-center">
-          <p className="text-primary_text">Ordered on {formatDate}</p>
+          <p className="text-primary_text">
+            Ordered on {formatDate(order.order_date)}
+          </p>
           <button className="text-sm text-gray-600 border border-gray-500 px-3 py-1 bg-white rounded-lg">
             Write a product review
           </button>
         </div>
         <div className="py-6 px-12">
           <div className="flex justify-between items-start mb-4">
-            <div className="pb-2">
+            <div>
               <p className="mb-2 font-semibold text-ml">{`${order.user.first_name} ${order.user.last_name}`}</p>
               <p className="font-semibold text-ml">#{order.id}</p>
+            </div>
+            <div className="text-right">
+              <p className="text-primary_text mb-1 text-sm">
+                Ordered on {formatDate(order.order_date)}
+              </p>
+              <p className="text-primary_text text-sm">
+                Standard Shipping (CAD $ 8.00)
+              </p>
             </div>
           </div>
           {order.order_histories.map((history, index) => (
@@ -58,14 +70,6 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({ order }) => {
                     Quantity: {history.qty}
                   </p>
                 </div>
-              </div>
-              <div className="text-right">
-                <p className="text-primary_text mb-1 text-sm">
-                  Ordered on {formatDate}
-                </p>
-                <p className="text-primary_text text-sm">
-                  Standard Shipping (CAD $ 0.00)
-                </p>
               </div>
             </div>
           ))}
