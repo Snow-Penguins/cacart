@@ -69,8 +69,7 @@ const OrderSummaryFooter: React.FC<OrderSummaryFooterProps> = ({ orderId }) => {
       acc + parseFloat(history.price) * history.qty,
     0,
   );
-  const shipping = 10.85;
-  const discount = 9.0;
+  const shipping = 8.0;
 
   return (
     <div className="p-6 rounded-lg">
@@ -94,17 +93,13 @@ const OrderSummaryFooter: React.FC<OrderSummaryFooterProps> = ({ orderId }) => {
             </div>
             <div className="text-ml font-medium">${shipping.toFixed(2)}</div>
           </div>
-          <div className="flex justify-between mb-2">
-            <div className="text-ml font-medium text-gray-600">Discount(-)</div>
-            <div className="text-ml font-medium">${discount.toFixed(2)}</div>
-          </div>
           <hr className="border-gray-300 mb-4 mt-4" />
 
           <div className="flex justify-between text-lg font-semibold">
             <div className="text-ml font-medium text-gray-600">Total Paid</div>
             <p>
               <span className="text-ml font-medium">
-                ${(subtotal + shipping - discount).toFixed(2)}
+                ${(subtotal + shipping).toFixed(2)}
               </span>
             </p>
           </div>

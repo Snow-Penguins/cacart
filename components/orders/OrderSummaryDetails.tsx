@@ -92,7 +92,7 @@ const OrderSummaryDetails: React.FC<OrderSummaryDetailsProps> = ({
             key={history.product_item.id}
             className="flex items-center justify-between"
           >
-            <div className="flex items-center w-1/3">
+            <div className="flex items-center w-1/3 mb-2 mt-2">
               <Image
                 src={`${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}${history.product_item.product.product_image}`}
                 alt={history.product_item.product.name}
