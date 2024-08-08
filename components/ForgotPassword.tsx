@@ -14,6 +14,8 @@ import dottedShapeImage from "../public/Dotted Shape.png";
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Value update handler
   const valueUpdateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +28,7 @@ export default function ForgotPassword() {
   };
 
   // formSubmitHandler
-  const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const formSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!email) {
@@ -37,12 +39,39 @@ export default function ForgotPassword() {
       setEmailError("Please enter a valid email address.");
       return;
     }
-    resetForm();
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/request-reset-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        },
+      );
+
+      if (response.ok) {
+        setSuccessMessage("Password reset link has been sent to your email.");
+        resetForm(false);
+      } else {
+        const data = await response.json();
+        setErrorMessage(data.message || "Failed to send reset link.");
+      }
+    } catch (error) {
+      console.error("Error sending reset link:", error);
+      setErrorMessage("An error occurred. Please try again later.");
+    }
   };
 
-  const resetForm = () => {
+  const resetForm = (clearSuccessMessage = true) => {
     setEmailError("");
     setEmail("");
+    if (clearSuccessMessage) {
+      setSuccessMessage("");
+    }
+    setErrorMessage("");
   };
 
   const handleCancelClick = () => {
@@ -51,7 +80,7 @@ export default function ForgotPassword() {
 
   return (
     <div className="relative flex items-center justify-center h-screen bg-gray-100">
-      <div className="bg-white pt-0 pb-0 rounded-lg shadow-md w-full max-w-sm">
+      <div className="bg-white pt-0 pb-0 rounded-lg shadow-md w-full max-w-md">
         <div className="flex justify-end p-1">
           <Image src={dottedShapeImage} alt="Dotted Shape Image" />
         </div>
@@ -86,6 +115,12 @@ export default function ForgotPassword() {
                 </span>
               )}
             </div>
+            {successMessage && (
+              <p className="text-green-600 text-center">{successMessage}</p>
+            )}
+            {errorMessage && (
+              <p className="text-red-600 text-center">{errorMessage}</p>
+            )}
             <div className="flex justify-between pt-2">
               <button
                 type="submit"
