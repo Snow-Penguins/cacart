@@ -52,7 +52,7 @@ const ProfileSetting = () => {
               city: addr.city || "",
               province: addr.province || "",
               postal_code: addr.postal_code || "",
-              id: addr.id,
+              id: addr.id || null,
             });
           }
         }
@@ -103,12 +103,22 @@ const ProfileSetting = () => {
         const addressUrl = address.id
           ? `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/addresses/${address.id}`
           : `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/addresses`;
+
+        const addressData = {
+          unit_number: address.unit_number,
+          address_line1: address.address_line1,
+          address_line2: address.address_line2,
+          city: address.city,
+          province: address.province,
+          postal_code: address.postal_code,
+        };
+
         const addressResponse = await fetch(addressUrl, {
           method: addressMethod,
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(address),
+          body: JSON.stringify(addressData),
         });
 
         if (!addressResponse.ok) {
@@ -131,6 +141,7 @@ const ProfileSetting = () => {
         setAddress({
           ...address,
           ...updatedAddress,
+          id: updatedAddress.id || null,
         });
 
         alert("Profile updated successfully!");
