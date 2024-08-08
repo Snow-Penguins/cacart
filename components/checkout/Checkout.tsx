@@ -33,7 +33,7 @@ export default function Checkout() {
         <div>Summary</div>
       </div>
       <div className="w-1/2 p-4">
-        <StripePayment />
+        <StripePayment shippingAddress={shippingAddress} />
       </div>
     </div>
   );

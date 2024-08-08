@@ -9,12 +9,17 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { CartItem } from "@/entities/CartItem";
+import { Address } from "@/entities/OrderItem";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY ?? "",
 );
 
-const CheckoutForm = () => {
+interface CheckoutFormProps {
+  shippingAddress: Partial<Address>;
+}
+
+const CheckoutForm: React.FC<CheckoutFormProps> = ({ shippingAddress }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState<string>("");
@@ -171,12 +176,7 @@ const CheckoutForm = () => {
             totalAmount: totalAmount + shippingCost,
             shippingMethodId: 1,
             orderStatusId: 1,
-            shippingAddress: {
-              address_line1: "123 Main St",
-              city: "Calgary",
-              province: "AB",
-              postal_code: "A1B2C3 ",
-            },
+            shippingAddress: shippingAddress,
             items: items,
           };
 
@@ -300,10 +300,14 @@ const CheckoutForm = () => {
   );
 };
 
-const StripePayment = () => {
+interface StripePaymentProps {
+  shippingAddress: Partial<Address>;
+}
+
+const StripePayment: React.FC<StripePaymentProps> = ({ shippingAddress }) => {
   return (
     <Elements stripe={stripePromise}>
-      <CheckoutForm />
+      <CheckoutForm shippingAddress={shippingAddress} />
     </Elements>
   );
 };
