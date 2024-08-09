@@ -32,9 +32,9 @@ const ProductReviewList: React.FC<ProductReviewListProps> = ({ productId }) => {
   }, [productId]);
 
   const SkeletonLoader = () => (
-    <div className="bg-white rounded-md w-[1170px] h-[270px] mb-10 p-10 animate-pulse">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex">
+    <div className="bg-white rounded-md w-full h-[270px] my-10 p-10 pt-2 animate-pulse">
+      <div className="flex flex-wrap items-center justify-between mb-4">
+        <div className="flex items-center mt-5">
           <div className="avatar">
             <div className="w-[56px] h-[56px] bg-gray-300 rounded-full ring-offset-base-100 ring-offset-2 mr-5"></div>
           </div>
@@ -43,7 +43,7 @@ const ProductReviewList: React.FC<ProductReviewListProps> = ({ productId }) => {
             <span className="h-3 bg-gray-300 rounded w-24"></span>
           </div>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center mt-5">
           <span className="h-4 bg-gray-300 rounded w-20"></span>
           <div
             className="ml-2 rating rating-xs"
@@ -69,7 +69,7 @@ const ProductReviewList: React.FC<ProductReviewListProps> = ({ productId }) => {
   if (loading) {
     const skeletonCount = Math.max(reviews.length, 1);
     return (
-      <div className="bg-gray-200 p-32 w-[1440px] h-[840px]">
+      <div className="bg-gray-200 px-2 tablet:px-20 py-6 mb-44 max-w-[1440px]">
         {Array.from({ length: skeletonCount }).map((_, index) => (
           <SkeletonLoader key={index} />
         ))}
@@ -82,7 +82,7 @@ const ProductReviewList: React.FC<ProductReviewListProps> = ({ productId }) => {
   }
 
   return (
-    <div className="bg-gray-200 p-32 w-[1440px] h-[840px]">
+    <div className="bg-gray-200 px-2 tablet:px-20 py-6 mb-44 max-w-[1440px]">
       {reviews.map((review) => (
         <ProductReview key={review.id} review={review} />
       ))}

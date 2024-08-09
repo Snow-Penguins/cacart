@@ -20,9 +20,9 @@ const formatDate = (timestamp: Date) => {
 
 const ProductReview: React.FC<ProductReviewProps> = ({ review }) => {
   return (
-    <div className="bg-white rounded-md w-[1170px] h-[270px] mb-10 p-10">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex">
+    <div className="bg-white rounded-md w-full h-[270px] my-10 p-10 pt-2">
+      <div className="flex flex-wrap items-center justify-between mb-4">
+        <div className="flex items-center mt-5">
           <div className="avatar w-[56px] h-[56px] rounded-full ring-offset-base-100 ring-offset-2 mr-5 bg-gray-500">
             <RxAvatar size={DefaultIconSize} className="text-white" />
           </div>
@@ -35,7 +35,7 @@ const ProductReview: React.FC<ProductReviewProps> = ({ review }) => {
             </span>
           </div>
         </div>
-        <span className="text-sm">
+        <span className="text-sm mt-5">
           Rating: {review.rating_value.toFixed(1)}{" "}
           <div
             className="ml-2 rating rating-xs"

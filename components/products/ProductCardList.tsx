@@ -12,7 +12,7 @@ const ProductCardList: React.FC<ProductCardListProps> = ({ products }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // @TODO: change the number of product per page
-  const productsPerPage = 4;
+  const productsPerPage = 6;
 
   const pageCount = Math.ceil(products.length / productsPerPage);
 
@@ -27,7 +27,7 @@ const ProductCardList: React.FC<ProductCardListProps> = ({ products }) => {
 
   return (
     <div>
-      <div className="flex flex-wrap justify-start gap-4 pt-10">
+      <div className="flex flex-wrap justify-start pt-10">
         {currentProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
