@@ -121,24 +121,24 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
   };
 
   const SkeletonLoader = () => (
-    <div className="product-container flex bg-gray-200 p-20 w-[1440px] h-[840px] items-center animate-pulse">
-      <div className="product-info flex-1">
+    <div className="product-container flex tablet:flex-row-reverse flex-wrap bg-gray-200 p-2 max-w-[1440px] justify-evenly items-center animate-pulse">
+      <div className="product-image bg-gray-400 rounded w-full tablet:w-[600px] h-[450px] tablet:m-10"></div>
+      <div className="product-info w-full max-w-[600px] my-10 tablet:m-10">
         <div className="h-6 bg-gray-400 rounded w-3/4 mb-5"></div>
-        <div className="flex mb-10">
+        <div className="flex mb-10 justify-between gap-2.5">
           <div className="h-8 bg-gray-400 rounded w-1/2 mr-10"></div>
           <div className="h-8 bg-gray-400 rounded w-1/4"></div>
         </div>
         <div className="h-5 bg-gray-400 rounded w-full mb-10"></div>
         <div className="flex flex-col space-y-3">
           <div className="h-5 bg-gray-400 rounded w-1/4 mb-2"></div>
-          <div className="h-12 bg-gray-400 rounded w-[421px]"></div>
+          <div className="h-12 bg-gray-400 rounded w-full"></div>
         </div>
-        <div className="mt-10 flex">
-          <div className="btn bg-gray-400 rounded-full w-[190px] mr-10 h-10"></div>
-          <div className="btn bg-gray-400 rounded-full w-[190px] h-10"></div>
+        <div className="mt-5 flex flex-wrap justify-around">
+          <div className="btn bg-gray-400 rounded-full w-2/5 min-w-[190px] mt-5 h-10"></div>
+          <div className="btn bg-gray-400 rounded-full w-2/5 min-w-[190px] mt-5 h-10"></div>
         </div>
       </div>
-      <div className="product-image flex-2 ml-32 bg-gray-400 rounded w-[600px] h-[450px]"></div>
     </div>
   );
 
@@ -159,12 +159,22 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
     : "/images/imageNA.png";
 
   return (
-    <div className="product-container flex bg-gray-200 p-20 w-[1440px] h-[840px] items-center">
-      <div className="product-info flex-1">
+    <div className="product-container flex tablet:flex-row-reverse flex-wrap bg-gray-200 p-2 max-w-[1440px] justify-evenly items-center">
+      <div className="product-image relative w-full tablet:w-[600px] h-[450px] tablet:m-10">
+        <Image
+          src={imageUrl}
+          alt="Product Image"
+          fill
+          className="object-cover"
+          priority
+          sizes="100%"
+        />
+      </div>
+      <div className="product-info w-full max-w-[600px] my-10 tablet:m-10">
         <h2 className="text-secondary_text text-lg mb-5 font-medium">
           {product.category.name}
         </h2>
-        <div className="flex mb-10">
+        <div className="flex mb-10 justify-between gap-2.5">
           <h3 className="text-h5 mr-10 font-bold">{product.name}</h3>
           <p className="text-h5">
             ${Number(product.product_items[0].price).toFixed(2)}
@@ -174,13 +184,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
           {product.description}
         </p>
         <div className="flex flex-col space-y-3">
-          <label htmlFor="color-selection" className="text-md font-light">
+          <label htmlFor="color-selection" className="text-md font-light pl-2">
             {product.category.options[0].option_name}
           </label>
-          <select
-            id="color-selection"
-            className="select select-bordered w-[421px]"
-          >
+          <select id="color-selection" className="select select-bordered">
             {values.map((value, index) => (
               <option key={index} value={value}>
                 {value}
@@ -188,30 +195,20 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
             ))}
           </select>
         </div>
-        <div className="mt-10 flex">
+        <div className="mt-5 flex flex-wrap justify-around">
           <button
-            className="btn btn-outline text-primary rounded-full w-[190px] mr-10 text-md"
+            className="btn btn-outline text-primary rounded-full w-2/5 min-w-[190px] mt-5"
             onClick={() => onBuyItNow(product)}
           >
             Buy it Now
           </button>
           <button
-            className="btn btn-outline text-primary rounded-full w-[190px]"
+            className="btn btn-outline text-primary rounded-full w-2/5 min-w-[190px] mt-5"
             onClick={addToCart}
           >
             Add to Basket
           </button>
         </div>
-      </div>
-      <div className="product-image flex-2 ml-32 relative w-[600px] h-[450px]">
-        <Image
-          src={imageUrl}
-          alt="Product Image"
-          fill
-          className="object-cover"
-          priority
-          sizes="100%"
-        />
       </div>
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

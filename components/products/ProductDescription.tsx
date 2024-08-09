@@ -30,14 +30,14 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({
   }, [productId]);
 
   const SkeletonLoader = () => (
-    <div className="flex p-36 animate-pulse">
-      <div className="w-1/4">
+    <div className="flex py-20 px-2 tablet:px-20 desktop:p-36 animate-pulse">
+      <div className="w-1/4  min-w-[110px]">
         <ul>
           <li className="h-6 bg-gray-400 rounded w-3/4 mb-5"></li>
           <li className="h-6 bg-gray-400 rounded w-3/4 mb-5"></li>
         </ul>
       </div>
-      <div className="w-3/4 border-l-4 pl-10 border-gray-400">
+      <div className="w-3/4 border-l-4 ml-2 pl-[5%] border-gray-400">
         <div className="space-y-4">
           <div className="h-4 bg-gray-400 rounded w-full"></div>
           <div className="h-4 bg-gray-400 rounded w-5/6"></div>
@@ -56,8 +56,8 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({
   }
 
   return (
-    <div className="flex p-36">
-      <div className="w-1/4">
+    <div className="flex py-20 px-2 tablet:px-20 desktop:p-36">
+      <div className="w-1/4 min-w-[110px]">
         <ul>
           <li
             onClick={() => setSelectedContent("description")}
@@ -81,7 +81,7 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({
           </li>
         </ul>
       </div>
-      <div className="w-3/4 border-l-4 pl-10 border-gray-400">
+      <div className="w-3/4 border-l-4 ml-2 pl-[5%] border-gray-400">
         {selectedContent === "description" && (
           <div>
             <p>{product.description}</p>
