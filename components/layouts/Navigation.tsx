@@ -29,14 +29,14 @@ export default function NavigationBar() {
     const query = e.target.value;
     setSearchQuery(query);
 
-    if (query.length < 1) {
+    if (!query) {
       setSearchResults([]);
       return;
     }
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/search?q=${query}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/product-search?q=${query}`,
       );
 
       if (response.ok) {
