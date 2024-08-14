@@ -39,12 +39,12 @@ export default function NavigationBar() {
         `${process.env.NEXT_PUBLIC_API_URL}/product-search?q=${query}`,
       );
 
-      if (response.ok) {
-        const data = await response.json();
-        setSearchResults(data);
-      } else {
-        console.error("Failed to fetch search results");
+      if (!response.ok) {
+        throw new Error("Failed to fetch search results");
       }
+
+      const data = await response.json();
+      setSearchResults(data);
     } catch (error) {
       console.error("Error fetching search results:", error);
     }
