@@ -78,7 +78,7 @@ const ProductReviewList: React.FC<ProductReviewListProps> = ({ productId }) => {
   }
 
   if (reviews.length === 0) {
-    return <div>No reviews available</div>;
+    return <div className="mb-44">No reviews available</div>;
   }
 
   return (
