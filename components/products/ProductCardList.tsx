@@ -32,11 +32,11 @@ const ProductCardList: React.FC<ProductCardListProps> = ({ products }) => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-      <div className="join flex justify-center">
+      <div className="join flex justify-center mb-44">
         {Array.from({ length: pageCount }, (_, index) => (
           <button
             key={index + 1}
-            className={`join-item btn ${currentPage === index + 1 ? "btn-active" : ""}`}
+            className={`join-item btn ${currentPage === index + 1 ? "btn-active" : ""} ${pageCount === 1 ? "rounded-lg" : ""}`}
             onClick={() => paginate(index + 1)}
           >
             {index + 1}
