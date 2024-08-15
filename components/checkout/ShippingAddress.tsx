@@ -153,7 +153,9 @@ const ShippingAddress: React.FC<ShippingAddressProps> = ({
               className="w-full p-2 border border-gray-300 rounded"
             />
 
-            <label htmlFor="address_line1">Address Line 1</label>
+            <label htmlFor="address_line1">
+              Address Line 1<span className="text-red-dark ml-2">*</span>
+            </label>
             <input
               type="text"
               name="address_line1"
@@ -166,7 +168,7 @@ const ShippingAddress: React.FC<ShippingAddressProps> = ({
               className="w-full p-2 border border-gray-300 rounded"
             />
 
-            <label htmlFor="address_line2">Address Line 2</label>
+            <label htmlFor="address_line2">Address Line 2 </label>
             <input
               type="text"
               name="address_line2"
@@ -180,7 +182,10 @@ const ShippingAddress: React.FC<ShippingAddressProps> = ({
 
             <div className="mt-1 flex space-x-4">
               <div className="flex-1">
-                <label htmlFor="city">City</label>
+                <label htmlFor="city">
+                  City
+                  <span className="text-red-dark ml-2">*</span>
+                </label>
                 <input
                   type="text"
                   name="city"
@@ -194,7 +199,10 @@ const ShippingAddress: React.FC<ShippingAddressProps> = ({
                 />
               </div>
               <div className="flex-1">
-                <label htmlFor="province">Province</label>
+                <label htmlFor="province">
+                  Province
+                  <span className="text-red-dark ml-2">*</span>
+                </label>
                 <select
                   name="province"
                   id="province"
@@ -222,7 +230,10 @@ const ShippingAddress: React.FC<ShippingAddressProps> = ({
                 </select>
               </div>
               <div className="flex-1">
-                <label htmlFor="postal_code">Postal Code</label>
+                <label htmlFor="postal_code">
+                  Postal Code
+                  <span className="text-red-dark ml-2">*</span>
+                </label>
                 <input
                   type="text"
                   name="postal_code"

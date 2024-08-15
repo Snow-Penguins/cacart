@@ -17,12 +17,6 @@ export default function Checkout() {
     setShippingAddress(address);
   };
 
-  useEffect(() => {
-    if (shippingAddress !== null) {
-      console.log("----updated:", shippingAddress);
-    }
-  }, [shippingAddress]);
-
   return (
     <div className="flex divide-x">
       <div className="w-1/2 p-4 m grid gap-8">
