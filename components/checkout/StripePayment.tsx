@@ -128,7 +128,13 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ shippingAddress }) => {
   }, [countdown]);
 
   const handlePayment = async () => {
-    if (!stripe || !elements) {
+    const isAddressFilled =
+      !!shippingAddress.address_line1 &&
+      !!shippingAddress.city &&
+      !!shippingAddress.province &&
+      !!shippingAddress.postal_code;
+
+    if (!stripe || !elements || !isAddressFilled) {
       return;
     }
 
