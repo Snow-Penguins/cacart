@@ -285,16 +285,16 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ shippingAddress }) => {
         </button>
       </div>
 
+      {countdown !== null && countdown > 0 && (
+        <div className="text-red-500">
+          Please complete the payment within {formatTime(countdown)}.
+        </div>
+      )}
+
       {showAddressError && (
         <div className="text-red-500 mb-4">
           Please fill in all required address fields before proceeding with
           payment.
-        </div>
-      )}
-
-      {countdown !== null && countdown > 0 && (
-        <div className="text-red-500">
-          Please complete the payment within {formatTime(countdown)}.
         </div>
       )}
 
