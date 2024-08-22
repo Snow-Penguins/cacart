@@ -1,16 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { OrderItem } from "@/entities/OrderItem";
 import CartItemCard from "./CartItemCard";
 import CartSummary from "./CartSummary";
 
 const Cart: React.FC = () => {
   const [cartItems, setCartItems] = useState<OrderItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const hasRedirected = useRef(false);
 
   useEffect(() => {
+    if (hasRedirected.current) return;
+
+    const user = localStorage.getItem("cacartUser");
     const cartId = localStorage.getItem("cart_id");
     console.log(`Fetching cart items for cart ID: ${cartId}`);
+
+    if (!user) {
+      hasRedirected.current = true;
+      alert("Please login to access this page.");
+      window.location.href = "/auth/signin";
+      return;
+    }
+
     if (cartId) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/${cartId}`)
         .then((response) => response.json())
@@ -18,7 +31,10 @@ const Cart: React.FC = () => {
           setCartItems(data.cart_items);
           console.log(`Cart items fetched:`, data.cart_items);
         })
-        .catch((error) => console.error("Error fetching cart items:", error));
+        .catch((error) => console.error("Error fetching cart items:", error))
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -35,6 +51,10 @@ const Cart: React.FC = () => {
       prevItems.filter((item) => item.id !== removedItem.id),
     );
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="mt-24 mb-44">
