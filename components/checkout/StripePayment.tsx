@@ -9,12 +9,17 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { CartItem } from "@/entities/CartItem";
+import { Address } from "@/entities/OrderItem";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY ?? "",
 );
 
-const CheckoutForm = () => {
+interface CheckoutFormProps {
+  shippingAddress: Partial<Address>;
+}
+
+const CheckoutForm: React.FC<CheckoutFormProps> = ({ shippingAddress }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState<string>("");
@@ -23,6 +28,7 @@ const CheckoutForm = () => {
   const [countdown, setCountdown] = useState<number | null>(null);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
+  const [showAddressError, setShowAddressError] = useState<boolean>(false);
   const shippingCost = 8.0;
 
   useEffect(() => {
@@ -123,6 +129,19 @@ const CheckoutForm = () => {
   }, [countdown]);
 
   const handlePayment = async () => {
+    const isAddressFilled =
+      !!shippingAddress.address_line1 &&
+      !!shippingAddress.city &&
+      !!shippingAddress.province &&
+      !!shippingAddress.postal_code;
+
+    if (!isAddressFilled) {
+      setShowAddressError(true);
+      return;
+    }
+
+    setShowAddressError(false);
+
     if (!stripe || !elements) {
       return;
     }
@@ -171,12 +190,7 @@ const CheckoutForm = () => {
             totalAmount: totalAmount + shippingCost,
             shippingMethodId: 1,
             orderStatusId: 1,
-            shippingAddress: {
-              address_line1: "123 Main St",
-              city: "Calgary",
-              province: "AB",
-              postal_code: "A1B2C3 ",
-            },
+            shippingAddress: shippingAddress,
             items: items,
           };
 
@@ -270,15 +284,20 @@ const CheckoutForm = () => {
           Pay ${(totalAmount + shippingCost).toFixed(2)}
         </button>
       </div>
-      {countdown !== null && (
-        <>
-          {countdown > 0 && (
-            <div className="text-red-500">
-              Please complete the payment within {formatTime(countdown)}.
-            </div>
-          )}
-        </>
+
+      {countdown !== null && countdown > 0 && (
+        <div className="text-red-500">
+          Please complete the payment within {formatTime(countdown)}.
+        </div>
       )}
+
+      {showAddressError && (
+        <div className="text-red-500 mb-4">
+          Please fill in all required address fields before proceeding with
+          payment.
+        </div>
+      )}
+
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg">
@@ -300,10 +319,14 @@ const CheckoutForm = () => {
   );
 };
 
-const StripePayment = () => {
+interface StripePaymentProps {
+  shippingAddress: Partial<Address>;
+}
+
+const StripePayment: React.FC<StripePaymentProps> = ({ shippingAddress }) => {
   return (
     <Elements stripe={stripePromise}>
-      <CheckoutForm />
+      <CheckoutForm shippingAddress={shippingAddress} />
     </Elements>
   );
 };
