@@ -16,7 +16,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ subtotal, shipping }) => {
       </div>
       <hr className="border-gray-300 mb-4 mt-4" />
       <div className="flex justify-between text-lg font-semibold">
-        <div className="text-ml font-semibold">Total Paid</div>
+        <div className="text-ml font-semibold">Total</div>
         <div className="text-ml font-semibold">${total.toFixed(2)}</div>
       </div>
     </div>
