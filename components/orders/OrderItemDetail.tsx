@@ -12,6 +12,7 @@ const OrderItemDetail: React.FC<OrderItemDetailProps> = ({ item }) => {
   const imageUrl = item.product.product_image?.[0]
     ? `${IMAGE_URL}${item.product.product_image[0]}`
     : "/images/imageNA.png";
+
   return (
     <div className="flex justify-between items-center border-b border-gray-300 py-8">
       <div className="flex items-center">
@@ -26,12 +27,19 @@ const OrderItemDetail: React.FC<OrderItemDetailProps> = ({ item }) => {
           <h3 className="text-ml font-semibold">{item.product.name}</h3>
         </div>
       </div>
-      <div className="flex items-center">
-        <div className="text-center mr-28">
+      <div className="flex items-center justify-between w-1/3">
+        <div className="text-center">
           <div className="text-ml font-semibold">Qty: {item.quantity}</div>
         </div>
-        <div className="text-right">
-          <div className="text-ml font-semibold">${item.price.toFixed(2)}</div>
+        <div className="flex flex-col items-end text-right">
+          <div className="text-ml font-semibold">
+            ${Number(item.price * item.quantity).toFixed(2)}
+          </div>
+          {item.quantity > 1 && (
+            <div className="text-md text-gray-600">
+              (each: ${Number(item.price).toFixed(2)})
+            </div>
+          )}
         </div>
       </div>
     </div>
