@@ -17,14 +17,18 @@ const stripePromise = loadStripe(
 
 interface CheckoutFormProps {
   shippingAddress: Partial<Address>;
+  cartItems: CartItem[];
+  totalAmount: number;
 }
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ shippingAddress }) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({
+  shippingAddress,
+  cartItems,
+  totalAmount,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState<string>("");
-  const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
@@ -32,57 +36,10 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ shippingAddress }) => {
   const shippingCost = 8.0;
 
   useEffect(() => {
-    async function fetchCartItems() {
-      const buyNowProductString = localStorage.getItem("buyNowProduct");
-      if (buyNowProductString) {
-        const buyNowProduct = JSON.parse(buyNowProductString);
-        setTotalAmount(buyNowProduct.price * buyNowProduct.quantity);
-        setCountdown(300);
-        setCartItems([
-          {
-            id: 0,
-            qty: buyNowProduct.quantity,
-            product_item: {
-              id: buyNowProduct.productId,
-              price: buyNowProduct.price,
-              product: {
-                name: buyNowProduct.name,
-                product_image: [buyNowProduct.image],
-              },
-            },
-          },
-        ]);
-      } else {
-        const cartId = localStorage.getItem("cart_id");
-        if (!cartId) {
-          console.error("No cart ID found in local storage.");
-          return;
-        }
-
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/payments/get-cart-items`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ cartId: parseInt(cartId, 10) }),
-          },
-        );
-        const data = await response.json();
-        console.log("Fetched cart items:", data.cartItems);
-        setCartItems(data.cartItems);
-        const total = data.cartItems.reduce((sum: number, item: CartItem) => {
-          console.log(
-            `Item price: ${item.product_item.price}, quantity: ${item.qty}`,
-          );
-          return sum + item.product_item.price * item.qty;
-        }, 0);
-        console.log("Calculated total amount:", total);
-        setTotalAmount(total);
-      }
+    if (cartItems.length > 0) {
+      setCountdown(300);
     }
-
-    fetchCartItems();
-  }, []);
+  }, [cartItems]);
 
   useEffect(() => {
     async function createPaymentIntent() {
@@ -321,12 +278,22 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ shippingAddress }) => {
 
 interface StripePaymentProps {
   shippingAddress: Partial<Address>;
+  cartItems: CartItem[];
+  totalAmount: number;
 }
 
-const StripePayment: React.FC<StripePaymentProps> = ({ shippingAddress }) => {
+const StripePayment: React.FC<StripePaymentProps> = ({
+  shippingAddress,
+  cartItems,
+  totalAmount,
+}) => {
   return (
     <Elements stripe={stripePromise}>
-      <CheckoutForm shippingAddress={shippingAddress} />
+      <CheckoutForm
+        shippingAddress={shippingAddress}
+        cartItems={cartItems}
+        totalAmount={totalAmount}
+      />
     </Elements>
   );
 };
