@@ -19,7 +19,7 @@ const Summary: React.FC<SummaryProps> = ({ cartItems, totalAmount }) => {
     quantity: item.qty,
   }));
 
-  console.log(items);
+  const shippingCost = 8.0;
 
   return (
     <div>
@@ -27,7 +27,7 @@ const Summary: React.FC<SummaryProps> = ({ cartItems, totalAmount }) => {
       <OrderItemList items={items} />
 
       <div className="flex justify-end mt-10">
-        <OrderSummary subtotal={totalAmount} shipping={8} />
+        <OrderSummary subtotal={totalAmount} shipping={shippingCost} />
       </div>
     </div>
   );
