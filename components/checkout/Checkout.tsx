@@ -60,59 +60,6 @@ export default function Checkout() {
           },
         );
         const data = await response.json();
-        //hardcode for testing - will be removed when backend is merged
-        data.cartItems = [
-          {
-            id: 8,
-            cart_id: 5,
-            product_item_id: 4,
-            qty: 1,
-            product_item: {
-              id: 4,
-              product_id: 4,
-              SKU: "PRINT001",
-              qty_in_stock: 20,
-              qty_sold: 0,
-              price: "150",
-              created_at: "2024-05-05T22:59:21.013Z",
-              updated_at: "2024-05-05T22:59:21.013Z",
-              product: {
-                id: 4,
-                category_id: 47,
-                name: "Abstract Art Print",
-                description: "Modern Wall Art, Large Abstract Painting Print",
-                product_image: ["abstract_art_print.jpg"],
-                created_at: "2024-05-05T22:59:20.891Z",
-                updated_at: "2024-05-24T05:52:37.514Z",
-              },
-            },
-          },
-          {
-            id: 18,
-            cart_id: 4,
-            product_item_id: 1,
-            qty: 2,
-            product_item: {
-              id: 1,
-              product_id: 1,
-              SKU: "NECKLACE001",
-              qty_in_stock: 20,
-              qty_sold: 0,
-              price: "55.2",
-              created_at: "2024-05-05T22:59:15.199Z",
-              updated_at: "2024-05-05T22:59:15.199Z",
-              product: {
-                id: 1,
-                category_id: 18,
-                name: "Tiny Freshwater Pearl Necklace",
-                description: "A dainty freshwater pearl necklace",
-                product_image: ["tiny_freshwater_pearl_necklace.jpg"],
-                created_at: "2024-05-05T22:59:15.060Z",
-                updated_at: "2024-05-24T05:52:35.384Z",
-              },
-            },
-          },
-        ];
 
         console.log("Fetched cart items:", data.cartItems);
         setCartItems(data.cartItems);
