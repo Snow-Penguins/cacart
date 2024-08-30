@@ -29,17 +29,9 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState<string>("");
-  const [countdown, setCountdown] = useState<number | null>(null);
-  const [showPopup, setShowPopup] = useState<boolean>(false);
   const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
   const [showAddressError, setShowAddressError] = useState<boolean>(false);
   const shippingCost = 8.0;
-
-  useEffect(() => {
-    if (cartItems.length > 0) {
-      setCountdown(300);
-    }
-  }, [cartItems]);
 
   useEffect(() => {
     async function createPaymentIntent() {
@@ -66,24 +58,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
 
     createPaymentIntent();
   }, [totalAmount]);
-
-  useEffect(() => {
-    if (countdown !== null) {
-      const timer = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev !== null && prev <= 1) {
-            clearInterval(timer);
-            localStorage.removeItem("buyNowProduct");
-            setShowPopup(true);
-            return null;
-          }
-          return prev !== null ? prev - 1 : null;
-        });
-      }, 1000);
-
-      return () => clearInterval(timer);
-    }
-  }, [countdown]);
 
   const handlePayment = async () => {
     const isAddressFilled =
@@ -202,19 +176,9 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    window.location.href = "/";
-  };
-
   return (
-    <div className="max-w-md p-12">
+    <div className="max-w-md">
+      <h2 className="text-xl font-bold mb-4">Payment method</h2>
       <h3 className="text-gray-600 mb-2">Contact information</h3>
       <div className="shadow-md">
         <input
@@ -242,34 +206,10 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
         </button>
       </div>
 
-      {countdown !== null && countdown > 0 && (
-        <div className="text-red-500">
-          Please complete the payment within {formatTime(countdown)}.
-        </div>
-      )}
-
       {showAddressError && (
         <div className="text-red-500 mb-4">
           Please fill in all required address fields before proceeding with
           payment.
-        </div>
-      )}
-
-      {showPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-lg">
-            <h3 className="text-red-500 text-md">
-              Time expired. Please try again.
-            </h3>
-            <div className="flex justify-center">
-              <button
-                onClick={handleClosePopup}
-                className="mt-4 px-4 py-2 bg-cyan-400 text-gray-300 rounded-md"
-              >
-                Close
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </div>

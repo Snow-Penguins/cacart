@@ -16,6 +16,8 @@ export default function Checkout() {
   const [shippingAddress, setShippingAddress] = useState<Partial<Address>>({});
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [countdown, setCountdown] = useState<number | null>(null);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
 
   const handleSetShippingAddress = (address: Partial<Address>) => {
     setShippingAddress(address);
@@ -41,6 +43,7 @@ export default function Checkout() {
             },
           },
         ]);
+        setCountdown(300);
       } else {
         const cartId = localStorage.getItem("cart_id");
         if (!cartId) {
@@ -127,6 +130,35 @@ export default function Checkout() {
     fetchCartItems();
   }, []);
 
+  useEffect(() => {
+    if (countdown !== null) {
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev !== null && prev <= 1) {
+            clearInterval(timer);
+            localStorage.removeItem("buyNowProduct");
+            setShowPopup(true);
+            return null;
+          }
+          return prev !== null ? prev - 1 : null;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [countdown]);
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    window.location.href = "/";
+  };
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
+
   return (
     <div className="flex divide-x">
       <div className="w-1/2 p-4 m grid gap-8">
@@ -143,6 +175,30 @@ export default function Checkout() {
           cartItems={cartItems}
           totalAmount={totalAmount}
         />
+
+        {countdown !== null && countdown > 0 && (
+          <div className="text-red-500">
+            Please complete the payment within {formatTime(countdown)}.
+          </div>
+        )}
+
+        {showPopup && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded shadow-lg">
+              <h3 className="text-red-500 text-md">
+                Time expired. Please try again.
+              </h3>
+              <div className="flex justify-center">
+                <button
+                  onClick={handleClosePopup}
+                  className="mt-4 px-4 py-2 bg-cyan-400 text-gray-300 rounded-md"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
