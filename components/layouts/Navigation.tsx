@@ -39,7 +39,6 @@ export default function NavigationBar() {
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const handleSearch = async (query: string) => {
-    console.log("Search triggered with query:", query);
     if (!query) {
       setSearchResults([]);
       return;
