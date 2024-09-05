@@ -101,8 +101,9 @@ export default function Checkout() {
   };
 
   const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
+    const secondsInAMinute = 60;
+    const minutes = Math.floor(seconds / secondsInAMinute);
+    const remainingSeconds = seconds % secondsInAMinute;
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
 
