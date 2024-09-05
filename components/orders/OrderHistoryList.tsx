@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import OrderHistoryCard from "./OrderHistoryCard";
 
 const SkeletonLoader: React.FC = () => {
@@ -42,6 +43,7 @@ const OrderHistoryList: React.FC = () => {
   const [visibleCount, setVisibleCount] = useState<number>(2);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const hasRedirected = useRef(false);
+  const router = useRouter();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("cacartUser");
@@ -52,10 +54,10 @@ const OrderHistoryList: React.FC = () => {
       if (!hasRedirected.current) {
         hasRedirected.current = true;
         alert("Please login to access your order history.");
-        window.location.href = "/auth/signin";
+        router.push("/auth/signin");
       }
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     if (userId !== null) {
