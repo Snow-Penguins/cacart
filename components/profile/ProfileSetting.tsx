@@ -156,9 +156,6 @@ const ProfileSetting = () => {
     <div className="bg-gray-100">
       <div className="max-w-4xl mx-auto p-8">
         <h1 className="text-3xl font-bold mb-2">Settings Page</h1>
-        <p className="text-gray-600 mb-8">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit
-        </p>
 
         <hr className="my-8 border-gray-300" />
 

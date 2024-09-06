@@ -130,10 +130,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
           <div className="h-8 bg-gray-400 rounded w-1/4"></div>
         </div>
         <div className="h-5 bg-gray-400 rounded w-full mb-10"></div>
-        <div className="flex flex-col space-y-3">
-          <div className="h-5 bg-gray-400 rounded w-1/4 mb-2"></div>
-          <div className="h-12 bg-gray-400 rounded w-full"></div>
-        </div>
         <div className="mt-5 flex flex-wrap justify-around">
           <div className="btn bg-gray-400 rounded-full w-2/5 min-w-[190px] mt-5 h-10"></div>
           <div className="btn bg-gray-400 rounded-full w-2/5 min-w-[190px] mt-5 h-10"></div>
@@ -183,18 +179,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
         <p className="text-md text-primary_text font-light mb-10">
           {product.description}
         </p>
-        <div className="flex flex-col space-y-3">
-          <label htmlFor="color-selection" className="text-md font-light pl-2">
-            {product.category.options[0].option_name}
-          </label>
-          <select id="color-selection" className="select select-bordered">
-            {values.map((value, index) => (
-              <option key={index} value={value}>
-                {value}
-              </option>
-            ))}
-          </select>
-        </div>
         <div className="mt-5 flex flex-wrap justify-around">
           <button
             className="btn btn-outline text-primary rounded-full w-2/5 min-w-[190px] mt-5"
