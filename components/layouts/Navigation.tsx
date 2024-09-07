@@ -196,10 +196,11 @@ export default function NavigationBar() {
               {user.email_address}
             </button>
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 py-2 bg-white shadow-lg rounded-lg">
+              <div className="absolute right-1.5 top-7 py-2 bg-white shadow-lg rounded-lg">
                 <Link
                   href="/profile-setting"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300"
+                  onClick={toggleDropdown}
                 >
                   Settings
                 </Link>
