@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import OrderHistoryCard from "./OrderHistoryCard";
+import { useAuth } from "../../contexts/AuthContext";
 
 const SkeletonLoader: React.FC = () => {
   return (
@@ -37,50 +39,50 @@ const SkeletonLoader: React.FC = () => {
 };
 
 const OrderHistoryList: React.FC = () => {
+  const { user } = useAuth();
   const [orders, setOrders] = useState<any[]>([]);
-  const [userId, setUserId] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState<number>(2);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const hasRedirected = useRef(false);
+  const router = useRouter();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("cacartUser");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUserId(parsedUser.user_id);
+    if (!user) {
+      if (!hasRedirected.current) {
+        hasRedirected.current = true;
+        alert("Please login to access your order history.");
+        router.push("/auth/signin");
+      }
+    } else {
+      fetchOrders(user.user_id);
     }
-  }, []);
+  }, [user, router]);
 
-  useEffect(() => {
-    if (userId !== null) {
-      const fetchOrders = async () => {
-        try {
-          setIsLoading(true);
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/order/user/${userId}`,
-          );
-          const data = await response.json();
-          console.log("Fetched orders:", data);
+  const fetchOrders = async (userId: number) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/order/user/${userId}`,
+      );
+      const data = await response.json();
+      console.log("Fetched orders:", data);
 
-          const sortedOrders = Array.isArray(data)
-            ? data.sort(
-                (a, b) =>
-                  new Date(b.order_date).getTime() -
-                  new Date(a.order_date).getTime(),
-              )
-            : [];
+      const sortedOrders = Array.isArray(data)
+        ? data.sort(
+            (a, b) =>
+              new Date(b.order_date).getTime() -
+              new Date(a.order_date).getTime(),
+          )
+        : [];
 
-          setOrders(sortedOrders);
-        } catch (error) {
-          console.error("Failed to fetch orders", error);
-          setOrders([]);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchOrders();
+      setOrders(sortedOrders);
+    } catch (error) {
+      console.error("Failed to fetch orders", error);
+      setOrders([]);
+    } finally {
+      setIsLoading(false);
     }
-  }, [userId]);
+  };
 
   const handleShowMore = () => {
     setVisibleCount((prevCount) => prevCount + 2);

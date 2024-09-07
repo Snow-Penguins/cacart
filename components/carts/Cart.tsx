@@ -1,29 +1,30 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { OrderItem } from "@/entities/OrderItem";
 import CartItemCard from "./CartItemCard";
 import CartSummary from "./CartSummary";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Cart: React.FC = () => {
+  const { user } = useAuth();
   const [cartItems, setCartItems] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
   const hasRedirected = useRef(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (hasRedirected.current) return;
 
-    const user = localStorage.getItem("cacartUser");
-    const cartId = localStorage.getItem("cart_id");
-    console.log(`Fetching cart items for cart ID: ${cartId}`);
-
     if (!user) {
       hasRedirected.current = true;
       alert("Please login to access this page.");
-      window.location.href = "/auth/signin";
+      router.push("/auth/signin");
       return;
     }
 
+    const cartId = localStorage.getItem("cart_id");
     if (cartId) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/${cartId}`)
         .then((response) => response.json())
@@ -36,7 +37,7 @@ const Cart: React.FC = () => {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [user, router]);
 
   const updateQuantity = (updatedItem: OrderItem, newQuantity: number) => {
     setCartItems((prevItems) =>

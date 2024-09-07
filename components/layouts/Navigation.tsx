@@ -5,10 +5,23 @@ import Link from "next/link";
 import { RxAvatar } from "react-icons/rx";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import useCategories from "@/hooks/useCategories";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useCategory } from "@/contexts/CategoryContext";
+
+const debounce = <T extends (...args: any[]) => void>(
+  func: T,
+  delay: number,
+): ((...args: Parameters<T>) => void) => {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  return function (...args: Parameters<T>) {
+    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};
 
 export default function NavigationBar() {
   const { categories, loading, error } = useCategories();
@@ -25,10 +38,7 @@ export default function NavigationBar() {
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
-  const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-
+  const handleSearch = async (query: string) => {
     if (!query) {
       setSearchResults([]);
       return;
@@ -48,6 +58,14 @@ export default function NavigationBar() {
     } catch (error) {
       console.error("Error fetching search results:", error);
     }
+  };
+
+  const debouncedHandleSearch = useCallback(debounce(handleSearch, 700), []);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    debouncedHandleSearch(query);
   };
 
   const handleResultClick = () => {
@@ -138,7 +156,7 @@ export default function NavigationBar() {
 
         {/* Search Result */}
         {searchResults.length > 0 && (
-          <div className="absolute top-full left-0 w-full bg-white shadow-lg rounded-lg z-10 max-w-xl mt-1">
+          <div className="absolute left-0 right-0 mx-auto top-full bg-white shadow-lg rounded-lg z-10 w-full max-w-xl mt-1">
             <ul>
               {searchResults.map((result: { id: string; name: string }) => (
                 <li
