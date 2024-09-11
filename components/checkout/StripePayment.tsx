@@ -17,72 +17,21 @@ const stripePromise = loadStripe(
 
 interface CheckoutFormProps {
   shippingAddress: Partial<Address>;
+  cartItems: CartItem[];
+  totalAmount: number;
 }
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ shippingAddress }) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({
+  shippingAddress,
+  cartItems,
+  totalAmount,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState<string>("");
-  const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [countdown, setCountdown] = useState<number | null>(null);
-  const [showPopup, setShowPopup] = useState<boolean>(false);
   const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
   const [showAddressError, setShowAddressError] = useState<boolean>(false);
   const shippingCost = 8.0;
-
-  useEffect(() => {
-    async function fetchCartItems() {
-      const buyNowProductString = localStorage.getItem("buyNowProduct");
-      if (buyNowProductString) {
-        const buyNowProduct = JSON.parse(buyNowProductString);
-        setTotalAmount(buyNowProduct.price * buyNowProduct.quantity);
-        setCountdown(300);
-        setCartItems([
-          {
-            id: 0,
-            qty: buyNowProduct.quantity,
-            product_item: {
-              id: buyNowProduct.productId,
-              price: buyNowProduct.price,
-              product: {
-                name: buyNowProduct.name,
-                product_image: [buyNowProduct.image],
-              },
-            },
-          },
-        ]);
-      } else {
-        const cartId = localStorage.getItem("cart_id");
-        if (!cartId) {
-          console.error("No cart ID found in local storage.");
-          return;
-        }
-
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/payments/get-cart-items`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ cartId: parseInt(cartId, 10) }),
-          },
-        );
-        const data = await response.json();
-        console.log("Fetched cart items:", data.cartItems);
-        setCartItems(data.cartItems);
-        const total = data.cartItems.reduce((sum: number, item: CartItem) => {
-          console.log(
-            `Item price: ${item.product_item.price}, quantity: ${item.qty}`,
-          );
-          return sum + item.product_item.price * item.qty;
-        }, 0);
-        console.log("Calculated total amount:", total);
-        setTotalAmount(total);
-      }
-    }
-
-    fetchCartItems();
-  }, []);
 
   useEffect(() => {
     async function createPaymentIntent() {
@@ -109,24 +58,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ shippingAddress }) => {
 
     createPaymentIntent();
   }, [totalAmount]);
-
-  useEffect(() => {
-    if (countdown !== null) {
-      const timer = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev !== null && prev <= 1) {
-            clearInterval(timer);
-            localStorage.removeItem("buyNowProduct");
-            setShowPopup(true);
-            return null;
-          }
-          return prev !== null ? prev - 1 : null;
-        });
-      }, 1000);
-
-      return () => clearInterval(timer);
-    }
-  }, [countdown]);
 
   const handlePayment = async () => {
     const isAddressFilled =
@@ -245,19 +176,9 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ shippingAddress }) => {
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    window.location.href = "/";
-  };
-
   return (
-    <div className="max-w-md p-12">
+    <div className="max-w-md">
+      <h2 className="text-xl font-bold mb-4">Payment method</h2>
       <h3 className="text-gray-600 mb-2">Contact information</h3>
       <div className="shadow-md">
         <input
@@ -285,34 +206,10 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ shippingAddress }) => {
         </button>
       </div>
 
-      {countdown !== null && countdown > 0 && (
-        <div className="text-red-500">
-          Please complete the payment within {formatTime(countdown)}.
-        </div>
-      )}
-
       {showAddressError && (
         <div className="text-red-500 mb-4">
           Please fill in all required address fields before proceeding with
           payment.
-        </div>
-      )}
-
-      {showPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-lg">
-            <h3 className="text-red-500 text-md">
-              Time expired. Please try again.
-            </h3>
-            <div className="flex justify-center">
-              <button
-                onClick={handleClosePopup}
-                className="mt-4 px-4 py-2 bg-cyan-400 text-gray-300 rounded-md"
-              >
-                Close
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </div>
@@ -321,12 +218,22 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ shippingAddress }) => {
 
 interface StripePaymentProps {
   shippingAddress: Partial<Address>;
+  cartItems: CartItem[];
+  totalAmount: number;
 }
 
-const StripePayment: React.FC<StripePaymentProps> = ({ shippingAddress }) => {
+const StripePayment: React.FC<StripePaymentProps> = ({
+  shippingAddress,
+  cartItems,
+  totalAmount,
+}) => {
   return (
     <Elements stripe={stripePromise}>
-      <CheckoutForm shippingAddress={shippingAddress} />
+      <CheckoutForm
+        shippingAddress={shippingAddress}
+        cartItems={cartItems}
+        totalAmount={totalAmount}
+      />
     </Elements>
   );
 };
