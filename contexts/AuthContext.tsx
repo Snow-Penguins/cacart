@@ -7,6 +7,7 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 interface AuthContextType {
   user: any;
@@ -22,6 +23,8 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<any | null>(null);
+  const pathname = usePathname();
+  const router = useRouter();
 
   const signIn = (userData: any) => {
     localStorage.setItem("cacartUser", JSON.stringify(userData));
@@ -31,6 +34,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const signOut = () => {
     localStorage.removeItem("cacartUser");
     setUser(null);
+
+    if (
+      pathname === "/profile-setting" ||
+      /^\/order-summary($|\/)/.test(pathname)
+    ) {
+      router.push("/");
+    }
   };
 
   useEffect(() => {
