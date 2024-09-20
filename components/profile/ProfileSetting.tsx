@@ -180,12 +180,9 @@ const ProfileSetting = () => {
                 />
               </svg>
             </div>
-            <input
-              type="email"
-              className="ml-4 px-4 py-2 border rounded w-full max-w-xs"
-              value={user.email}
-              readOnly
-            />
+            <div>
+              <label className="ml-5 text-lg">{user.email}</label>
+            </div>
           </div>
 
           <form onSubmit={handleSubmit}>
@@ -256,9 +253,10 @@ const ProfileSetting = () => {
                 <input
                   id="unit_number"
                   type="text"
-                  placeholder="Unit Number"
+                  placeholder="101"
                   className="px-4 py-2 border rounded w-full"
                   value={address.unit_number || ""}
+                  maxLength={25}
                   onChange={handleChange}
                 />
               </div>
@@ -272,9 +270,10 @@ const ProfileSetting = () => {
                 <input
                   id="address_line1"
                   type="text"
-                  placeholder="Address Line 1"
+                  placeholder="789 Pitfield Blvd"
                   className="px-4 py-2 border rounded w-full"
                   value={address.address_line1 || ""}
+                  maxLength={50}
                   onChange={handleChange}
                 />
               </div>
@@ -288,9 +287,10 @@ const ProfileSetting = () => {
                 <input
                   id="address_line2"
                   type="text"
-                  placeholder="Address Line 2"
+                  placeholder="Apt 85"
                   className="px-4 py-2 border rounded w-full"
                   value={address.address_line2 || ""}
+                  maxLength={50}
                   onChange={handleChange}
                 />
               </div>
@@ -304,9 +304,10 @@ const ProfileSetting = () => {
                 <input
                   id="city"
                   type="text"
-                  placeholder="City"
+                  placeholder="Calgary"
                   className="px-4 py-2 border rounded w-full"
                   value={address.city || ""}
+                  maxLength={25}
                   onChange={handleChange}
                 />
               </div>
@@ -317,14 +318,31 @@ const ProfileSetting = () => {
                 >
                   Province <span className="text-red-500">*</span>
                 </label>
-                <input
+                <select
+                  name="province"
                   id="province"
-                  type="text"
-                  placeholder="Province"
-                  className="px-4 py-2 border rounded w-full"
-                  value={address.province || ""}
                   onChange={handleChange}
-                />
+                  value={address.province || ""}
+                  required
+                  className="w-full p-2 border border-gray-300 rounded"
+                >
+                  <option value="" disabled>
+                    Select a Province
+                  </option>
+                  <option value="AB">Alberta</option>
+                  <option value="BC">British Columbia</option>
+                  <option value="MB">Manitoba</option>
+                  <option value="NB">New Brunswick</option>
+                  <option value="NL">Newfoundland and Labrador</option>
+                  <option value="NS">Nova Scotia</option>
+                  <option value="ON">Ontario</option>
+                  <option value="PE">Prince Edward Island</option>
+                  <option value="QC">Quebec</option>
+                  <option value="SK">Saskatchewan</option>
+                  <option value="NT">Northwest Territories</option>
+                  <option value="NU">Nunavut</option>
+                  <option value="YT">Yukon</option>
+                </select>
               </div>
               <div>
                 <label
@@ -336,9 +354,10 @@ const ProfileSetting = () => {
                 <input
                   id="postal_code"
                   type="text"
-                  placeholder="Postal Code"
+                  placeholder="A2B9Q2"
                   className="px-4 py-2 border rounded w-full"
                   value={address.postal_code || ""}
+                  maxLength={6}
                   onChange={handleChange}
                 />
               </div>
