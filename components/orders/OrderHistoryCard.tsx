@@ -23,21 +23,21 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({ order }) => {
   return (
     <Link href={`/order-summary/${order.id}`}>
       <div className="border border-gray-200 rounded-lg mb-6 shadow-sm">
-        <div className="bg-gray-100 p-4 rounded-t-lg flex justify-between items-center">
-          <p className="text-primary_text">
+        <div className="bg-gray-100 p-4 rounded-t-lg tablet:flex justify-between items-center">
+          <p className="ms-1 tablet:ms-0 text-primary_text">
             Ordered on {formatDate(order.order_date)}
           </p>
-          <button className="text-sm text-gray-600 border border-gray-500 px-3 py-1 bg-white rounded-lg">
+          <button className="text-sm text-gray-600 border border-gray-500 mt-3 tablet:mt-0 px-3 py-1 bg-white rounded-lg">
             Write a product review
           </button>
         </div>
         <div className="py-6 px-12">
-          <div className="flex justify-between items-start mb-4">
+          <div className="tablet:flex justify-between items-start mb-4">
             <div>
-              <p className="mb-2 font-semibold text-ml">{`${order.user.first_name} ${order.user.last_name}`}</p>
+              <p className="font-semibold text-ml">{`${order.user.first_name} ${order.user.last_name}`}</p>
               <p className="font-semibold text-ml">#{order.id}</p>
             </div>
-            <div className="text-right">
+            <div className="mt-2 tablet:text-right">
               <p className="text-primary_text mb-1 text-sm">
                 Ordered on {formatDate(order.order_date)}
               </p>
@@ -51,13 +51,13 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({ order }) => {
               key={index}
               className="flex items-start justify-between space-x-4 mb-4"
             >
-              <div className="flex items-start space-x-4">
+              <div className="tablet:flex items-start tablet:space-x-4">
                 <Image
                   src={`${IMAGE_URL}${history.product_item.product.product_image}`}
                   alt={history.product_item.product.name}
                   width={80}
                   height={80}
-                  className="w-20 h-20 object-cover mr-6 rounded"
+                  className="w-20 h-20 object-cover mr-6 mb-2 tablet:mb-0 rounded"
                 />
                 <div>
                   <p className="text-ml mb-1 font-medium">

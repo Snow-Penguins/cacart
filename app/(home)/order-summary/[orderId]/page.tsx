@@ -11,7 +11,7 @@ export default function OrderSummaryPage({ params }: Props) {
   const orderId = parseInt(params.orderId, 10);
 
   return (
-    <div className="px-32 py-10">
+    <div className="px-32 py-10 mb-32">
       <OrderSummaryHeader orderId={orderId} />
       <OrderSummaryDetails orderId={orderId} />
       <OrderSummaryFooter orderId={orderId} />

@@ -8,29 +8,29 @@ import { useAuth } from "../../contexts/AuthContext";
 const SkeletonLoader: React.FC = () => {
   return (
     <div className="border border-gray-200 rounded-lg mb-6 shadow-sm animate-pulse">
-      <div className="bg-gray-100 p-4 rounded-t-lg flex justify-between items-center">
+      <div className="bg-gray-100 p-4 rounded-t-lg tablet:flex justify-between items-center">
         <div className="h-4 bg-gray-300 rounded w-1/3"></div>
-        <div className="h-4 bg-gray-300 rounded w-1/4"></div>
+        <div className="h-4 bg-gray-300 rounded w-1/4 mt-3 tablet:mt-0"></div>
       </div>
       <div className="py-6 px-12">
-        <div className="flex justify-between items-start mb-4">
+        <div className="tablet:flex justify-between items-start mb-4">
           <div className="pb-2 w-full">
             <div className="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
             <div className="h-4 bg-gray-300 rounded w-1/4"></div>
           </div>
+          <div className="mt-2 tablet:text-right w-1/4">
+            <div className="h-4 bg-gray-300 rounded w-full mb-2"></div>
+            <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+          </div>
         </div>
         <div className="flex items-start justify-between space-x-4 mb-4">
-          <div className="flex items-start space-x-4 w-full">
-            <div className="w-20 h-20 bg-gray-300 rounded mr-6"></div>
+          <div className="tablet:flex items-start tablet:space-x-4 w-full">
+            <div className="w-20 h-20 bg-gray-300 rounded mr-6 mb-2 tablet:mb-0"></div>
             <div className="w-full">
               <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
               <div className="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
               <div className="h-4 bg-gray-300 rounded w-1/4"></div>
             </div>
-          </div>
-          <div className="text-right w-1/4">
-            <div className="h-4 bg-gray-300 rounded w-full mb-2"></div>
-            <div className="h-4 bg-gray-300 rounded w-3/4"></div>
           </div>
         </div>
       </div>
