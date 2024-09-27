@@ -20,6 +20,9 @@ const ProfileSetting = () => {
     id: null,
   });
 
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [showFormError, setShowFormError] = useState(false);
+
   useEffect(() => {
     async function fetchUserData() {
       try {
@@ -64,6 +67,22 @@ const ProfileSetting = () => {
     fetchUserData();
   }, []);
 
+  useEffect(() => {
+    // Check if required fields are filled
+    const requiredFieldsFilled =
+      !!user.firstName &&
+      !!user.lastName &&
+      !!user.phone &&
+      !!address.address_line1 &&
+      !!address.city &&
+      !!address.province &&
+      !!address.postal_code;
+
+    setIsFormValid(requiredFieldsFilled);
+    // Show error if the form is invalid
+    setShowFormError(!requiredFieldsFilled);
+  }, [user, address]);
+
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const { id, value } = e.target;
     console.log(`Field change: ${id}, Value: ${value}`);
@@ -75,6 +94,12 @@ const ProfileSetting = () => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+
+    // Additional logic is not needed here anymore as validation is happening dynamically in useEffect.
+    if (!isFormValid) {
+      return;
+    }
+
     try {
       const storedUser = JSON.parse(localStorage.getItem("cacartUser") || "{}");
       const userId = storedUser.user_id;
@@ -366,11 +391,22 @@ const ProfileSetting = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className="bg-primary text-white px-16 py-2 rounded"
+                className={`px-16 py-2 rounded ${
+                  !isFormValid
+                    ? "bg-gray-300 text-gray-600"
+                    : "bg-primary text-white "
+                }`}
+                disabled={!isFormValid}
               >
                 Update Now
               </button>
             </div>
+
+            {showFormError && (
+              <div className="text-red-500 mt-4">
+                Please fill in all required fields before updating your profile.
+              </div>
+            )}
           </form>
         </div>
       </div>
