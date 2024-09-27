@@ -31,7 +31,26 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
   const [clientSecret, setClientSecret] = useState<string>("");
   const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
   const [showAddressError, setShowAddressError] = useState<boolean>(false);
+  const [isAddressFilled, setIsAddressFilled] = useState<boolean>(false);
   const shippingCost = 8.0;
+
+  useEffect(() => {
+    const addressFilled =
+      !!shippingAddress.address_line1 &&
+      !!shippingAddress.city &&
+      !!shippingAddress.province &&
+      !!shippingAddress.postal_code;
+
+    setIsAddressFilled(addressFilled);
+  }, [shippingAddress]);
+
+  useEffect(() => {
+    if (isAddressFilled) {
+      setShowAddressError(false);
+    } else {
+      setShowAddressError(true);
+    }
+  }, [isAddressFilled]);
 
   useEffect(() => {
     async function createPaymentIntent() {
@@ -60,19 +79,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
   }, [totalAmount]);
 
   const handlePayment = async () => {
-    const isAddressFilled =
-      !!shippingAddress.address_line1 &&
-      !!shippingAddress.city &&
-      !!shippingAddress.province &&
-      !!shippingAddress.postal_code;
-
-    if (!isAddressFilled) {
-      setShowAddressError(true);
-      return;
-    }
-
-    setShowAddressError(false);
-
     if (!stripe || !elements) {
       return;
     }
@@ -199,8 +205,12 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
       <div className="mb-4">
         <button
           onClick={handlePayment}
-          disabled={!stripe}
-          className="w-full py-2 bg-cyan-400 text-gray-300 rounded-md"
+          disabled={!stripe || !isAddressFilled}
+          className={`w-full py-2 ${
+            !stripe || !isAddressFilled
+              ? "bg-gray-200  text-gray-600"
+              : "bg-primary text-white"
+          } rounded-md`}
         >
           Pay ${(totalAmount + shippingCost).toFixed(2)}
         </button>
