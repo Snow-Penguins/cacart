@@ -29,16 +29,16 @@ const OrderSummaryFooter: React.FC<OrderSummaryFooterProps> = ({ orderId }) => {
   if (!order) {
     return (
       <div className="p-6 rounded-lg animate-pulse">
-        <div className="flex justify-between mb-6">
-          <div className="w-1/3">
+        <div className="tablet:flex justify-between mb-6">
+          <div className="tablet:w-1/3">
             <div className="h-6 bg-gray-300 rounded mb-4 w-32"></div>
             <div className="h-4 bg-gray-300 rounded w-48"></div>
           </div>
-          <div className="w-1/3">
+          <div className="tablet:w-1/3 mt-3 tablet:mt-0">
             <div className="h-6 bg-gray-300 rounded mb-4 w-32"></div>
             <div className="h-4 bg-gray-300 rounded w-48"></div>
           </div>
-          <div className="mt-2 w-1/3 max-w-sm">
+          <div className="mt-3 tablet:mt-1 tablet:w-1/3 max-w-sm">
             <div className="flex justify-between mb-2">
               <div className="h-4 bg-gray-300 rounded w-24"></div>
               <div className="h-4 bg-gray-300 rounded w-16"></div>
@@ -73,16 +73,20 @@ const OrderSummaryFooter: React.FC<OrderSummaryFooterProps> = ({ orderId }) => {
 
   return (
     <div className="p-6 rounded-lg">
-      <div className="flex justify-between mb-6">
-        <div className="w-1/3">
+      {/* <div className="flex justify-between mb-6"> */}
+      <div className="tablet:flex justify-between mb-6">
+        {/* <div className="w-1/3"> */}
+        <div className="tablet:w-1/3">
           <h2 className="font-medium text-lg mb-2">Shipping Method</h2>
           <p className="text-gray-600">FedEx - Take up to 3 working days</p>
         </div>
-        <div className="w-1/3">
+        {/* <div className="w-1/3"> */}
+        <div className="tablet:w-1/3 mt-3 tablet:mt-0">
           <h2 className="font-medium text-lg mb-2">Payment Method</h2>
           <p className="text-gray-600">Apply Pay Mastercard</p>
         </div>
-        <div className="mt-2 w-1/3 max-w-sm">
+        {/* <div className="mt-2 w-1/3 max-w-sm"> */}
+        <div className="mt-3 tablet:mt-1 tablet:w-1/3 max-w-sm">
           <div className="flex justify-between mb-2">
             <div className="text-ml font-medium text-gray-600">Subtotal</div>
             <div className="text-ml font-medium">${subtotal.toFixed(2)}</div>
@@ -107,7 +111,7 @@ const OrderSummaryFooter: React.FC<OrderSummaryFooterProps> = ({ orderId }) => {
       </div>
       <Link href="/">
         <div className="flex justify-end">
-          <button className="bt-white border border-primary w-1/3 text-primary px-4 py-2 rounded">
+          <button className="bt-white border border-primary w-1/2 tablet:w-1/3 text-primary px-4 py-2 rounded">
             Continue Shopping
           </button>
         </div>

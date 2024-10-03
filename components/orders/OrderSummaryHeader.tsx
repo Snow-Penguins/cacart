@@ -27,17 +27,17 @@ const OrderSummaryHeader: React.FC<OrderSummaryHeaderProps> = ({ orderId }) => {
 
   if (!order) {
     return (
-      <div className="flex justify-between items-center mb-12 px-16 animate-pulse">
+      <div className="tablet:flex justify-between items-center mb-12 px-5 tablet:px-16 animate-pulse">
         <div className="h-8 bg-gray-300 rounded w-48"></div>
-        <div className="h-8 bg-gray-300 rounded w-24"></div>
+        <div className="h-8 bg-gray-300 rounded w-24 mt-2 tablet:mt-0"></div>
       </div>
     );
   }
 
   return (
-    <div className="flex justify-between items-center mb-12 px-16">
+    <div className="tablet:flex justify-between items-center mb-12 px-5 tablet:px-16">
       <h1 className="text-2xl font-semibold">Order Summary</h1>
-      <p className="text-lg font-medium ">Order #{order.id}</p>
+      <p className="text-lg font-medium ms-0.5">Order #{order.id}</p>
     </div>
   );
 };
