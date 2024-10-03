@@ -108,8 +108,8 @@ export default function Checkout() {
   };
 
   return (
-    <div className="flex divide-x">
-      <div className="w-1/2 p-4 m grid gap-8">
+    <div className="tablet:flex divide-x mt-10 mb-20">
+      <div className="tablet:w-1/2 p-4 m grid gap-8">
         <ShippingAddress
           onSetShippingAddress={handleSetShippingAddress}
           address={shippingAddress}
@@ -117,7 +117,7 @@ export default function Checkout() {
         <hr></hr>
         <Summary cartItems={cartItems} totalAmount={totalAmount} />
       </div>
-      <div className="w-1/2 p-4">
+      <div className="tablet:w-1/2 p-4 mt-10 tablet:mt-0">
         <StripePayment
           shippingAddress={shippingAddress}
           cartItems={cartItems}
