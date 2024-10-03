@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Product } from "@/entities/Product";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface ProductDetailProps {
   productId: string;
@@ -116,8 +117,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
     setShowPopup(false);
   };
 
+  const router = useRouter();
+
   const handleGoToCart = () => {
-    window.location.href = "/cart";
+    router.push("/cart");
   };
 
   const SkeletonLoader = () => (
